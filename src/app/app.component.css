@@ -1,0 +1,59 @@
+header{
+  height: 15vh;
+  background-color: green;
+  display: block;
+  border-bottom: 2px black solid;
+  box-sizing: border-box;
+}
+
+#sidebar{
+  background-color: green;
+  height: 70vh;
+  width:25vw ;
+  box-sizing: border-box;
+  display: inline-block;
+  border-right: solid black 2px;
+
+}
+nav{
+
+
+}
+
+#linklist{
+  width: 50%;
+  background-color: green;
+  height:50%;
+  display: inline-block;
+  margin-top:50%;
+  text-align: center;
+  box-sizing: border-box;
+}
+button{
+  width: 80%;
+
+}
+#notifications{
+  width: 10vw;
+  background-color: yellow;
+  box-sizing: border-box;
+  float:right;
+}
+#window{
+  padding: 10px;
+  width:75vw;
+  height: 70vh;
+  box-sizing: border-box;
+  display: inline;
+  position: fixed;
+  right:0px;
+}
+footer{
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  border-top: 2px black solid;
+  height: 15vh;
+  background-color: green;
+}
+
