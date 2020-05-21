@@ -1,1 +1,19 @@
-<p>login works!</p> <button (click)="validateLogin()">login</button>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+  <div>
+    <label for="username">
+      Username
+    </label>
+    <input id="username" type="text" formControlName="username">
+  </div>
+
+  <div>
+    <label for="password">
+      Password
+    </label>
+    <input id="password" type="password" formControlName="password">
+  </div>
+  <div style="color:red">{{errormessage}}</div>
+  <button class="button" type="submit">Login</button>
+  <button type="button" routerLink="/register">Register</button>
+
+</form>
