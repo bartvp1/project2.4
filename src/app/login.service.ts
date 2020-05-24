@@ -17,6 +17,7 @@ export class LoginService {
 
   login(name:string, password:string ) {
 
+
     return this.http.post<User>(API_URL+'login', {name, password})
       .pipe (
         tap (
@@ -27,6 +28,9 @@ export class LoginService {
       )
   }
   logout(){
+    //TODO blacklist on server
+
+
     localStorage.removeItem('token');
     localStorage.removeItem('expires_at');
   }

@@ -20,6 +20,7 @@ export class AppComponent {
 
 
   }
+
 isLoggedin(){
   return this.loginservice.isLoggedIn();
 }
