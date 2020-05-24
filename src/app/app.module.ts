@@ -12,6 +12,7 @@ import { RegisterComponent } from './register/register.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {Interceptor} from "./Interceptor";
 
+
 @NgModule({
   declarations: [
     AppComponent,
