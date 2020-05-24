@@ -39,7 +39,6 @@ export class LoginService {
     return moment().isBefore(this.getExpiration());
   }
   private setSession(authResult) {
-    console.log(authResult);
     console.log("Setting session");
     const expiresAt = moment().add(authResult.expiresIn,'second');
 
