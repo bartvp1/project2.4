@@ -26,13 +26,20 @@ export class LoginComponent implements OnInit {
       this.router.navigate(["/matches"]);
     }
     this.errorsub=this.loginservice.error.subscribe(
-      (error: boolean)=>{
-        if(error){
-          this.errormessage="Wrong credentials.";
-        } else {
-          this.errormessage="";
+
+
+
+
+
+      (error:string)=>{
+
+        //no error
+        if(!error){
           this.router.navigate(["/matches"]);
         }
+
+        //error
+          this.errormessage=error;
       })
 
   }

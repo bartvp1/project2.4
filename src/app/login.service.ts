@@ -41,7 +41,7 @@ export class LoginService {
 
     localStorage.setItem('token', authResult.token);
     localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
-    this.error.next(false);
+    this.error.next(undefined);
 
   }
 
@@ -52,7 +52,12 @@ export class LoginService {
   }
 
   private handleError(error) {
-    this.error.next(true);
+    if(error.statusText=="Not Found"){
+      this.error.next("Wrong credentials.");
+    } else {
+      this.error.next("No connection.");
+    }
+
 
   }
 
