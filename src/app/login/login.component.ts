@@ -1,6 +1,7 @@
 import {Component, OnInit, Output} from '@angular/core';
 import {LoginService} from "../login.service";
 import { FormBuilder} from '@angular/forms';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -9,8 +10,10 @@ import { FormBuilder} from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   loginForm;
+  errorsub;
   errormessage: string;
-  constructor(private loginservice:LoginService,private formBuilder: FormBuilder) {
+  constructor(private loginservice:LoginService,private formBuilder: FormBuilder,private router:Router) {
+
     this.loginForm = this.formBuilder.group({
       username: '',
       password: ''
@@ -19,23 +22,27 @@ export class LoginComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    if(this.loginservice.isLoggedIn()){
+      this.router.navigate(["/matches"]);
+    }
+    this.errorsub=this.loginservice.error.subscribe(
+      (error: boolean)=>{
+        if(error){
+          this.errormessage="Wrong credentials.";
+        } else {
+          this.errormessage="";
+          this.router.navigate(["/matches"]);
+        }
+      })
 
+  }
+
+  ngOnDestroy(){
+    this.errorsub.unsubscribe();
   }
   onSubmit(formdata: Object){
-    this.validateLogin(formdata["username"],formdata["password"]);
-  }
-  validateLogin(username: string,password: string){
-    //validate here with the login service
-
-    let valid=true;
-    if(valid){
-      //jwt is received
-      //send next
-      this.loginservice.loggedin.next();
-    } else{
-      this.errormessage="Wrong credentials.";
-    }
-
+  let login= this.loginservice.login(formdata["username"],formdata["password"]).subscribe();
+  login.unsubscribe();
 
 
   }

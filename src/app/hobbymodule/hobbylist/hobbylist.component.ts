@@ -10,12 +10,8 @@ import {Router} from "@angular/router";
 export class HobbylistComponent implements OnInit {
 
 
-  constructor(private loginservice: LoginService,private router: Router ) {
-    //TODO: when reloading page receive if login is valid if login is valid, set validlogin to true
-    //and call this.loginservice.loggedin.next();
-    if(!loginservice.validlogin){
-      this.router.navigate(["/","login"])
-    }
+  constructor( ) {
+
 
   }
 

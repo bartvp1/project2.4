@@ -9,31 +9,20 @@ import {Router} from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  constructor(private loginservice: LoginService, private router:Router){
+
+  }
   title = 'hobbylist';
 
   logout(){
     //handle logout with the login service
+    this.loginservice.logout();
 
 
-
-    this.loginservice.validlogin=false;
   }
-  loadlogin(){
+isLoggedin(){
+  return this.loginservice.isLoggedIn();
+}
 
-    this.loginservice.validlogin=true;
-  }
-  checkValidLogin(){
-    return this.loginservice.validlogin;
-  }
-  constructor(private loginservice: LoginService, private router:Router){
-    loginservice.validlogin=false;
-    //wait for login
-    loginservice.loggedin.subscribe(
-      ()=>{this.loadlogin();
-      //load matches
-        this.router.navigate(['/','matches']);
-
-      });
-  }
 
 }

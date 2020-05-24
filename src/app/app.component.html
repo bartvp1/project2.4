@@ -1,14 +1,14 @@
-<header> <button routerLink="/matches" id="notifications" span *ngIf="checkValidLogin()">Bell</button></header>
+<header> <button routerLink="/matches" id="notifications" span *ngIf="isLoggedin()">Bell</button></header>
 <div id="sidebar" >
   <nav id="linklist" >
-      <span *ngIf="checkValidLogin()">
+      <span *ngIf="isLoggedin()">
       <button routerLink="/hobbies" > Hobbies</button> <br/>
       <button routerLink="/matches" > Matches</button> <br/>
       <button routerLink="/profile"> Profile</button>  <br/>
       <button (click)="logout()" routerLink="/login"> Log out</button>  <br/>
     </span>
   </nav>
-  <span id="window"><router-outlet (logincomplete)="loadlogin()"></router-outlet></span>
+  <span id="window"><router-outlet ></router-outlet></span>
 
 </div>
 

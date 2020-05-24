@@ -5,18 +5,18 @@ import {ProfileComponent} from "./profile/profile.component";
 import {HobbylistComponent} from "./hobbymodule/hobbylist/hobbylist.component";
 import {MatchlistComponent} from "./matchmodule/matchlist/matchlist.component";
 import {ReactiveFormsModule} from "@angular/forms";
-import {Register} from "ts-node";
 import {RegisterComponent} from "./register/register.component";
+import {GuardGuard} from "./guard.guard";
 
 
 
 
 const routes: Routes = [
-  { path: '',component:LoginComponent},
+  { path: '',component:MatchlistComponent,canActivate:[GuardGuard]},
   { path: 'login',component:LoginComponent},
-  { path: 'hobbies',component:HobbylistComponent},
-  { path: 'profile',component:ProfileComponent},
-  { path: 'matches',component:MatchlistComponent},
+  { path: 'hobbies',component:HobbylistComponent,canActivate:[GuardGuard]},
+  { path: 'profile',component:ProfileComponent,canActivate:[GuardGuard]},
+  { path: 'matches',component:MatchlistComponent, canActivate:[GuardGuard]},
   { path: 'register',component:RegisterComponent}
 ];
 
