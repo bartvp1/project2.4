@@ -1,59 +1,60 @@
+* {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
 header{
   height: 15vh;
-  background-color: green;
-  display: block;
+  background-color: #333;
   border-bottom: 2px black solid;
-  box-sizing: border-box;
+  width: 100vw;
+}
+img{
+  display: table;
+  margin: auto;
 }
 
-#sidebar{
-  background-color: green;
-  height: 70vh;
-  width:25vw ;
-  box-sizing: border-box;
+.navbar{
+  background-color: #333;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align:center;
+  border-top: 2px black solid;
+
+}
+
+.navbar a{
   display: inline-block;
-  border-right: solid black 2px;
-
+  color: #f2f2f2;
+  padding: 2vw 4vw;
+  text-decoration: none;
+  font-size: 1.5vw;
 }
-nav{
-
-
-}
-
-#linklist{
-  width: 50%;
-  background-color: green;
-  height:50%;
-  display: inline-block;
-  margin-top:50%;
-  text-align: center;
-  box-sizing: border-box;
-}
-button{
-  width: 80%;
-
+.navbar a:hover {
+  background: #f1f1f1;
+  color: black;
 }
 #notifications{
-  width: 10vw;
-  background-color: yellow;
-  box-sizing: border-box;
-  float:right;
+  width: 6vw;
+  height: 6vw;
+  outline: none;
+  border: solid black;
+  background-size: 100%;
+  background-image: url("../assets/bell.png");
+  margin: 0 auto;
+  background-color: #f1f1f1;
 }
-#window{
-  padding: 10px;
-  width:75vw;
-  height: 70vh;
+
+.logout{
+  background-color: #f1f1f1;
+  width: 6vw;
+  height: 6vw;
   box-sizing: border-box;
-  display: inline;
-  position: fixed;
-  right:0px;
+  float: right;
+  margin-left: 0;
+  text-align: center;
+  border: solid black;
+
 }
-footer{
-  box-sizing: border-box;
-  display: block;
-  position: relative;
-  border-top: 2px black solid;
-  height: 15vh;
-  background-color: green;
-}
+
 

@@ -1,18 +1,13 @@
-<header> <button routerLink="/matches" id="notifications" span *ngIf="isLoggedin()">Bell</button></header>
-<div id="sidebar" >
-  <nav id="linklist" >
-      <span *ngIf="isLoggedin()">
-      <button  routerLink="/hobbies" > Hobbies</button> <br/>
-      <button routerLink="/matches" > Matches</button> <br/>
-      <button routerLink="/profile"> Profile</button>  <br/>
-      <button (click)="logout()" routerLink="/login"> Log out</button>  <br/>
-    </span>
-  </nav>
-  <span id="window"><router-outlet ></router-outlet></span>
+<header>
+  <div class="logout" (click)="logout()" routerLink="/login"> Log out</div>
+  <div routerLink="/matches" id="notifications" *ngIf="isLoggedin()"></div>
 
+
+</header>
+
+<span id="window"><router-outlet ></router-outlet></span>
+<div class="navbar">
+      <a routerLink="/hobbies"> Hobbies</a>
+      <a routerLink="/profile"> Profile</a>
+      <a routerLink="/matches"> Matches</a>
 </div>
-
-
-
-
-<footer></footer>

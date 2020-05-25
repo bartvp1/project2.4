@@ -12,7 +12,7 @@ import {GuardGuard} from "./guard.guard";
 
 
 const routes: Routes = [
-  { path: '',component:MatchlistComponent,canActivate:[GuardGuard]},
+  { path: '', component: MatchlistComponent,canActivate:[GuardGuard]},
   { path: 'login',component:LoginComponent},
   { path: 'hobbies',component:HobbylistComponent,canActivate:[GuardGuard]},
   { path: 'profile',component:ProfileComponent,canActivate:[GuardGuard]},
