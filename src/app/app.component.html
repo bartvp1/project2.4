@@ -1,13 +1,13 @@
 <header>
-  <div class="logout" (click)="logout()" routerLink="/login"> Log out</div>
-  <div routerLink="/matches" id="notifications" *ngIf="isLoggedin()"></div>
+  <div *ngIf="isLoggedin()" class="logout" (click)="logout()" routerLink="/login"> Log out</div>
+  <div *ngIf="isLoggedin()" routerLink="/matches" id="notifications" ></div>
 
 
 </header>
 
 <span id="window"><router-outlet ></router-outlet></span>
 <div class="navbar">
-      <a routerLink="/hobbies"> Hobbies</a>
-      <a routerLink="/profile"> Profile</a>
-      <a routerLink="/matches"> Matches</a>
+      <a *ngIf="isLoggedin()" routerLink="/hobbies"> Hobbies</a>
+      <a *ngIf="isLoggedin()" routerLink="/profile"> Profile</a>
+      <a *ngIf="isLoggedin()" routerLink="/matches"> Matches</a>
 </div>
