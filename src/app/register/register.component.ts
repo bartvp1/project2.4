@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-
+      this.errormessage="";
       //register on backend
       //if already exists: errormessage="This username or password already exist"
 
