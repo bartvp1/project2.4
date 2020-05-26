@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
     country=country.trim();
     city=city.trim();
 
-    let valid:boolean=true;
+
     if(!username || !password){
       this.errormessage="Please fill in at least an username and a password";
       return;
@@ -61,10 +61,10 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    if(valid){
+
       //register on backend
-      //if already exists: error message
-    }
+      //if already exists: errormessage="This username or password already exist"
+
 
   }
 
