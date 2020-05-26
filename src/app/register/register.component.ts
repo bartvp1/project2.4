@@ -18,10 +18,11 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       username: '',
       password: '',
+      firstname:'',
+      lastname:'',
       phonenumber: '',
       country: '',
       city: '',
-      address:''
     });
 
 
@@ -32,24 +33,38 @@ export class RegisterComponent implements OnInit {
   onSubmit(formdata: Object){
     console.log(formdata);
     this.validateRegister(formdata["username"],
-      formdata["password"]
+      formdata["password"],
+      formdata["firstname"],
+      formdata["lastname"]
       ,formdata["phonenumber"]
       ,formdata["country"]
       ,formdata["city"]
-      ,formdata["address"]
 
     );
   }
-  validateRegister(username: string,password: string, phonenumber:string,country: string, city:string,address:string){
+  validateRegister(username: string,password: string,firstname:string,lastname:string, phonenumber:string,country: string, city:string){
+    username=username.trim();
+    password=password.trim();
+    firstname=firstname.trim();
+    lastname=lastname.trim();
+    phonenumber=phonenumber.trim();
+    country=country.trim();
+    city=city.trim();
 
-    let valid=true;
-    if(valid){
-      //handle register
-    } else {
-      this.errormessage="Some fields are empty";
+    let valid:boolean=true;
+    if(!username || !password){
+      this.errormessage="Please fill in at least an username and a password";
+      return;
+    }
+    if(username.length<6 || password.length<6){
+      this.errormessage="The password or username should not be shorter than 6 characters";
+      return;
     }
 
-
+    if(valid){
+      //register on backend
+      //if already exists: error message
+    }
 
   }
 

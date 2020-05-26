@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     this.errorsub.unsubscribe();
   }
   onSubmit(formdata: Object){
-  let login= this.loginservice.login(formdata["username"],formdata["password"]).subscribe();
+  let login= this.loginservice.login(formdata["username"].trim(),formdata["password"].trim()).subscribe();
   login.unsubscribe();
 
 

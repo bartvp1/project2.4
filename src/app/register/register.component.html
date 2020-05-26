@@ -5,12 +5,23 @@
     </label>
     <input id="username" type="text" formControlName="username">
   </div>
-
   <div>
     <label for="password">
       Password
     </label>
-    <input id="password" type="text" formControlName="password">
+    <input id="password" type="password" formControlName="password">
+  </div>
+  <div>
+    <label for="firstname">
+      First name
+    </label>
+    <input id="firstname" type="text" formControlName="firstname">
+  </div>
+  <div>
+    <label for="lastname">
+      Last name
+    </label>
+    <input id="lastname" type="text" formControlName="lastname">
   </div>
   <div>
     <label for="phonenumber">
@@ -29,12 +40,6 @@
       City
     </label>
     <input id="city" type="text" formControlName="city">
-  </div>
-  <div>
-    <label for="address">
-      Address
-    </label>
-    <input id="address" type="text" formControlName="address">
   </div>
   <div style="color:red">{{errormessage}}</div>
   <button style="margin-right: 20px;"class="button" type="submit">Submit</button>
