@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
         //no error
         if(!error){
           this.router.navigate(["/matches"]);
+          
         }
 
         //error
