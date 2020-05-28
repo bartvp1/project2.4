@@ -9,7 +9,7 @@
 
 # dependencies
 /node_modules
-!node_modules/@angular/service-worker/ngsw-worker.js
+!/node_modules/@angular/service-worker/ngsw-worker.js
 
 # profiling files
 chrome-profiler-events*.json
