@@ -27,10 +27,10 @@ import {environment} from '../environments/environment';
     HttpClientModule,
     NgbModule,
     ComponentsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     ReactiveFormsModule,
     MatchesModule,
     HobbymoduleModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   declarations: [
     AppComponent,
