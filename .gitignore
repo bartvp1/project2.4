@@ -8,22 +8,22 @@
 /bazel-out
 
 # dependencies
-/node_modules/*
-!/node_modules/@angular/service-worker/ngsw-worker.js
+/webapp/node_modules
+/server/node_modules
 
 # profiling files
-chrome-profiler-events*.json
-speed-measure-plugin*.json
+chrome-profiler-events.json
+speed-measure-plugin.json
 
 # IDEs and editors
-/.idea
+/.idea/*
+!/.idea/runConfigurations
 .project
 .classpath
 .c9/
 *.launch
 .settings/
 *.sublime-workspace
-*.iml
 
 # IDE - VSCode
 .vscode/*

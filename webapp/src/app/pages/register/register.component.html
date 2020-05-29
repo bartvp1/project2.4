@@ -1,0 +1,50 @@
+<div class=" content">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)">
+    <div>
+      <label for="username">
+        Username
+      </label>
+      <input id="username" type="text" formControlName="username">
+    </div>
+    <div>
+      <label for="password">
+        Password
+      </label>
+      <input id="password" type="password" formControlName="password">
+    </div>
+    <div>
+      <label for="firstname">
+        First name
+      </label>
+      <input id="firstname" type="text" formControlName="firstname">
+    </div>
+    <div>
+      <label for="lastname">
+        Last name
+      </label>
+      <input id="lastname" type="text" formControlName="lastname">
+    </div>
+    <div>
+      <label for="phonenumber">
+        Phone number
+      </label>
+      <input id="phonenumber" type="number" formControlName="phonenumber">
+    </div>
+    <div>
+      <label for="country">
+        Country
+      </label>
+      <input id="country" type="text" formControlName="country">
+    </div>
+    <div>
+      <label for="city">
+        City
+      </label>
+      <input id="city" type="text" formControlName="city">
+    </div>
+    <div style="color:red">{{errormessage}}</div>
+    <button style="margin-right: 20px;" class="button" type="submit">Submit</button>
+    <button type="button" routerLink="/login">To login</button>
+
+  </form>
+</div>

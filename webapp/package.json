@@ -1,0 +1,63 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "Project 2.4 - Groep C20",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start"
+  },
+  "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/creativetimofficial/black-dashboard-angular/issues"
+  },
+  "homepage": "https://demos.creative-tim.com/black-dashboard-angular/#/dashboard",
+  "private": false,
+  "dependencies": {
+    "@angular/animations": "9.0.5",
+    "@angular/common": "9.0.5",
+    "@angular/compiler": "9.0.5",
+    "@angular/core": "9.0.5",
+    "@angular/forms": "9.0.5",
+    "@angular/localize": "^9.0.5",
+    "@angular/platform-browser": "9.0.5",
+    "@angular/platform-browser-dynamic": "9.0.5",
+    "@angular/router": "9.0.5",
+    "@angular/service-worker": "^9.1.9",
+    "@ng-bootstrap/ng-bootstrap": "6.0.0",
+    "chart.js": "2.8.0",
+    "core-js": "3.6.4",
+    "jwt-decode": "^2.2.0",
+    "ngx-toastr": "10.0.4",
+    "rxjs": "6.5.2",
+    "service-worker": "0.0.0",
+    "tslib": "1.10.0",
+    "zone.js": "0.10.2"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^0.901.7",
+    "@angular/cli": "9.0.5",
+    "@angular/compiler-cli": "9.0.5",
+    "@angular/language-service": "9.0.5",
+    "@types/jasmine": "3.5.8",
+    "@types/jasminewd2": "2.0.8",
+    "@types/node": "13.9.0",
+    "codelyzer": "5.2.1",
+    "jasmine-core": "3.5.0",
+    "jasmine-spec-reporter": "4.2.1",
+    "karma": "^5.0.9",
+    "karma-chrome-launcher": "3.1.0",
+    "karma-coverage-istanbul-reporter": "2.1.1",
+    "karma-jasmine": "3.1.1",
+    "karma-jasmine-html-reporter": "1.5.2",
+    "protractor": "^7.0.0",
+    "ts-node": "8.6.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.7.5"
+  }
+}
