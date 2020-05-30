@@ -27,10 +27,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  logout(){
-    // handle logout with the login service
-    this.loginservice.logout();
-  }
+
 
   isLoggedin(){
     return this.loginservice.isLoggedIn();

@@ -11,6 +11,7 @@ import {MatchesComponent} from "./pages/matches/matches.component";
 import {Guard} from "./services/guard.guard";
 import {LoginComponent} from './pages/login/login.component';
 import {RegisterComponent} from './pages/register/register.component';
+import {LogoutComponent} from "./pages/logout/logout.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -20,6 +21,7 @@ export const routes: Routes = [
   { path: "profile", component: ProfileComponent, canActivate:[Guard]},
   { path: "matches", component: MatchesComponent, canActivate:[Guard]},
   { path: "notifications",component: NotificationsComponent, canActivate:[Guard]},
+  { path: "logout", component: LogoutComponent,canActivate:[Guard]},
   { path: "**", redirectTo: ""}
 ];
 

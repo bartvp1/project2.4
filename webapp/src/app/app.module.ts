@@ -18,6 +18,7 @@ import {RegisterComponent} from './pages/register/register.component';
 import {MatchesModule} from './pages/matches/matches.module';
 import {HobbymoduleModule} from './pages/profile/hobbymodule/hobbymodule.module';
 import {environment} from '../environments/environment';
+import { LogoutComponent } from './pages/logout/logout.component';
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import {environment} from '../environments/environment';
     MatchesComponent,
     LoginComponent,
     RegisterComponent,
+    LogoutComponent,
   ],
   providers: [
     {
