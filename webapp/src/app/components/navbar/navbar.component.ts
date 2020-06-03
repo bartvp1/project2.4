@@ -1,8 +1,9 @@
 import { Component, OnInit, ElementRef, OnDestroy } from "@angular/core";
-import { ROUTES } from "../sidebar/sidebar.component";
+import {ROUTES, SidebarComponent} from "../sidebar/sidebar.component";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import {LoginService} from "../../services/login.service";
 
 @Component({
   selector: "app-navbar",
@@ -15,7 +16,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   mobile_menu_visible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
-
   public isCollapsed = true;
 
   closeResult: string;
@@ -24,7 +24,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     location: Location,
     private element: ElementRef,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private loginService :LoginService
   ) {
     this.location = location;
     this.sidebarVisible = false;

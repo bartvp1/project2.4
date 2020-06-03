@@ -1,0 +1,12 @@
+form {
+  display: table;
+}
+
+.table-row {
+  display: table-row;
+}
+.table-row * {
+  display: table-cell;
+  padding: 0 5px;
+  margin: 5px 20px;
+}

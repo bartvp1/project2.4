@@ -4,17 +4,18 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-logout',
-  templateUrl: './logout.component.html',
-  styleUrls: ['./logout.component.scss']
+  template: ""
 })
-export class LogoutComponent implements OnInit {
+export class LogoutComponent {
 
   constructor(private loginservice: LoginService,private router: Router) {
+    this.logout()
+  }
+
+
+  logout = () => {
     this.loginservice.logout();
+    localStorage.clear()
     this.router.navigate(["/login"]);
   }
-
-  ngOnInit(): void {
-  }
-
 }

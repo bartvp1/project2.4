@@ -47,6 +47,14 @@ export class LoginService {
 
   }
 
+  public getUsername() {
+    if (this.isLoggedIn()){
+      // TODO fetch username
+      return "return name";
+    }
+    return false
+  }
+
   public getExpiration() {
     const expiration = localStorage.getItem("expires_at");
     const expiresAt = JSON.parse(expiration);

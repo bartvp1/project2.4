@@ -1,3 +1,23 @@
 <div class=" content">
   AccountComponent works!
-</div>>
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit(accountForm.value)">
+    <div class="table-row">
+      <label for="username">Username</label>
+      <input disabled id="username" type="text" formControlName="username">
+    </div>
+
+    <div class="table-row">
+      <label for="email">E-mail</label>
+      <input disabled id="email" type="text" formControlName="email">
+    </div>
+
+    <div class="table-row">
+      <label for="password">Edit Password</label>
+      <input disabled id="password" type="password" formControlName="password">
+    </div>
+
+    <div style="color:red">{{errormessage}}</div>
+    <button class="button" type="submit">Save</button>
+
+  </form>
+</div>
