@@ -1,31 +1,26 @@
 package com.example.meetup;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import com.example.meetup.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
-    public static  String TOKEN;
-    public static  int  EXPIRATION;
+    PrefsManager prefmanager;
     private Thread loginchecker;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        prefmanager=PrefsManager.getInstance(this.getApplicationContext());
         Runnable checklogin=()->{
-            while (isLoggedIn()){}
+            while (isLoggedIn(prefmanager)){}
             this.runOnUiThread(new Runnable() {
                                    @Override
                                    public void run() {
-                                       if(TOKEN!=null) {
+                                       if(prefmanager.getToken()!=null) {
                                            logOut();
                                        }
                                    }
@@ -49,21 +44,25 @@ public class MainActivity extends AppCompatActivity {
     }
     public void logOut(){
         this.runOnUiThread(()-> {
-            EXPIRATION = 0;
-            TOKEN = null;
+            SharedPreferences.Editor editor=prefmanager.getEditor();
+            //set token and expiration
+            editor.putString("token",null);
+            editor.putInt("expiration",0);
+            editor.commit();
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
             finish();
         });
     }
-    public static boolean isLoggedIn(){
-        if(TOKEN ==null||( (System.currentTimeMillis()/1000)>EXPIRATION)){
+    public static boolean isLoggedIn(PrefsManager prefmanager){
+
+
+        if(prefmanager.getToken() ==null||( (System.currentTimeMillis()/1000)>prefmanager.getExpiration())){
             return false;
         } else {
             return true;
         }
     }
-
 
 
 }

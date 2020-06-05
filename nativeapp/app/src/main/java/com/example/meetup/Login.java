@@ -3,6 +3,7 @@ package com.example.meetup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
@@ -21,14 +22,16 @@ import java.net.URL;
 
 public class Login extends AppCompatActivity {
 
-
-
+    PrefsManager prefmanager;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(MainActivity.isLoggedIn()){
+
+        prefmanager=PrefsManager.getInstance(this.getApplicationContext());
+
+        if(MainActivity.isLoggedIn(prefmanager)){
             goToApp();
         }
         super.onCreate(savedInstanceState);
@@ -51,7 +54,7 @@ public class Login extends AppCompatActivity {
                 OutputStream os = urlConnection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 
-                writer.write("name="+username.getText().toString()+"&password="+password.getText().toString());
+                writer.write("name="+username.getText().toString().trim()+"&password="+password.getText().toString().trim());
 
                 writer.flush();
                 writer.close();
@@ -84,10 +87,11 @@ public class Login extends AppCompatActivity {
 
 
                     in.close();
-
+                    SharedPreferences.Editor editor=prefmanager.getEditor();
                     //set token and expiration
-                    MainActivity.TOKEN=token;
-                    MainActivity.EXPIRATION=expiresIn;
+                    editor.putString("token",token);
+                    editor.putInt("expiration",expiresIn);
+                    editor.commit();
 
                     goToApp();
 
@@ -121,5 +125,6 @@ public class Login extends AppCompatActivity {
         });
 
     }
+
 
 }
