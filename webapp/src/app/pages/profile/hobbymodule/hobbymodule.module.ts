@@ -3,14 +3,11 @@ import { CommonModule } from '@angular/common';
 import { HobbyComponent } from './hobby/hobby.component';
 import { HobbylistComponent } from './hobbylist/hobbylist.component';
 
-
-
-
 @NgModule({
   declarations: [HobbyComponent, HobbylistComponent],
   imports: [
-    CommonModule
+    CommonModule,
   ],
-  exports:[HobbyComponent,HobbylistComponent]
+  exports:[HobbyComponent, HobbylistComponent]
 })
 export class HobbymoduleModule { }
