@@ -2,5 +2,26 @@
 
 <form class="form-inline md-form mr-auto mb-4">
   <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-  <button type="button" class="btn">Search</button>
+  <button class="btn"  (click)="onClickSearch()">Search</button>
 </form>
+
+<h2>Choose hobbies</h2>
+<ul class="heroes">
+  <li *ngFor="let hobby of hobbies"
+      [class.selected]="hobby === selectedHobby"
+      (click)="onSelect(hobby)">
+    <span class="badge"></span> {{hobby.name}}
+  </li>
+</ul>
+
+<div *ngIf="selectedHobby">
+
+  <h2> Confirm hobby "{{selectedHobby.name }}"</h2>
+  <div>
+    <button class="btn" name="confirm" (click)="onClickHobbyConfirm()">Confirm</button>
+    {{hobbyConfirmMessage}}
+  </div>
+
+</div>
+
+
