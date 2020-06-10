@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.meetup.ui.main.fragments.AccountFragment;
 import com.example.meetup.ui.main.fragments.MatchesFragment;
 import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
@@ -19,12 +19,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Objects;
 
+import static com.example.meetup.Login.prefsManager;
+
 public class MainActivity extends AppCompatActivity {
-    private static PrefsManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        prefManager = PrefsManager.getInstance(this.getApplicationContext());
+
         checkLogin();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -46,12 +47,30 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.accountSettingsButton:
+                loadFragment(new AccountFragment());
+                return true;
+            case R.id.appSettingsButton:
+                //loadFragment(new AppSettingsFragment());
+                return true;
+            case R.id.logoutButton:
+                logOut();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
     public void checkLogin() {
         Runnable checklogin = () -> {
             while (isLoggedIn()) {
             }
             this.runOnUiThread(() -> {
-                if (prefManager.getToken() != null) {
+                if (prefsManager.getToken() != null) {
                     logOut();
                 }
             });
@@ -61,17 +80,10 @@ public class MainActivity extends AppCompatActivity {
         loginchecker.start();
     }
 
-    public void logOutClick(View view) {
-        logOut();
-    }
-
-    public void logOutClick(MenuItem item) {
-        logOut();
-    }
 
     public void logOut() {
         this.runOnUiThread(() -> {
-            SharedPreferences.Editor editor = prefManager.getEditor();
+            SharedPreferences.Editor editor = prefsManager.getEditor();
             //set token and expiration
             editor.putString("token", null);
             editor.putInt("expiration", 0);
@@ -83,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static boolean isLoggedIn() {
-        return !(prefManager.getToken() == null || ((System.currentTimeMillis() / 1000) > prefManager.getExpiration()));
+        return !(prefsManager.getToken() == null || ((System.currentTimeMillis() / 1000) > prefsManager.getExpiration()));
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {

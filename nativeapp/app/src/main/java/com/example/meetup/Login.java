@@ -20,23 +20,20 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
+
 public class Login extends AppCompatActivity {
-
-    PrefsManager prefmanager;
-
-
+    public static PrefsManager prefsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        prefmanager=PrefsManager.getInstance(this.getApplicationContext());
-
-        if(MainActivity.isLoggedIn(prefmanager)){
+        prefsManager = PrefsManager.getInstance(this.getApplicationContext());
+        if(MainActivity.isLoggedIn()){
             goToApp();
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
     }
+
     public void login(View view) {
         Runnable post = () ->{
             EditText username = (EditText) findViewById(R.id.username);
@@ -87,7 +84,7 @@ public class Login extends AppCompatActivity {
 
 
                     in.close();
-                    SharedPreferences.Editor editor=prefmanager.getEditor();
+                    SharedPreferences.Editor editor=prefsManager.getEditor();
                     //set token and expiration
                     editor.putString("token",token);
                     editor.putInt("expiration",expiresIn);
@@ -108,20 +105,19 @@ public class Login extends AppCompatActivity {
         };
         new Thread(post).start();
     }
+
     public void setError(String error){
         this.runOnUiThread(()->{
             TextView err=(TextView)findViewById(R.id.error);
             err.setText(error);
         });
     }
+
     public void goToApp(){
         this.runOnUiThread(()->{
-
             Intent intent = new Intent(this, MainActivity.class);
-
             startActivity(intent);
             finish();
-
         });
 
     }
