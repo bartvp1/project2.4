@@ -25,9 +25,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        checkLogin();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (!isLoggedIn())  logOut();
 
         BottomNavigationView nav = findViewById(R.id.navigation_view);
         nav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -63,22 +64,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-    public void checkLogin() {
-        Runnable checklogin = () -> {
-            while (isLoggedIn()) {
-            }
-            this.runOnUiThread(() -> {
-                if (prefsManager.getToken() != null) {
-                    logOut();
-                }
-            });
-        };
-
-        Thread loginchecker = new Thread(checklogin);
-        loginchecker.start();
-    }
-
 
     public void logOut() {
         this.runOnUiThread(() -> {
