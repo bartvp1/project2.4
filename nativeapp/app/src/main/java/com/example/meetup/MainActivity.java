@@ -17,12 +17,14 @@ import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
-    PrefsManager prefmanager;
+    private static PrefsManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        prefManager = PrefsManager.getInstance(this.getApplicationContext());
         checkLogin();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -45,12 +47,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkLogin() {
-        prefmanager = PrefsManager.getInstance(this.getApplicationContext());
         Runnable checklogin = () -> {
-            while (isLoggedIn(prefmanager)) {
+            while (isLoggedIn()) {
             }
             this.runOnUiThread(() -> {
-                if (prefmanager.getToken() != null) {
+                if (prefManager.getToken() != null) {
                     logOut();
                 }
             });
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logOut() {
         this.runOnUiThread(() -> {
-            SharedPreferences.Editor editor = prefmanager.getEditor();
+            SharedPreferences.Editor editor = prefManager.getEditor();
             //set token and expiration
             editor.putString("token", null);
             editor.putInt("expiration", 0);
@@ -81,17 +82,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static boolean isLoggedIn(PrefsManager prefmanager) {
-        if (prefmanager.getToken() == null || ((System.currentTimeMillis() / 1000) > prefmanager.getExpiration())) {
-            return false;
-        } else {
-            return true;
-        }
+    public static boolean isLoggedIn() {
+        return !(prefManager.getToken() == null || ((System.currentTimeMillis() / 1000) > prefManager.getExpiration()));
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = item -> {
-        getSupportActionBar().setTitle(item.getTitle());
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
+        Objects.requireNonNull(
+                getSupportActionBar()).setTitle(item.getTitle()
+        );
         switch (item.getItemId()) {
             case R.id.botton_notifications:
                 loadFragment(new NotificationsFragment());
