@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="HardcodedText">
+
+    <item
+        android:id="@+id/accountSettingsButton"
+        android:title="Account"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/appSettingsButton"
+        android:title="Settings"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/logoutButton"
+        android:title="Log out"
+        android:onClick="logOutClick"
+        app:showAsAction="never"
+        />
+
+</menu>
