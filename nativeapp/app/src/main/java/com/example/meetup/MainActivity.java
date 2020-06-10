@@ -17,9 +17,8 @@ import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Objects;
-
 import static com.example.meetup.Login.prefsManager;
+
 
 public class MainActivity extends AppCompatActivity {
 
