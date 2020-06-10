@@ -99,9 +99,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
-        Objects.requireNonNull(
-                getSupportActionBar()).setTitle(item.getTitle()
-        );
         switch (item.getItemId()) {
             case R.id.botton_notifications:
                 loadFragment(new NotificationsFragment());
