@@ -37,9 +37,9 @@ export class HobbylistComponent implements OnInit {
 
   onClickSearch(searchText: string) {
     this.searchedHobbies = [];
-    searchText = searchText.charAt(0).toUpperCase();
+    searchText = searchText.toLowerCase();
     for (let hobby of this.hobbies){
-      if(hobby.name.includes(searchText)){
+      if(hobby.name.toLowerCase().includes(searchText)){
         this.searchedHobbies.push(hobby);
       }
     }

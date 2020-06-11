@@ -9,5 +9,6 @@ export const HOBBIES: Hobby[] = [
   { id: 16, name: 'Swimming' },
   { id: 17, name: 'Horse riding' },
   { id: 18, name: 'Football' },
+  { id: 19, name: 'Gaming' },
 ];
 
