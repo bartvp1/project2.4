@@ -14,8 +14,8 @@ export class LoginService {
 
   constructor(private http: HttpClient,private router:Router) {}
 
-  login(name:string, password:string ) {
-    return this.http.post<User>(API_URL +'login', {name, password})
+  login(username:string, password:string ) {
+    return this.http.post<User>(API_URL +'login', {username, password})
       .pipe (
         tap (
           res => this.setSession(res),
@@ -71,6 +71,6 @@ export class LoginService {
 }
 
 interface User {
-  name:String,
+  username:String,
   password:String,
 }
