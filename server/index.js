@@ -12,7 +12,9 @@ const users = [
   { id: 2, name: 'test', password: 'test' }
 ];
 const PUBLIC_VAPID='BHZX9cdrYz3nQpd-teqYtlvkQWngasxcX5UTSsTGdFIjSBLulClF7NkE0kiQgW4LtJkyvwlgzMJOzHj12OrntDA';
-const PRIVATE_VAPID='KCfnMDVddubKOrDIm0pUr46g5Yr_Ouiz99KXQxbHVf8'
+const PRIVATE_VAPID='KCfnMDVddubKOrDIm0pUr46g5Yr_Ouiz99KXQxbHVf8';
+
+let highscore = 0;
 
 
 webpush.setVapidDetails('mailto:localhost:8080', PUBLIC_VAPID, PRIVATE_VAPID);
@@ -44,6 +46,16 @@ app.use(bodyParser.json());
 app.get('/api', (req, res) => {
   res.json( {message: 'hallo allemaal...'} )
 });
+
+app.get('/api/updatescore', (req, res) => {
+	if(req.body.score > highscore) {
+	highscore = req.body.score; }
+});
+
+app.get('/api/getscore', (req, res) => {
+	res.json( {highscore: highscore} )
+	});
+
 
 app.post('/api/login', function (req, res) {
   if (req.body.name && req.body.password) {
