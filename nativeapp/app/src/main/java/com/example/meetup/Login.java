@@ -100,6 +100,7 @@ public class Login extends AppCompatActivity {
                 }
 
             } catch (Exception e) {
+                Log.d("error",e.getMessage());
                 setError("No connection");
             }
         };
@@ -120,6 +121,10 @@ public class Login extends AppCompatActivity {
             finish();
         });
 
+    }
+    public void goToRegister(View view){
+        Intent intent = new Intent(this, Register.class);
+        startActivity(intent);
     }
 
 
