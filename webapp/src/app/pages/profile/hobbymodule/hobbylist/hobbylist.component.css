@@ -1,0 +1,12 @@
+#hobbylist  {
+  float: right;
+  margin-right: 5%;
+  box-sizing: border-box;
+}
+#searchBox {
+  margin-right: 10px;
+}
+
+#newHobbyTextBox {
+  margin-right: 10px;
+}

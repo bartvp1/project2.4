@@ -20,6 +20,9 @@ import {HobbymoduleModule} from './pages/profile/hobbymodule/hobbymodule.module'
 import {environment} from '../environments/environment';
 import { LogoutComponent } from './pages/logout/logout.component';
 
+importScripts('https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/7.6.0/firebase-messaging.js');
+
 @NgModule({
   imports: [
     CommonModule,
@@ -31,7 +34,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
     ReactiveFormsModule,
     MatchesModule,
     HobbymoduleModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    environment.production ? ServiceWorkerModule.register('./ngsw_worker.js', ): []
   ],
   declarations: [
     AppComponent,
@@ -49,7 +52,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
       provide: HTTP_INTERCEPTORS,
       useClass: Http_interceptor,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })

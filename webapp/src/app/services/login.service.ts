@@ -52,7 +52,7 @@ export class LoginService {
       // TODO fetch username
       return "return name";
     }
-    return false
+    return "Not logged in"
   }
 
   public getExpiration() {

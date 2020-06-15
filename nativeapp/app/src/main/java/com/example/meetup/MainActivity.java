@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView nav = findViewById(R.id.navigation_view);
         nav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        
     }
 
     @Override
@@ -79,7 +79,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static boolean isLoggedIn() {
-        return !(prefsManager.getToken() == null || ((System.currentTimeMillis() / 1000) > prefsManager.getExpiration()));
+        return true;
+        //remove line above
+        //return !(prefsManager.getToken() == null || ((System.currentTimeMillis() / 1000) > prefsManager.getExpiration()));
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
