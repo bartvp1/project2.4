@@ -3,6 +3,7 @@ import {LoginService} from './services/login.service';
 import {Router} from '@angular/router';
 import {SwPush} from '@angular/service-worker';
 import {HttpClient} from '@angular/common/http';
+import {MessagingService} from "./services/messaging.service";
 
 @Component({
   selector: 'app-root',
@@ -11,12 +12,14 @@ import {HttpClient} from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
   public sidebarColor = 'red';
+  message;
 
   constructor(
     private loginservice: LoginService,
     private router:Router,
     private swPush:SwPush,
     private http: HttpClient,
+    private firebaseService: MessagingService
   ){
     /*
     if (swPush.isEnabled) {
@@ -65,5 +68,8 @@ export class AppComponent implements OnInit {
   ngOnInit()
   {
     this.changeSidebarColor('blue');
+    this.firebaseService.requestPermission()
+    this.firebaseService.receiveMessage()
+    this.message = this.firebaseService.currentMessage
   }
 }

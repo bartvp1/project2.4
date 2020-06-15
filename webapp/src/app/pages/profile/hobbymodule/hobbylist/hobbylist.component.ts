@@ -12,13 +12,13 @@ import {Hobby} from '../../../../hobby';
 
 export class HobbylistComponent implements OnInit {
 
-  hobbies = HOBBIES;
+  hobbies: Hobby[] = HOBBIES;
   selectedHobby: Hobby;
   searchedHobbies: Hobby[] = [];
-  searchString: String;
+  searchString: string;
   addNewHobbyClicked: boolean = false;
   confirmHobbyToProfile: boolean = false;
-  newHobbyName: String;
+  newHobbyName: string;
 
   hobbyConfirmMessage = '';
   newHobbyConfirmMessage = '';
