@@ -12,7 +12,13 @@ import {HttpClient} from '@angular/common/http';
 export class AppComponent implements OnInit {
   public sidebarColor = 'red';
 
-  constructor(private loginservice: LoginService, private router:Router,private swPush:SwPush,private http: HttpClient){
+  constructor(
+    private loginservice: LoginService,
+    private router:Router,
+    private swPush:SwPush,
+    private http: HttpClient,
+  ){
+    /*
     if (swPush.isEnabled) {
 
       swPush.requestSubscription({
@@ -25,6 +31,7 @@ export class AppComponent implements OnInit {
         .catch(console.error);
     }
 
+     */
   }
 
 
@@ -55,5 +62,8 @@ export class AppComponent implements OnInit {
       body.classList.remove('white-content');
     }
   }
-  ngOnInit() {}
+  ngOnInit()
+  {
+    this.changeSidebarColor('blue');
+  }
 }

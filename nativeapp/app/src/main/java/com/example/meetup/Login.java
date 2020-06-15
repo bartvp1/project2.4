@@ -39,6 +39,7 @@ public class Login extends AppCompatActivity {
             EditText username = (EditText) findViewById(R.id.username);
             EditText password = (EditText) findViewById(R.id.password);
             try {
+
                 URL url = new URL("http://10.0.2.2:5000/api/login");
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 

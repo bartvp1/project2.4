@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private element: ElementRef,
     private router: Router,
     private modalService: NgbModal,
-    private loginService :LoginService
+    public loginService :LoginService
   ) {
     this.location = location;
     this.sidebarVisible = false;
