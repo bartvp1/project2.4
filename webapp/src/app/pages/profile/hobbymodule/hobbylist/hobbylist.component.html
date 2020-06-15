@@ -1,27 +1,52 @@
-<p>Hobbylist</p>
+<span id="hobbylist">
+  <h1>Hobbylist</h1>
+  <form class="form-inline md-form mr-auto mb-4">
+    <div id="searchBox">
+      <input type="text" name="search" [(ngModel)]="searchString" >
+    </div>
+    <button class="btn" (click)="onClickSearch(searchString)">Search</button>
+    <button class="btn" name="addButton" (click)="onClickAddNewHobby()">+</button>
+  </form>
 
-<form class="form-inline md-form mr-auto mb-4">
-  <div id="searchBox">
-    <input type="text" name="search" [(ngModel)]="searchString" ngModel="searchBox">
-  </div>
-  <button class="btn"  (click)="onClickSearch(searchString)">Search</button>
-</form>
-
-<h2>Choose hobbies</h2>
-<ul class="hobbies">
-  <li *ngFor="let hobby of searchedHobbies"
-      [class.selected]="hobby === selectedHobby"
-      (click)="onSelect(hobby)">
-    <span class="badge"></span> {{ hobby.name }}
-  </li>
-</ul>
-
-<div *ngIf="selectedHobby">
-  <h2> Confirm hobby "{{selectedHobby.name }}"</h2>
-  <div>
-    <button class="btn" name="confirm" (click)="onClickHobbyConfirm()">Confirm</button>
-    {{hobbyConfirmMessage}}
-  </div>
+<div *ngIf="searchedHobbies.length == 0 && addNewHobbyClicked == false">
+  <h2> Choose hobbies</h2>
+  <ul class="hobbies">
+    <li *ngFor="let hobby of hobbies"
+        [class.selected]="hobby === selectedHobby"
+        (click)="onSelect(hobby)">
+      <span class="badge"></span> {{ hobby.name }}
+    </li>
+  </ul>
 </div>
 
+<div *ngIf="searchedHobbies.length > 0">
+  <h2> Choose hobbies</h2>
+  <ul class="hobbies">
+    <li *ngFor="let hobby of searchedHobbies"
+        [class.selected]="hobby === selectedHobby"
+        (click)="onSelect(hobby)">
+      <span class="badge"></span> {{ hobby.name }}
+    </li>
+  </ul>
+</div>
+
+
+  <div *ngIf="addNewHobbyClicked">
+    <h2>Enter new hobby</h2>
+    <div id="newHobbyTextBox">
+      <input type="text" name="newHobbyName" [(ngModel)]="newHobbyName">
+    </div>
+    <button class="btn" name="add" (click)="onClickAddConfirmHobby(newHobbyName)">Add</button>
+    {{hobbyConfirmMessage}}
+  </div>
+
+
+  <div *ngIf="selectedHobby">
+    <h2> Confirm hobby "{{selectedHobby.name }}"</h2>
+    <div>
+      <button class="btn" name="confirm" (click)="onClickHobbyConfirm()">Confirm</button>
+      {{hobbyConfirmMessage}}
+    </div>
+  </div>
+</span>
 
