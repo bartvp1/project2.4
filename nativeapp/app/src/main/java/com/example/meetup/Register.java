@@ -49,7 +49,7 @@ public class Register extends AppCompatActivity {
             setError("Fill in atleast an username and a password.");
             return;
         }
-      if(username.length()<4 || password.length()<6){
+      if(username.length()<6 || password.length()<6){
           setError("Username and password must atleast be six characters long.");
           return;
         }
