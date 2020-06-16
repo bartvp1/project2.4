@@ -10,10 +10,11 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2015",
     "lib": [
-      "es2018",
-      "dom"
+      "ES2018",
+      "DOM",
+      "WebWorker.ImportScripts"
     ]
   },
   "angularCompilerOptions": {

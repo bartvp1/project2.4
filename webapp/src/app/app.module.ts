@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {CommonModule} from '@angular/common';
+import {AsyncPipe, CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {AppComponent} from './app.component';
@@ -20,8 +20,11 @@ import {HobbymoduleModule} from './pages/profile/hobbymodule/hobbymodule.module'
 import {environment} from '../environments/environment';
 import { LogoutComponent } from './pages/logout/logout.component';
 
-importScripts('https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/7.6.0/firebase-messaging.js');
+import {AngularFireMessagingModule} from "@angular/fire/messaging";
+import {AngularFireModule} from "@angular/fire";
+import {MessagingService} from "./services/messaging.service";
+
+
 
 @NgModule({
   imports: [
@@ -34,6 +37,8 @@ importScripts('https://www.gstatic.com/firebasejs/7.6.0/firebase-messaging.js');
     ReactiveFormsModule,
     MatchesModule,
     HobbymoduleModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     environment.production ? ServiceWorkerModule.register('./ngsw_worker.js', ): []
   ],
   declarations: [
@@ -48,6 +53,8 @@ importScripts('https://www.gstatic.com/firebasejs/7.6.0/firebase-messaging.js');
     LogoutComponent,
   ],
   providers: [
+    MessagingService,
+    AsyncPipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: Http_interceptor,
