@@ -25,14 +25,14 @@ export class LoginService {
       )
   }
   logout(){
-    // TODO blacklist on server
+
     localStorage.removeItem('token');
     localStorage.removeItem('expires_at');
 
   }
 
   public isLoggedIn() {
-    // TODO
+
 
     return moment().isBefore(this.getExpiration());
   }
@@ -47,13 +47,6 @@ export class LoginService {
 
   }
 
-  public getUsername() {
-    if (this.isLoggedIn()){
-      // TODO fetch username
-      return "return name";
-    }
-    return "Not logged in"
-  }
 
   public getExpiration() {
     const expiration = localStorage.getItem("expires_at");
