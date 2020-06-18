@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (!isLoggedIn())  logOut();
+        if (!prefsManager.isLoggedIn())  logOut();
 
         BottomNavigationView nav = findViewById(R.id.navigation_view);
         nav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -78,11 +78,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static boolean isLoggedIn() {
-        return true;
-        //remove line above
-        //return !(prefsManager.getToken() == null || ((System.currentTimeMillis() / 1000) > prefsManager.getExpiration()));
-    }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
         switch (item.getItemId()) {

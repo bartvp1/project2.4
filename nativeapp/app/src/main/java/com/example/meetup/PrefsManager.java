@@ -30,4 +30,9 @@ public class PrefsManager {
     public SharedPreferences.Editor getEditor(){
         return editor;
     }
+    public boolean isLoggedIn() {
+        //return true;
+        //remove line above
+        return !(manager.getToken() == null || ((System.currentTimeMillis() / 1000) > manager.getExpiration()));
+    }
 }
