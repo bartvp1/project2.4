@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {LoginService} from './services/login.service';
+import {ApiService} from './services/api.service';
 import {Router} from '@angular/router';
-import {SwPush} from '@angular/service-worker';
+//import {SwPush} from '@angular/service-worker';
 import {HttpClient} from '@angular/common/http';
 import {MessagingService} from "./services/messaging.service";
 
@@ -15,9 +15,9 @@ export class AppComponent implements OnInit {
   message;
 
   constructor(
-    private loginservice: LoginService,
+    private loginservice: ApiService,
     private router:Router,
-    private swPush:SwPush,
+    //private swPush:SwPush,
     private http: HttpClient,
     private firebaseService: MessagingService
   ){

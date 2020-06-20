@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import {LoginComponent} from '../../pages/login/login.component';
-import {LoginService} from '../../services/login.service';
+import {ApiService} from '../../services/api.service';
 
 declare interface RouteInfo {
   path: string;
@@ -61,7 +61,7 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor(public loginService:LoginService) {}
+  constructor(public loginService:ApiService) {}
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);

@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
 import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
-import {LoginService} from "./login.service";
+import {ApiService} from "./api.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class Guard implements CanActivate {
-  constructor(private loginservice:LoginService,private router: Router){
+  constructor(private loginservice:ApiService, private router: Router){
 
   }
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
-    let url: string = state.url;
-    return this.checkLogin(url);
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    console.log(this.loginservice.isLoggedIn())
+    return this.loginservice.isLoggedIn();
+    //return this.checkLogin();
   }
-  checkLogin(url: string): boolean {
+  checkLogin(): boolean {
     if(this.loginservice.isLoggedIn()){
       return true;
     } else {
-      // Navigate to the login page with extras
       this.router.navigate(['/login']);
       return false;
     }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {LoginService} from "../../services/login.service";
+import {ApiService} from "../../services/api.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 })
 export class LogoutComponent {
 
-  constructor(private loginservice: LoginService,private router: Router) {
+  constructor(private loginservice: ApiService, private router: Router) {
     this.logout()
   }
 

@@ -3,7 +3,7 @@ import {ROUTES, SidebarComponent} from "../sidebar/sidebar.component";
 import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import {LoginService} from "../../services/login.service";
+import {ApiService} from "../../services/api.service";
 
 @Component({
   selector: "app-navbar",
@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private element: ElementRef,
     private router: Router,
     private modalService: NgbModal,
-    public loginService :LoginService
+    public loginService :ApiService
   ) {
     this.location = location;
     this.sidebarVisible = false;

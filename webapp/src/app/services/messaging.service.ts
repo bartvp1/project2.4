@@ -1,21 +1,17 @@
 import {Injectable} from '@angular/core';
 import {AngularFireMessaging} from '@angular/fire/messaging';
-import {BehaviorSubject} from 'rxjs'
+import {BehaviorSubject, Observable} from 'rxjs'
 
 @Injectable()
 export class MessagingService {
   currentMessage = new BehaviorSubject(null);
-
   constructor(private angularFireMessaging: AngularFireMessaging) {
-    this.angularFireMessaging.messages.subscribe(
-      (_messaging) => {
-        let msg = _messaging.constructor();
-        msg.onMessage = msg.bind(_messaging);
-        msg.onTokenRefresh = msg.onTokenRefresh.bind(_messaging);
+    this.angularFireMessaging.messages.subscribe((e) => {
+        e.constructor().onMessage = e.constructor().onMessage.bind(e);
+        e.constructor().onTokenRefresh = e.constructor().onTokenRefresh.bind(e);
       }
     )
   }
-
   requestPermission() {
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
