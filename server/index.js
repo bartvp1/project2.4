@@ -58,6 +58,7 @@ app.get('/api/getscore', (req, res) => {
 
 
 app.post('/api/login', function (req, res) {
+	console.log(req.headers);
   if (req.body.name && req.body.password) {
     var name = req.body.name;
   }

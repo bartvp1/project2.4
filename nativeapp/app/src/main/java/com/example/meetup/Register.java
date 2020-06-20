@@ -6,17 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.JsonReader;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import static com.example.meetup.Login.prefsManager;
 
@@ -37,7 +33,7 @@ public class Register extends AppCompatActivity {
 
 
             //check for fields
-           String username = ((EditText) findViewById(R.id.username_reg)).getText().toString().trim();
+            String username = ((EditText) findViewById(R.id.username_reg)).getText().toString().trim();
             String password = ((EditText) findViewById(R.id.password_reg)).getText().toString().trim();
             String firstname = ((EditText) findViewById(R.id.firstname)).getText().toString().trim();
             String lastname = ((EditText) findViewById(R.id.lastname)).getText().toString().trim();
@@ -59,27 +55,10 @@ public class Register extends AppCompatActivity {
             //register
             try {
                 URL url = new URL("http://10.0.2.2:5000/api/register");
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                Connection connection=new Connection();
+                InputStream registerstream=connection.connect("http://10.0.2.2:5000/api/register","POST","");
 
-                urlConnection.setReadTimeout(20000);
-                urlConnection.setConnectTimeout(2000);
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setDoInput(true);
-                urlConnection.setDoOutput(true);
-
-                OutputStream os = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                //send request
-                // TODO: 15/06/2020 send register info to rest api
-                writer.write("");
-
-                writer.flush();
-                writer.close();
-                os.close();
-
-                int responseCode = urlConnection.getResponseCode();
-                Log.d("code",String.valueOf(responseCode));
-                if (responseCode == HttpURLConnection.HTTP_OK) {
+                if (registerstream!=null) {
 
                     registered=true;
 
@@ -91,39 +70,20 @@ public class Register extends AppCompatActivity {
                 setError("No connection.");
             }
 
-
-
-            
-
-
-
+            registered=true;
 
             //login after register
             if(registered) {
                 try {
-                    URL url = new URL("http://10.0.2.2:5000/api/login");
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    Connection connection=new Connection();
+                    InputStream loginstream= connection.connect("http://10.0.2.2:5000/api/login","POST",
+                            "name="+username+"&password="+password);
 
-                    urlConnection.setReadTimeout(20000);
-                    urlConnection.setConnectTimeout(2000);
-                    urlConnection.setRequestMethod("POST");
-                    urlConnection.setDoInput(true);
-                    urlConnection.setDoOutput(true);
 
-                    OutputStream os = urlConnection.getOutputStream();
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 
-                    writer.write("name=" + username + "&password=" + password);
+                    if (loginstream !=null) {
 
-                    writer.flush();
-                    writer.close();
-                    os.close();
-
-                    int responseCode = urlConnection.getResponseCode();
-                    Log.d("code", String.valueOf(responseCode));
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-
-                        BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                        BufferedReader in = new BufferedReader(new InputStreamReader(loginstream));
                         JsonReader jsonReader = new JsonReader(in);
                         String token = "";
                         int expiresIn = 0;

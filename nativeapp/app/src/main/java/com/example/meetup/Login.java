@@ -12,12 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 
 
 
@@ -27,7 +24,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         prefsManager = PrefsManager.getInstance(this.getApplicationContext());
-        if(MainActivity.isLoggedIn()){
+        if(prefsManager.isLoggedIn()){
             goToApp();
         }
         super.onCreate(savedInstanceState);
@@ -38,33 +35,19 @@ public class Login extends AppCompatActivity {
         Runnable post = () ->{
             EditText username = (EditText) findViewById(R.id.username);
             EditText password = (EditText) findViewById(R.id.password);
+
+
             try {
+                Connection connection=new Connection();
+              InputStream inputstream= connection.connect("http://10.0.2.2:5000/api/login","POST",
+                        "name="+username.getText().toString().trim()+"&password="+password.getText().toString().trim());
 
-                URL url = new URL("http://10.0.2.2:5000/api/login");
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
-                urlConnection.setReadTimeout(20000);
-                urlConnection.setConnectTimeout(2000);
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setDoInput(true);
-                urlConnection.setDoOutput(true);
+                if (inputstream!=null) {
 
-                OutputStream os = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-
-                writer.write("name="+username.getText().toString().trim()+"&password="+password.getText().toString().trim());
-
-                writer.flush();
-                writer.close();
-                os.close();
-
-                int responseCode = urlConnection.getResponseCode();
-                Log.d("code",String.valueOf(responseCode));
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-
-                    BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    BufferedReader in = new BufferedReader(new InputStreamReader(inputstream));
                     JsonReader jsonReader=new JsonReader(in);
-                    String token="";
+                    String token=null;
                     int expiresIn=0;
                     jsonReader.beginObject();
                     while (jsonReader.hasNext()){
