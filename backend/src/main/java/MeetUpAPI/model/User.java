@@ -1,0 +1,113 @@
+package MeetUpAPI.model;
+
+import org.hibernate.validator.constraints.Length;
+import javax.persistence.*;
+
+@Entity
+@Table(name = "user", schema = "project24")
+public class User {
+
+  @Id
+  @Column(name = "id", unique = true)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private int id;
+
+  @Length(min = 4, max = 45, message = "Required length: 4-45 characters")
+  @Column(name = "username", unique = true, nullable = false)
+  private String username;
+
+  @Length(min = 4, max = 60, message = "Required length: 4-60 characters")
+  @Column(name = "password", nullable = false)
+  private String password;
+
+  @Column(name = "firstname", nullable = false)
+  private String firstname;
+
+  @Column(name = "lastname", nullable = false)
+  private String lastname;
+
+  @Column(name = "phone", unique = true, nullable = false)
+  private String phone;
+
+  @Column(name = "country", nullable = false)
+  private String country;
+
+  @Column(name = "city", nullable = false)
+  private String city;
+
+
+  public Integer getId() {
+    return id;
+  }
+
+  public String getFirstname() {
+    return firstname;
+  }
+
+  public String getLastname() {
+    return lastname;
+  }
+
+  public String getCity() {
+    return city;
+  }
+
+  public String getCountry() {
+    return country;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+
+  public void setCountry(String country) {
+    this.country = country;
+  }
+
+  public void setLastname(String lastname) {
+    this.lastname = lastname;
+  }
+
+  public void setCity(String city) {
+    this.city = city;
+  }
+
+  public void setFirstname(String firstname) {
+    this.firstname = firstname;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public void setPhone(String phoneNumber) {
+    this.phone = phoneNumber;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  @Override
+  public String toString() {
+    return "User {" +
+            "id= " + id +
+            " , username= '" + username + '\'' +
+            " , phone= '" + phone + '\'' +
+            " , password= '" + password + '\'' +
+            "}";
+  }
+}
