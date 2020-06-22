@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/project24
     username: root
-    password: namaste
+    password: password
   tomcat:
     max-wait: 20000
     max-active: 50

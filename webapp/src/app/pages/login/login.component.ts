@@ -10,10 +10,9 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm;
-  errormessage: string;
   request;
 
-  constructor(private loginservice: ApiService, private formBuilder: FormBuilder, private router: Router) {
+  constructor(public loginservice: ApiService, private formBuilder: FormBuilder, private router: Router) {
 
     this.loginForm = this.formBuilder.group({
       username: '',
@@ -26,17 +25,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.loginservice.isLoggedIn()) {
       this.router.navigate(["/profile"]);
-    } else {
-      this.loginservice.error.subscribe(
-        (change: string) => {
-          this.errormessage = change;
-        }
-      );
     }
   }
 
   ngOnDestroy() {
-    if(this.loginservice.error !== undefined) this.loginservice.error.unsubscribe()
     if(this.request !== undefined) this.request.unsubscribe()
   }
 
