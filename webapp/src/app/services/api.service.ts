@@ -3,28 +3,27 @@ import * as moment from 'moment';
 import * as jwt_decode from 'jwt-decode';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {Observable} from "rxjs";
 
 const API_URL = 'http://127.0.0.1:5000/';
 const API_URL_LOGIN = API_URL + 'login';
 const API_URL_SIGNUP = API_URL + 'signup';
+const API_URL_LOGOUT = API_URL + 'logout';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   public error:string;
+
   headers: HttpHeaders = new HttpHeaders();
 
   constructor(private http: HttpClient, private router: Router) {
     this.headers = this.headers.set('Content-Type', 'application/json');
-
   }
 
 
   public login(username: string, password: string) {
-    let token = localStorage.getItem("token");
-    if (token) this.headers = this.headers.set('Authorization', `Bearer ${token}`)
-
     let cred: UserLogin = {username, password}
 
     return this.http.post(API_URL_LOGIN, cred, {headers: this.headers})
@@ -81,17 +80,28 @@ export class ApiService {
     return jwt_decode(localStorage.getItem("token")).exp;
   }
 
-  logout() {
-    return this.http.get(API_URL_SIGNUP, {headers: this.headers})
+  private static authorization_header(): HttpHeaders{
+    let authorized_header: HttpHeaders = new HttpHeaders();
+    let token = localStorage.getItem("token");
+    if (token) {
+      authorized_header = authorized_header
+        .set('Content-Type', 'application/json')
+        .set('Authorization', `Bearer ${token}`)
+    }
+
+    return authorized_header;
+  }
+
+  public logout() {
+    return this.http.get(API_URL_LOGOUT, {headers: ApiService.authorization_header()})
       .subscribe(
-        (res: Response) => {
+        () => {
           console.log("logout ok")
           localStorage.removeItem('token');
           localStorage.removeItem("username");
         },
-        (error: HttpError) => {
-          console.log("registration error");
-          this.handleError(error);
+        () => {
+          console.log("logout error");
         },
         () => {
           localStorage.removeItem('token');
