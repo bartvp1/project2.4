@@ -96,9 +96,8 @@ export class ApiService {
         } else {
           localStorage.clear() //remove redundant token
         }
-        return false;
-
       }
+      return false
 
   }
 
