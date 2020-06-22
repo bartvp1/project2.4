@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class User {
 
   @Id
-  @Column(name = "id", unique = true)
+  @Column(name = "uid", unique = true)
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
@@ -103,11 +103,15 @@ public class User {
 
   @Override
   public String toString() {
-    return "User {" +
-            "id= " + id +
-            " , username= '" + username + '\'' +
-            " , phone= '" + phone + '\'' +
-            " , password= '" + password + '\'' +
-            "}";
+    return "User{" +
+            "id=" + id +
+            ", username:'" + username + '\'' +
+            ", password:'" + password + '\'' +
+            ", firstname:'" + firstname + '\'' +
+            ", lastname:'" + lastname + '\'' +
+            ", phone:'" + phone + '\'' +
+            ", country:'" + country + '\'' +
+            ", city:'" + city + '\'' +
+            '}';
   }
 }

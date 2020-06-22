@@ -1,5 +1,6 @@
 package MeetUpAPI.controller;
 
+import MeetUpAPI.dto.UserRegistrationDTO;
 import MeetUpAPI.dto.UserResponseDTO;
 import MeetUpAPI.errorhandling.CustomException;
 import MeetUpAPI.service.UserService;
