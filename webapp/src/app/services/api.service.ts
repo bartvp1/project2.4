@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 import * as jwt_decode from 'jwt-decode';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Subject} from "rxjs";
 import {Router} from "@angular/router";
 
 const API_URL = 'http://127.0.0.1:5000/';
@@ -57,8 +56,9 @@ export class ApiService {
       )
   }
 
-  private handleError(error) {
+  private handleError(error:HttpError) {
     console.log("handleError: "+error.error.message)
+    console.log(error)
     this.error = error.error.message
   }
 
@@ -82,22 +82,36 @@ export class ApiService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem("username");
+    return this.http.get(API_URL_SIGNUP, {headers: this.headers})
+      .subscribe(
+        (res: Response) => {
+          console.log("logout ok")
+          localStorage.removeItem('token');
+          localStorage.removeItem("username");
+        },
+        (error: HttpError) => {
+          console.log("registration error");
+          this.handleError(error);
+        },
+        () => {
+          localStorage.removeItem('token');
+          localStorage.removeItem("username");
+        }
+      )
+
   }
 
   public isLoggedIn() {
-      if(localStorage.getItem("token")){ //token in localStorage
-        if(moment().unix() !< this.getJwtExpiration()){ //token not yet expired
+      if(localStorage.getItem("token")){ // token in localStorage
+        if(moment().unix() !< this.getJwtExpiration()){ // token not yet expired
           return true;
         } else {
           localStorage.clear() //remove redundant token
         }
       }
-      return false
-
+      //no token found
+      return false;
   }
-
 }
 
 
@@ -121,9 +135,13 @@ interface Response {
 }
 
 interface HttpError {
-  error: any,
-  headers: any,
+  error: {
+    status:number,
+    message:string
+  },
+  headers: HttpHeaders,
   message: string,
+  name: string,
   ok: boolean,
   status: number,
   statusText: string,
