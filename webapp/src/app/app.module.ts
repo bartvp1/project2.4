@@ -1,11 +1,10 @@
 import {NgModule} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {AsyncPipe, CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {HttpRequestInterceptor} from './services/httprequest.interceptor';
 import {HomeComponent} from './pages/home/home.component';
 import {NotificationsComponent} from './pages/notifications/notifications.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -55,13 +54,6 @@ import {MessagingService} from "./services/messaging.service";
   providers: [
     MessagingService,
     AsyncPipe,
-    /*{
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpRequestInterceptor,
-      multi: true
-    },
-
-     */
   ],
   bootstrap: [AppComponent]
 })
