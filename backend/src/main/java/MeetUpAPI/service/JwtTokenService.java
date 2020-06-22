@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 
-import MeetUpAPI.errorhandling.CustomException;
+import MeetUpAPI.errorHandling.CustomException;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class JwtTokenService {
 
   HashSet<String> blackListedTokens = new HashSet<>();
@@ -51,8 +51,9 @@ public class JwtTokenService {
     String bearerToken = req.getHeader("Authorization");
     if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
       return bearerToken.substring(7);
+    } else {
+      throw new CustomException("No Authorization header present",HttpStatus.UNAUTHORIZED);
     }
-    return null;
   }
 
   private boolean validateToken(String token) throws CustomException {

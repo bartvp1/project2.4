@@ -10,16 +10,8 @@ export class Guard implements CanActivate {
 
   }
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.log(this.loginservice.isLoggedIn())
     return this.loginservice.isLoggedIn();
     //return this.checkLogin();
-  }
-  checkLogin(): boolean {
-    if(this.loginservice.isLoggedIn()){
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-      return false;
-    }
+
   }
 }

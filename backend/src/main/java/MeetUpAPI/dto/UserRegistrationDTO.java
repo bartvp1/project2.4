@@ -1,80 +1,96 @@
 package MeetUpAPI.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class UserRegistrationDTO {
+    @Size(min = 3, max = 20, message = "Username must be 3-20 characters")
     private String username;
-  private String password;
-  private String firstname;
-  private String lastname;
-  private String phone;
-  private String country;
-  private String city;
 
-  public String getUsername() {
-    return username;
-  }
+    @Size(min = 6, max = 20, message = "Password must be 6-20 characters")
+    private String password;
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    @Size(min = 2, max = 20, message = "First name must be 2-20 characters")
+    private String firstname;
 
-  public String getPassword() {
-    return password;
-  }
+    @Size(min = 2, max = 20, message = "Last name must be 2-20 characters")
+    private String lastname;
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    @Size(min = 3, max = 20, message = "Phone number format: 31612345678")
+    private String phone;
 
-  public String getFirstname() {
-    return firstname;
-  }
+    @NotBlank(message = "Please specify the country you're living in")
+    private String country;
 
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-  }
+    @NotBlank(message = "Please specify the city you're living in")
+    private String city;
 
-  public String getLastname() {
-    return lastname;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public String getPhone() {
-    return phone;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public String getCountry() {
-    return country;
-  }
+    public String getFirstname() {
+        return firstname;
+    }
 
-  public void setCountry(String country) {
-    this.country = country;
-  }
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
-  public String getCity() {
-    return city;
-  }
+    public String getLastname() {
+        return lastname;
+    }
 
-  public void setCity(String city) {
-    this.city = city;
-  }
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
-  @Override
-  public String toString() {
-    return "UserRegistrationDTO{" +
-            "username='" + username + '\'' +
-            ", password='" + password + '\'' +
-            ", firstname='" + firstname + '\'' +
-            ", lastname='" + lastname + '\'' +
-            ", phone='" + phone + '\'' +
-            ", country='" + country + '\'' +
-            ", city='" + city + '\'' +
-            '}';
-  }
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRegistrationDTO{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", phone='" + phone + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
 }

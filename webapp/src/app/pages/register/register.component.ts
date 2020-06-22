@@ -43,6 +43,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
     if (this.loginservice.isLoggedIn()) {
       this.router.navigate(["/profile"]);
     }
+    this.loginservice.error = undefined;
   }
 
   ngOnDestroy() {

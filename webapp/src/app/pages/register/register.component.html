@@ -43,7 +43,7 @@
       <input id="city" type="text" formControlName="city">
     </div>
 
-    <div *ngIf="loginservice.error != undefined" style="color:red">{{loginservice.error}}</div>
+    <p *ngIf="loginservice.error != undefined" style="white-space:normal;" [innerHTML]="loginservice.error"></p>
     <button style="margin-right: 20px;" class="button" type="submit">Submit</button>
     <button type="button" routerLink="/login">To login</button>
 

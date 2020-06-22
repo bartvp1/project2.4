@@ -1,4 +1,4 @@
-package MeetUpAPI.model;
+package MeetUpAPI.dbModels;
 
 import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
@@ -9,7 +9,7 @@ public class User {
 
   @Id
   @Column(name = "uid", unique = true)
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
   @Length(min = 4, max = 45, message = "Required length: 4-45 characters")

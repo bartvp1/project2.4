@@ -1,4 +1,4 @@
-package MeetUpAPI.errorhandling;
+package MeetUpAPI.errorHandling;
 
 import org.springframework.http.HttpStatus;
 

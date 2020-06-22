@@ -58,7 +58,13 @@ export class ApiService {
   private handleError(error:HttpError) {
     console.log("handleError: "+error.error.message)
     console.log(error)
-    this.error = error.error.message
+    this.error = "";
+    error.error.message.split(",").forEach((line:string)=> {this.error.concat(line)})
+    for(let i of error.error.message.split(", ")){
+      this.error += "<p class='error_msg'>"+i+"</p>"
+    }
+    console.log("error: "+this.error)
+    //console.log(error.error.message.split(",").)
   }
 
   private setSession(response: Response) {
