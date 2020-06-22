@@ -13,7 +13,7 @@
       </label>
       <input id="password" type="password" formControlName="password">
     </div>
-    <div *ngIf="!errormessage" style="color:red">{{errormessage}}</div>
+    <div *ngIf="loginservice.error != undefined " style="color:red">{{loginservice.error}}</div>
     <button class="button" type="submit">Login</button>
     <button type="button" routerLink="/register">Register</button>
 

@@ -13,7 +13,7 @@ const API_URL_SIGNUP = API_URL + 'signup';
   providedIn: 'root'
 })
 export class ApiService {
-  public error = new Subject();
+  public error:string;
   headers: HttpHeaders = new HttpHeaders();
 
   constructor(private http: HttpClient, private router: Router) {
@@ -58,13 +58,13 @@ export class ApiService {
   }
 
   private handleError(error) {
-    console.log("handleError: "+error)
-    this.error.next(error.error.message)
+    console.log("handleError: "+error.error.message)
+    this.error = error.error.message
   }
 
   private setSession(response: Response) {
     console.log("auth OK")
-    this.error.next(undefined);
+    this.error = undefined;
     let token = response.token;
 
     localStorage.setItem('token', token);
@@ -89,9 +89,7 @@ export class ApiService {
 
   public isLoggedIn() {
       if(localStorage.getItem("token")){ //token in localStorage
-        console.log("token found")
         if(moment().unix() !< this.getJwtExpiration()){ //token not yet expired
-          console.log("not expired")
           return true;
         } else {
           localStorage.clear() //remove redundant token
