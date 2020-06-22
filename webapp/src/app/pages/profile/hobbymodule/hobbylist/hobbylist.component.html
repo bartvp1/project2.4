@@ -1,17 +1,16 @@
-<span id="hobbylist">
-  <h1>Hobbylist</h1>
+<span id="hobbylist" style="width: 30vw">
+
+  <h1>Add Hobbies</h1>
   <form class="form-inline md-form mr-auto mb-4">
+
     <div id="searchBox">
-      <input type="text" name="search" [(ngModel)]="searchString" >
+      <input  class= "post" type="text" name="search" [ngModel]="searchString" (ngModelChange)="onClickSearch($event)" autocomplete="off" placeholder="Filter by Name" >
     </div>
-    <button class="btn" (click)="onClickSearch(searchString)">Search</button>
-    <button class="btn" name="addButton" (click)="onClickAddNewHobby()">+</button>
   </form>
 
-<div *ngIf="searchedHobbies.length == 0 && addNewHobbyClicked == false">
-  <h2> Choose hobbies</h2>
+<div>
   <ul class="hobbies">
-    <li *ngFor="let hobby of hobbies"
+    <li *ngFor="let hobby of (searchedHobbies ? searchedHobbies.slice(0,10): [])"
         [class.selected]="hobby === selectedHobby"
         (click)="onSelect(hobby)">
       <span class="badge"></span> {{ hobby.name }}
@@ -19,33 +18,20 @@
   </ul>
 </div>
 
-<div *ngIf="searchedHobbies.length > 0">
-  <h2> Choose hobbies</h2>
-  <ul class="hobbies">
-    <li *ngFor="let hobby of searchedHobbies"
-        [class.selected]="hobby === selectedHobby"
-        (click)="onSelect(hobby)">
-      <span class="badge"></span> {{ hobby.name }}
-    </li>
-  </ul>
-</div>
-
-
-  <div *ngIf="addNewHobbyClicked">
-    <h2>Enter new hobby</h2>
+  <div *ngIf="searchedHobbies.length == 0">
+  <h2>Hobby not found, add it to the list!</h2>
     <div id="newHobbyTextBox">
       <input type="text" name="newHobbyName" [(ngModel)]="newHobbyName">
     </div>
     <button class="btn" name="add" (click)="onClickAddConfirmHobby(newHobbyName)">Add</button>
     {{hobbyConfirmMessage}}
-  </div>
+</div>
 
-
-  <div *ngIf="selectedHobby">
+  <div *ngIf="selectedHobby && !searchedHobbies.length == 0">
     <h2> Confirm hobby "{{selectedHobby.name }}"</h2>
     <div>
       <button class="btn" name="confirm" (click)="onClickHobbyConfirm()">Confirm</button>
-      {{hobbyConfirmMessage}}
+      <p>{{hobbyConfirmMessage}}</p>
     </div>
   </div>
 </span>

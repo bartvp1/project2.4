@@ -7,7 +7,6 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpRequestInterceptor} from './services/httprequest.interceptor';
 import {HomeComponent} from './pages/home/home.component';
-import {NotificationsComponent} from './pages/notifications/notifications.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ComponentsModule} from './components/components.module';
 import {ProfileComponent} from './pages/profile/profile.component';
@@ -44,7 +43,6 @@ import {MessagingService} from "./services/messaging.service";
   declarations: [
     AppComponent,
     HomeComponent,
-    NotificationsComponent,
     ProfileComponent,
     AccountComponent,
     MatchesComponent,

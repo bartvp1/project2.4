@@ -1,1 +1,6 @@
-<p>matchlist works!</p>
+<h2>My Matches</h2>
+<ul>
+  <li *ngFor="let match of matches">
+    <p style="font-size: 4vmin">{{match.name}}</p> <br>Phone Number: {{match.phoneNumber}}<br> Location: {{match.city}}
+  </li>
+</ul>

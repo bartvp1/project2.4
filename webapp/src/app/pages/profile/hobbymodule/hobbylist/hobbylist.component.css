@@ -5,8 +5,41 @@
 }
 #searchBox {
   margin-right: 10px;
+
+}
+
+.post{
+  width: 30vw;
+  background-color: transparent;
+  border: transparent;
+  border-bottom: 1px solid #00bbff;
+  color: white;
+}
+.post:hover{
+  border-bottom: 1px solid #ffffff;
+
+}
+*:focus {
+  outline: none;
 }
 
 #newHobbyTextBox {
   margin-right: 10px;
+}
+
+ul{
+  padding: 0;
+  list-style: none;
+  cursor: pointer;
+  overflow: hidden;
+
+}
+li{
+  margin-bottom:  4px;
+  list-style-position:inside;
+  border: 1px solid #00bbff;
+  padding: 1vh;
+}
+li:hover{
+  border: 1px solid rgb(255, 255, 255);
 }

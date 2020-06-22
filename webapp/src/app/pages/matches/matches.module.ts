@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatchComponent } from './match/match.component';
 import { MatchlistComponent } from './matchlist/matchlist.component';
+import {Match} from "./match";
 
 @NgModule({
-  declarations: [MatchComponent, MatchlistComponent],
+  declarations: [MatchlistComponent],
   imports: [
     CommonModule
   ],
-  exports:[MatchComponent,MatchlistComponent]
+  exports:[MatchlistComponent]
+
 })
+
 export class MatchesModule { }

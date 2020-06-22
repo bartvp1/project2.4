@@ -22,8 +22,9 @@ export class HobbylistComponent implements OnInit {
 
   hobbyConfirmMessage = '';
   newHobbyConfirmMessage = '';
-
   constructor() {
+    this.onClickSearch('');
+
   }
 
   ngOnInit(): void {
@@ -42,7 +43,8 @@ export class HobbylistComponent implements OnInit {
   onClickSearch(searchText: string) {
     this.searchedHobbies = [];
     this.addNewHobbyClicked = false;
-    searchText = searchText.toLowerCase();
+    this.selectedHobby = null;
+    searchText = searchText.toLowerCase().trim();
     for (let hobby of this.hobbies) {
       if (hobby.name.toLowerCase().includes(searchText)) {
         this.searchedHobbies.push(hobby);
