@@ -82,7 +82,6 @@ export class ApiService {
   }
 
   logout() {
-    // TODO blacklist on server
     localStorage.removeItem('token');
     localStorage.removeItem("username");
   }
