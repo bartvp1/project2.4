@@ -17,13 +17,13 @@ import static com.example.meetup.Login.prefsManager;
 
 public class Connection {
     //class for connection to rest api with interceptor (adds the jwt token as authorization header)
-    //returns an InputStream or null, if no connection/not OK
+    //returns a Urlconnection
     /*example how to use :
         Use the connect method in a new thread!!!
 
         Connection connection=new Connection();
-       InputStream stream= connection.connect("http://10.0.2.2:5000/api/hobbies","GET","");
-        //use InputStream to read the response body
+        HttpURLConnection urlConnection=  (HttpURLConnection)= connection.connect("http://10.0.2.2:5000/api/hobbies","GET","");
+        //use the urlconnections InputStream to read the response body
 
         update UI with the runOnUiThread() method
      */

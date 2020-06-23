@@ -14,22 +14,18 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONObject;
-import org.json.JSONStringer;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+
 
 
 public class Login extends AppCompatActivity {
@@ -54,9 +50,7 @@ public class Login extends AppCompatActivity {
 
             try {
                 Connection connection=new Connection();
-                HttpURLConnection urlConnection=null;
-
-                urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/login","POST");
+                HttpURLConnection urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/login","POST");
 
 
 
