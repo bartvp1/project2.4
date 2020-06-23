@@ -4,11 +4,14 @@ import android.util.Log;
 
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import static com.example.meetup.Login.prefsManager;
 
@@ -25,7 +28,7 @@ public class Connection {
         update UI with the runOnUiThread() method
      */
 
-    public InputStream connect(String url_string,String method,String params)  {
+    public URLConnection connect(String url_string, String method)  throws SocketTimeoutException {
 
 
 
@@ -45,29 +48,21 @@ public class Connection {
                     urlConnection.setDoInput(true);
                     urlConnection.setDoOutput(true);
 
-                    OutputStream os = urlConnection.getOutputStream();
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                    return urlConnection;
 
-                    writer.write(params);
 
-                    writer.flush();
-                    writer.close();
-                    os.close();
 
-                    int responseCode = urlConnection.getResponseCode();
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                }
 
-                        return urlConnection.getInputStream();
+                catch (Exception e){
 
-                    }
-                } catch (Exception e) {
-                    Log.d("error",e.getMessage());
                 }
 
 
 
 
+            return null;
 
-        return null;
+
     }
 }

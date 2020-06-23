@@ -54,9 +54,11 @@ public class Register extends AppCompatActivity {
             boolean registered=false;
             //register
             try {
+
                 URL url = new URL("http://10.0.2.2:5000/api/register");
                 Connection connection=new Connection();
-                InputStream registerstream=connection.connect("http://10.0.2.2:5000/api/register","POST","");
+                InputStream registerstream=null;
+                        //connection.connect("http://10.0.2.2:5000/api/register","POST","");
 
                 if (registerstream!=null) {
 
@@ -76,8 +78,8 @@ public class Register extends AppCompatActivity {
             if(registered) {
                 try {
                     Connection connection=new Connection();
-                    InputStream loginstream= connection.connect("http://10.0.2.2:5000/api/login","POST",
-                            "name="+username+"&password="+password);
+                    InputStream loginstream =null;
+                    //= connection.connect("http://10.0.2.2:5000/api/login","POST","name="+username+"&password="+password);
 
 
 

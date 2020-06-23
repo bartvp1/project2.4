@@ -17,10 +17,19 @@ import org.json.JSONObject;
 import org.json.JSONStringer;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 
 
 public class Login extends AppCompatActivity {
@@ -45,13 +54,27 @@ public class Login extends AppCompatActivity {
 
             try {
                 Connection connection=new Connection();
-              InputStream inputstream= connection.connect("http://10.0.2.2:5000/login","POST",
-                        "{\"username\":\""+username.getText().toString().trim()+"\",\"password\":\""+password.getText().toString().trim()+"\"}");
+                HttpURLConnection urlConnection=null;
+
+                urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/login","POST");
 
 
-                if (inputstream!=null) {
 
-                    BufferedReader in = new BufferedReader(new InputStreamReader(inputstream));
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+
+                writer.write("{\"username\":\""+username.getText().toString().trim()+"\",\"password\":\""+password.getText().toString().trim()+"\"}");
+
+                writer.flush();
+                writer.close();
+                os.close();
+                int responseCode = urlConnection.getResponseCode();
+
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     JsonReader jsonReader=new JsonReader(in);
                     String token=null;
                     int expiresIn=0;
@@ -72,6 +95,7 @@ public class Login extends AppCompatActivity {
 
 
                     in.close();
+
                     SharedPreferences.Editor editor=prefsManager.getEditor();
                     //set token and expiration
                     editor.putString("token",token);
@@ -89,13 +113,31 @@ public class Login extends AppCompatActivity {
 
 
                 } else {
-                    //set error message
-                    setError("Wrong credentials.");
-                }
+                    BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getErrorStream()));
+                    JsonReader jsonReader=new JsonReader(in);
+                    jsonReader.beginObject();
+                    while (jsonReader.hasNext()){
+                        String name = jsonReader.nextName();
+                        if(name.equals("message")){
+                            setError(jsonReader.nextString());
+                        }
+                        else {
+                            jsonReader.skipValue();
+                        }
+                    }
 
-            } catch (Exception e) {
-                Log.d("error",e.getMessage());
+
+
+                    jsonReader.endObject();
+
+                }
+                urlConnection.disconnect();
+            } catch (SocketTimeoutException s){
                 setError("No connection");
+            }
+            catch (Exception e) {
+                Log.d("error",e.getMessage());
+
             }
         };
         new Thread(post).start();
