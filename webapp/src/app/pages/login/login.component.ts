@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../services/api.service";
 import {FormBuilder} from '@angular/forms';
 import {Router} from "@angular/router";
@@ -8,9 +8,8 @@ import {Router} from "@angular/router";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm;
-  request;
 
   constructor(public loginservice: ApiService, private formBuilder: FormBuilder, private router: Router) {
 
@@ -29,12 +28,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginservice.error = undefined;
   }
 
-  ngOnDestroy() {
-    if(this.request !== undefined) this.request.unsubscribe()
-  }
-
   onSubmit(formdata: Object) {
-    this.request = this.loginservice.login(formdata["username"].trim(), formdata["password"].trim())
+    this.loginservice.login(formdata["username"].trim(), formdata["password"].trim())
   }
 
 }

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../services/api.service";
 import { FormBuilder} from '@angular/forms';
 import {Router} from "@angular/router";
@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit, OnDestroy{
+export class RegisterComponent implements OnInit{
   registerForm;
   request;
 
@@ -44,10 +44,6 @@ export class RegisterComponent implements OnInit, OnDestroy{
       this.router.navigate(["/profile"]);
     }
     this.loginservice.error = undefined;
-  }
-
-  ngOnDestroy() {
-    if(this.request !== undefined) this.request.unsubscribe()
   }
 
 }

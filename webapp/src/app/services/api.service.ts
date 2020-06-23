@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import * as jwt_decode from 'jwt-decode';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 
 const API_URL = 'http://127.0.0.1:5000/';
 const API_URL_LOGIN = API_URL + 'login';
@@ -18,18 +18,14 @@ const API_URL_MYHOBBIES = API_URL + 'hobbies/myhobbies';
 export class ApiService {
   public error: string;
 
-  headers: HttpHeaders = new HttpHeaders();
+  static default_headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.headers = this.headers.set('Content-Type', 'application/json');
-    this.get_matches()
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
-
-  public login(username: string, password: string) {
+  public login(username: string, password: string): void {
     let cred: UserLogin = {username, password}
 
-    return this.http.post(API_URL_LOGIN, cred, {headers: this.headers})
+    this.http.post(API_URL_LOGIN, cred, {headers: ApiService.default_headers})
       .subscribe(
         (res: Response) => {
           console.log("login ok");
@@ -42,10 +38,10 @@ export class ApiService {
       )
   }
 
-  public register(username: string, password: string, firstname: string, lastname: string, phone: string, country: string, city) {
+  public register(username: string, password: string, firstname: string, lastname: string, phone: string, country: string, city): void {
     let new_user: UserSignUp = {username, password, firstname, lastname, phone, country, city}
 
-    return this.http.post(API_URL_SIGNUP, new_user, {headers: this.headers})
+    this.http.post(API_URL_SIGNUP, new_user, {headers: ApiService.default_headers})
       .subscribe(
         (res: Response) => {
           console.log("registration ok")
@@ -58,7 +54,50 @@ export class ApiService {
       )
   }
 
-  private handleError(error: HttpError) {
+  public logout(): void {
+    this.http.get(API_URL_LOGOUT, {headers: ApiService.authorization_headers()})
+      .subscribe(
+        () => {
+          console.log("logout ok")
+          localStorage.removeItem('token');
+          localStorage.removeItem("username");
+        },
+        () => {
+          console.error("logout error");
+        },
+        () => {
+          localStorage.removeItem('token');
+          localStorage.removeItem("username");
+        }
+      )
+  }
+
+  public get_matches(): void {
+    this.http.get(API_URL_MATCHES, {headers: ApiService.authorization_headers()})
+      .subscribe(
+        (e: Match[]) => {
+          // TODO process data
+        },
+        (e: HttpError) => {
+          console.error("failed fetching matches");
+        },
+      );
+  }
+
+  public get_myhobbies(): void {
+    this.http.get(API_URL_MYHOBBIES, {headers: ApiService.authorization_headers()})
+      .subscribe(
+        (e: Hobby[]) => {
+          // TODO process data
+        },
+        (e: HttpError) => {
+          console.error("failed fetching hobbies");
+        },
+      );
+  }
+
+
+  private handleError(error: HttpError): void {
     console.log("handleError: " + error.error.message)
     console.log(error)
     this.error = "";
@@ -72,7 +111,7 @@ export class ApiService {
     //console.log(error.error.message.split(",").)
   }
 
-  private setSession(response: Response) {
+  private setSession(response: Response): void {
     console.log("auth OK")
     this.error = undefined;
     let token = response.token;
@@ -83,15 +122,15 @@ export class ApiService {
     this.router.navigate(["/profile"]);
   }
 
-  public getUsername() {
+  public getUsername(): string {
     return localStorage.getItem("username");
   }
 
-  public getJwtExpiration() {
+  public getJwtExpiration(): number {
     return jwt_decode(localStorage.getItem("token")).exp;
   }
 
-  private static authorization_header(): HttpHeaders {
+  private static authorization_headers(): HttpHeaders {
     let authorized_header: HttpHeaders = new HttpHeaders();
     let token = localStorage.getItem("token");
     if (token) {
@@ -103,37 +142,8 @@ export class ApiService {
     return authorized_header;
   }
 
-  public logout() {
-    return this.http.get(API_URL_LOGOUT, {headers: ApiService.authorization_header()})
-      .subscribe(
-        () => {
-          console.log("logout ok")
-          localStorage.removeItem('token');
-          localStorage.removeItem("username");
-        },
-        () => {
-          console.log("logout error");
-        },
-        () => {
-          localStorage.removeItem('token');
-          localStorage.removeItem("username");
-        }
-      )
-  }
 
-  public get_matches() {
-    return this.http.get(API_URL_MATCHES, {headers: ApiService.authorization_header()})
-      .subscribe(
-        (e: Match[]) => {
-          console.log("matches: " + e)
-        },
-        (e: HttpError) => {
-          console.log("failed fetching matches");
-        },
-      )
-  }
-
-  public isLoggedIn() {
+  public isLoggedIn(): boolean {
     if (localStorage.getItem("token")) { // token in localStorage
       if (moment().unix() ! < this.getJwtExpiration()) { // token not yet expired
         return true;
@@ -185,4 +195,9 @@ interface Match {
   phone: string,
   city: string,
   country: string
+}
+
+interface Hobby {
+  id: number,
+  naam: string
 }
