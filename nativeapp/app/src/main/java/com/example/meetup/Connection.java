@@ -34,6 +34,7 @@ public class Connection {
 
                     URL url = new URL(url_string);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestProperty("Content-Type","application/json");
                     String token=prefsManager.getToken();
                     if(token!=null) {
                         urlConnection.setRequestProperty("Authorization", prefsManager.getToken());

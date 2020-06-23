@@ -1,9 +1,8 @@
 package com.example.meetup;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
@@ -11,11 +10,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONObject;
+import org.json.JSONStringer;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 
 public class Login extends AppCompatActivity {
@@ -31,6 +36,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void login(View view) {
         Runnable post = () ->{
             EditText username = (EditText) findViewById(R.id.username);
@@ -39,8 +45,8 @@ public class Login extends AppCompatActivity {
 
             try {
                 Connection connection=new Connection();
-              InputStream inputstream= connection.connect("http://10.0.2.2:5000/api/login","POST",
-                        "name="+username.getText().toString().trim()+"&password="+password.getText().toString().trim());
+              InputStream inputstream= connection.connect("http://10.0.2.2:5000/login","POST",
+                        "{\"username\":\""+username.getText().toString().trim()+"\",\"password\":\""+password.getText().toString().trim()+"\"}");
 
 
                 if (inputstream!=null) {
@@ -54,8 +60,6 @@ public class Login extends AppCompatActivity {
                         String name = jsonReader.nextName();
                         if(name.equals("token")){
                             token=jsonReader.nextString();
-                        }else if(name.equals("expiresIn")){
-                            expiresIn=jsonReader.nextInt();
                         }
                         else {
                             jsonReader.skipValue();
@@ -71,6 +75,12 @@ public class Login extends AppCompatActivity {
                     SharedPreferences.Editor editor=prefsManager.getEditor();
                     //set token and expiration
                     editor.putString("token",token);
+                    String[] split_string = token.split("\\.");
+                    byte[] base64EncodedBody = split_string[1].getBytes();
+                    byte[] decodedbody=Base64.getDecoder().decode(base64EncodedBody);
+                    String bodystring=new String(decodedbody, StandardCharsets.UTF_8);
+                    JSONObject jsonobject=new JSONObject(bodystring);
+                    expiresIn=(int)jsonobject.get("exp");
                     editor.putInt("expiration",expiresIn);
                     editor.commit();
 
