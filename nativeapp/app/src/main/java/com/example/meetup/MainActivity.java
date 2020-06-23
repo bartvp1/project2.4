@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -17,10 +20,14 @@ import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 import static com.example.meetup.Login.prefsManager;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    ArrayList hobbies = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView nav = findViewById(R.id.navigation_view);
         nav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        
+
+        hobbies.add("Tennis");
+        hobbies.add("PingPong");
+        hobbies.add("Horse Riding");
+        hobbies.add("Squash");
+        hobbies.add("Swimming");
+
     }
 
     @Override
@@ -103,5 +116,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    public void searchHobby(View view){
+        ArrayAdapter adapter = new ArrayAdapter<String>(this.getApplicationContext(), android.R.layout.simple_list_item_1, hobbies);
+        ListView hobbylistview = (ListView)findViewById(R.id.hobbylistview);
+        hobbylistview.setAdapter(adapter);
+    }
 
+    public void hobbySelected(View view){
+        view.
+    }
 }
