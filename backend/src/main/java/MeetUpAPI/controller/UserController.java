@@ -59,16 +59,15 @@ public class UserController {
                 }, HttpStatus.OK);
     }
 
-    @PostMapping("/me/hobbies")
-    public ResponseEntity<String> addHobby(@RequestBody int hobbyId, HttpServletRequest req) {
-        //System.out.println("Getting hobbyset for: "+jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
-        dbService.addHobby(hobbyId,req);
+    @PostMapping("/me/hobbies/{id}")
+    public ResponseEntity<String> addHobby(@PathVariable String id, HttpServletRequest req) {
+        dbService.addHobby(Integer.parseInt(id),req);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/me/hobby/{id}")
-    public ResponseEntity<String> removeHobby(@PathVariable int id, HttpServletRequest req) {
-        //System.out.println("Getting hobbyset for: "+jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
+    @DeleteMapping("/me/hobbies/{id}")
+    public ResponseEntity<String> removeHobby(@PathVariable String id, HttpServletRequest req) {
+        dbService.removeHobby(Integer.parseInt(id), req);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
