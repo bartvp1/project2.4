@@ -64,8 +64,14 @@ public class RootController {
     }
 
     @GetMapping("/hobbies")
-    public ResponseEntity<List<Hobby>> getHobbies(){
+    public ResponseEntity<List<Hobby>> getGlobalHobbies(){
         return new ResponseEntity<>(dbService.getAllHobbies(), HttpStatus.OK);
+    }
+
+    @PostMapping("/hobbies")
+    public ResponseEntity<String> addGlobalHobby(@RequestBody String name){
+        dbService.addtoAllHobbies(name);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
