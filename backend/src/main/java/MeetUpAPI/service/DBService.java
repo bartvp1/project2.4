@@ -15,6 +15,7 @@ import MeetUpAPI.dbModels.User;
 import MeetUpAPI.dbModels.UserRepository;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Set;
 
 @Service
@@ -79,6 +80,17 @@ public class DBService {
     public void addHobby(int hobbyId, HttpServletRequest req) {
         User user = search(jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
         user.getHobbySet().add(modelMapper.map(new HobbyDTO(hobbyId),Hobby.class));
+        userRepository.save(user);
+    }
+
+    public void removeHobby(int hobbyId, HttpServletRequest req) {
+        User user = search(jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
+        for (Hobby elem : user.getHobbySet()) {
+            if (elem.getId() == hobbyId) {
+                user.getHobbySet().remove(elem);
+                break;
+            }
+        }
         userRepository.save(user);
     }
 
