@@ -1,4 +1,4 @@
-<span id="hobbylist" style="width: 30vw">
+<span id="hobbylistR" style="width: 30vw">
 
   <h1>Add Hobbies</h1>
   <form class="form-inline md-form mr-auto mb-4">
@@ -28,11 +28,22 @@
 </div>
 
   <div *ngIf="selectedHobby && !searchedHobbies.length == 0">
-    <h2> Confirm hobby "{{selectedHobby.name }}"</h2>
+    <h2> Confirm "{{selectedHobby.name }}"</h2>
     <div>
       <button class="btn" name="confirm" (click)="onClickHobbyConfirm()">Confirm</button>
       <p>{{hobbyConfirmMessage}}</p>
     </div>
   </div>
 </span>
+
+<!--<span id="hobbylistL">-->
+<!--  <h1>My Hobbies</h1>-->
+<!--  <div>-->
+<!--  <ul class="hobbies">-->
+<!--    <li *ngFor="let hobby of matches">-->
+<!--      <span class="badge"> {{ hobby.name }}</span>-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--</div>-->
+<!--</span>-->
 

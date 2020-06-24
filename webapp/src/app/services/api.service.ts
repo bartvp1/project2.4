@@ -3,6 +3,8 @@ import * as moment from 'moment';
 import * as jwt_decode from 'jwt-decode';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {BehaviorSubject, Observable, Subject, Subscription} from "rxjs";
+
 
 const API_URL = 'http://127.0.0.1:5000/';
 const API_URL_LOGIN = API_URL + 'login';
@@ -18,8 +20,9 @@ const API_URL_HOBBIES = API_URL + 'user/me/hobbies/';
 export class ApiService {
   public error: string;
 
-  static default_headers = new HttpHeaders().set('Content-Type', 'application/json');
+  public subject: Subject<any[]> = new Subject<any[]>()
 
+  static default_headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient, private router: Router) {}
 
   public login(username: string, password: string): void {
@@ -77,6 +80,7 @@ export class ApiService {
       .subscribe(
         (e: Match[]) => {
           // TODO process data
+          this.subject.next(e)
         },
         (e: HttpError) => {
           console.error("failed fetching matches");
@@ -213,14 +217,14 @@ interface HttpError {
   url: string
 }
 
-interface Match {
+export interface Match {
   naam: string,
   phone: string,
   city: string,
   country: string
 }
 
-interface Hobby {
+export interface Hobby {
   id: number,
   naam: string
 }

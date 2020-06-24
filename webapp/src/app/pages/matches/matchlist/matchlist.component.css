@@ -1,10 +1,40 @@
-li {
+
+h1{
+  padding-left: 2vmin;
+  font-size: calc(4.5vmin + 10px);
+}
+
+li{
   list-style: none;
   margin-bottom: 10px;
   list-style-position:inside;
-  border: 1px solid #00bbff;
-  padding: 4vh;
+  font-size: calc(1vmin + 10px);
 }
 ul{
   padding: 0;
+}
+
+.row {
+  display: flex; /* equal height of the children */
+}
+
+.col {
+  flex: 1; /* additionally, equal width */
+  border: 1px solid  #00bbff;
+  display: flex;
+  margin: 2vmin;
+  min-height: 40vh;
+}
+.col:hover{
+  border: 1px solid  white;
+}
+.col1 {
+  display: inline-block;
+  flex: 1; /* additionally, equal width */
+  padding: 1em;
+  padding-right: 5em;
+}
+
+p{
+  font-size: calc(1vmin + 20px);
 }

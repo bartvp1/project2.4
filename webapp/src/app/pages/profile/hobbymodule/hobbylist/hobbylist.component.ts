@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HOBBIES } from '../../../../mock-hobbies';
 import {Hobby} from '../../../../hobby';
+import {ApiService} from "../../../../services/api.service";
 
 
 @Component({
@@ -19,28 +20,33 @@ export class HobbylistComponent implements OnInit {
   addNewHobbyClicked: boolean = false;
   confirmHobbyToProfile: boolean = false;
   newHobbyName: string;
+  USERHOBBIES: Hobby[];
 
   hobbyConfirmMessage = '';
-  newHobbyConfirmMessage = '';
-  constructor() {
+  constructor(private service: ApiService) {
     this.onClickSearch('');
 
+
+    service.get_matches()
+    this.service.subject.subscribe((matches) => {console.log(matches)})
   }
 
   ngOnInit(): void {
   }
 
-
   onSelect(hobby: Hobby): void {
     this.selectedHobby = hobby;
+    this.hobbyConfirmMessage = "";
   }
 
   onClickHobbyConfirm(): void {
     this.hobbyConfirmMessage = 'Hobby added to your profile!';
     this.confirmHobbyToProfile = true;
+    this.USERHOBBIES.push(this.selectedHobby);
   }
 
   onClickSearch(searchText: string) {
+    this.hobbyConfirmMessage = "";
     this.searchedHobbies = [];
     this.addNewHobbyClicked = false;
     this.selectedHobby = null;
