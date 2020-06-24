@@ -1,9 +1,3 @@
-
-h1{
-  padding-left: 2vmin;
-  font-size: calc(4.5vmin + 10px);
-}
-
 li{
   list-style: none;
   margin-bottom: 10px;
@@ -16,6 +10,8 @@ ul{
 
 .row {
   display: flex; /* equal height of the children */
+  margin-left: 10vmin;
+  margin-right: 10vmin;
 }
 
 .col {
@@ -23,18 +19,18 @@ ul{
   border: 1px solid  #00bbff;
   display: flex;
   margin: 2vmin;
-  min-height: 40vh;
+  min-height: 35vh;
 }
 .col:hover{
   border: 1px solid  white;
 }
 .col1 {
-  display: inline-block;
+  display: flex;
   flex: 1; /* additionally, equal width */
   padding: 1em;
-  padding-right: 5em;
+  padding-right: 5vmin;
 }
 
 p{
-  font-size: calc(1vmin + 20px);
+  font-size: calc(1.5vmin + 10px);
 }

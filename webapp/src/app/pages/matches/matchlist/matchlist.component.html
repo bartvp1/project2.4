@@ -1,4 +1,6 @@
-<h1>My Matches</h1><br><br>
+
+<h1 style="text-align: center">My Matches</h1><br><br>
+<p *ngIf="!matches" style="font-size: 2vmin; padding-left: 7vmin">No matches, yet.</p>
 
 <div class="row">
   <div *ngFor="let match of matches" class="col">

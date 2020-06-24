@@ -1,21 +1,16 @@
-<div class=" content">
+<div style="text-align: center">
+<div class="cont">
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
     <div>
-      <label for="username">
-        Username
-      </label>
-      <input id="username" type="text" formControlName="username">
+      <input id="username" type="text" formControlName="username" placeholder="Username" >
     </div>
-
     <div>
-      <label for="password">
-        Password
-      </label>
-      <input id="password" type="password" formControlName="password">
+      <input id="password" type="password" formControlName="password" placeholder="Password">
     </div>
     <p *ngIf="loginservice.error != undefined" style="white-space:normal;" [innerHTML]="loginservice.error"></p>
-    <button class="button" type="submit">Login</button>
-    <button type="button" routerLink="/register">Register</button>
+    <button class="btn" type="submit">Login</button>
+    <button type="button" class="btn" routerLink="/register">Register</button>
 
   </form>
+</div>
 </div>

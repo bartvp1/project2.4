@@ -1,51 +1,32 @@
-<div class=" content">
+<div style="text-align: center">
+<div class=" cont">
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)">
     <div>
-      <label for="username">
-        Username
-      </label>
-      <input id="username" type="text" formControlName="username">
+      <input id="username" type="text" formControlName="username" placeholder="Username">
     </div>
     <div>
-      <label for="password">
-        Password
-      </label>
-      <input id="password" type="password" formControlName="password">
+      <input id="password" type="password" formControlName="password" placeholder="Password">
     </div>
     <div>
-      <label for="firstname">
-        First name
-      </label>
-      <input id="firstname" type="text" formControlName="firstname">
+      <input id="firstname" type="text" formControlName="firstname" placeholder="First Name">
     </div>
     <div>
-      <label for="lastname">
-        Last name
-      </label>
-      <input id="lastname" type="text" formControlName="lastname">
+      <input id="lastname" type="text" formControlName="lastname" placeholder="Last Name">
     </div>
     <div>
-      <label for="phonenumber">
-        Phone number
-      </label>
-      <input id="phonenumber" type="number" formControlName="phonenumber">
+      <input id="phonenumber" type="number" formControlName="phonenumber" placeholder="Phone Number">
     </div>
     <div>
-      <label for="country">
-        Country
-      </label>
-      <input id="country" type="text" formControlName="country">
+      <input id="country" type="text" formControlName="country" placeholder="Country">
     </div>
     <div>
-      <label for="city">
-        City
-      </label>
-      <input id="city" type="text" formControlName="city">
+      <input id="city" type="text" formControlName="city" placeholder="City">
     </div>
 
     <p *ngIf="loginservice.error != undefined" style="white-space:normal;" [innerHTML]="loginservice.error"></p>
-    <button style="margin-right: 20px;" class="button" type="submit">Submit</button>
-    <button type="button" routerLink="/login">To login</button>
+    <button style="margin-right: 20px;" class="btn" type="submit">Submit</button>
+    <button class="btn" type="button" routerLink="/login">To login</button>
 
   </form>
+</div>
 </div>
