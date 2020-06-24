@@ -46,7 +46,7 @@ public class SessionController {
     }
 
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest req) {
         userService.logout(req);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

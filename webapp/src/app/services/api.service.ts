@@ -55,7 +55,7 @@ export class ApiService {
   }
 
   public logout(): void {
-    this.http.get(API_URL_LOGOUT, {headers: ApiService.authorization_headers()})
+    this.http.post(API_URL_LOGOUT, {headers: ApiService.authorization_headers()})
       .subscribe(
         () => {
           console.log("logout ok")
