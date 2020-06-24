@@ -48,6 +48,7 @@ public class SessionController {
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest req) {
+        System.out.println("Logout");
         userService.logout(req);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

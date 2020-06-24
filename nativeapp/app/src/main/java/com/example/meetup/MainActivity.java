@@ -3,6 +3,7 @@ package com.example.meetup;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +21,11 @@ import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.BufferedWriter;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 import static com.example.meetup.Login.prefsManager;
@@ -79,16 +85,60 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logOut() {
-        this.runOnUiThread(() -> {
-            SharedPreferences.Editor editor = prefsManager.getEditor();
-            //set token and expiration
-            editor.putString("token", null);
-            editor.putInt("expiration", 0);
-            editor.commit();
-            Intent intent = new Intent(this, Login.class);
-            startActivity(intent);
-            finish();
-        });
+
+            Runnable logoutrunable=()-> {
+                //blacklist on server
+                Connection connection = new Connection();
+                try {
+
+
+                    HttpURLConnection urlConnection = (HttpURLConnection) connection.connect("http://10.0.2.2:5000/logout", "POST");
+
+
+                    OutputStream os = urlConnection.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+
+                    writer.write("{}");
+
+                    writer.flush();
+                    writer.close();
+                    os.close();
+
+
+                    urlConnection.disconnect();
+
+                    SharedPreferences.Editor editor = prefsManager.getEditor();
+                    //set token and expiration
+                    editor.putString("token", null);
+                    editor.putInt("expiration", 0);
+                    editor.commit();
+                    this.runOnUiThread(()-> {
+                        Intent intent = new Intent(this, Login.class);
+                        startActivity(intent);
+                        finish();
+                    });
+                }
+                //logout with no connection, no  blacklist
+                catch (SocketTimeoutException s) {
+                    SharedPreferences.Editor editor = prefsManager.getEditor();
+                    //set token and expiration
+                    editor.putString("token", null);
+                    editor.putInt("expiration", 0);
+                    editor.commit();
+                    this.runOnUiThread(()-> {
+                        Intent intent = new Intent(this, Login.class);
+                        startActivity(intent);
+                        finish();
+                    });
+                }
+                catch (Exception e){
+
+                }
+            };
+            Thread logouthread=new Thread(logoutrunable);
+            logouthread.start();
+
+
     }
 
 
