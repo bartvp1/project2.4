@@ -34,13 +34,12 @@ public class JwtTokenService {
     Claims claims = Jwts.claims().setSubject(username);
     Date now = new Date();
     Date validity = new Date(now.getTime() + validityInMilliseconds);
-    String token = Jwts.builder()
+    return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
             .setExpiration(validity)
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact();
-    return token;
   }
 
   public String getUsername(String token) {

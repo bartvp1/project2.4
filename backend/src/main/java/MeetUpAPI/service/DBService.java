@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import MeetUpAPI.dbModels.Hobby;
 import MeetUpAPI.dto.HobbyDTO;
+import MeetUpAPI.dto.UserRegistrationDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,6 @@ import MeetUpAPI.errorHandling.CustomException;
 import MeetUpAPI.dbModels.User;
 import MeetUpAPI.dbModels.UserRepository;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Set;
 
 @Service
 public class DBService {
@@ -77,14 +75,29 @@ public class DBService {
         return user;
     }
 
+    public String updateUser(UserRegistrationDTO newDetails, HttpServletRequest req){
+        User user = resolveUser(req);
+        user.setUsername(newDetails.getUsername());
+        user.setPassword(passwordEncoder.encode(newDetails.getPassword()));
+        user.setPhone(newDetails.getPhone());
+        user.setFirstname(newDetails.getFirstname());
+        user.setLastname(newDetails.getLastname());
+        user.setCity(newDetails.getCity());
+        user.setCountry(newDetails.getCountry());
+        userRepository.save(user);
+
+        return tokenToJson(jwtTokenService.createToken(newDetails.getUsername()));
+
+    }
+
     public void addHobby(int hobbyId, HttpServletRequest req) {
-        User user = search(jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
+        User user = resolveUser(req);
         user.getHobbySet().add(modelMapper.map(new HobbyDTO(hobbyId),Hobby.class));
         userRepository.save(user);
     }
 
     public void removeHobby(int hobbyId, HttpServletRequest req) {
-        User user = search(jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
+        User user = resolveUser(req);
         for (Hobby elem : user.getHobbySet()) {
             if (elem.getId() == hobbyId) {
                 user.getHobbySet().remove(elem);
@@ -101,6 +114,10 @@ public class DBService {
     public String refreshToken(HttpServletRequest req) {
         String username = jwtTokenService.getUsername(jwtTokenService.resolveToken(req));
         return tokenToJson(jwtTokenService.createToken(username));
+    }
+
+    public User resolveUser(HttpServletRequest req){
+        return search(jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
     }
 
     private String tokenToJson(String token) {

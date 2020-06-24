@@ -1,6 +1,7 @@
 package MeetUpAPI.controller;
 
 import MeetUpAPI.dto.MatchDTO;
+import MeetUpAPI.dto.UserRegistrationDTO;
 import MeetUpAPI.dto.UserResponseDTO;
 import MeetUpAPI.errorHandling.CustomException;
 import MeetUpAPI.service.JwtTokenService;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 
 @RestController
@@ -46,6 +48,11 @@ public class UserController {
     @GetMapping("/me")
     public UserResponseDTO whoami(HttpServletRequest req) {
         return modelMapper.map(dbService.whoami(req), UserResponseDTO.class);
+    }
+
+    @PostMapping("/me")
+    public ResponseEntity<String> updateAccountDetails(@Valid @RequestBody UserRegistrationDTO newDetails, HttpServletRequest req) {
+        return new ResponseEntity<>(dbService.updateUser(newDetails, req),HttpStatus.OK);
     }
 
 
