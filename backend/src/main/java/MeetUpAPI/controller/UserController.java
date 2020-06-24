@@ -55,6 +55,11 @@ public class UserController {
         return new ResponseEntity<>(
                 new MatchDTO[]{
                         new MatchDTO("Martien Meiland","31612345678","Groningen","Nederland"),
+                        new MatchDTO("Bart Meiland","31612345678","Groningen","Nederland"),
+                        new MatchDTO("Hayo Meiland","31612345678","Groningen","Nederland"),
+                        new MatchDTO("Maurice Meiland","31612345678","Groningen","Nederland"),
+                        new MatchDTO("Singh Meiland","31612345678","Groningen","Nederland"),
+                        new MatchDTO("Je moeders Meiland","31612345678","Groningen","Nederland"),
                         new MatchDTO("Hayo de Hond","31612345679","Groningen","Nederland")
                 }, HttpStatus.OK);
     }

@@ -1,6 +1,11 @@
-#hobbylist  {
+#hobbylistR  {
   float: right;
   margin-right: 5%;
+  box-sizing: border-box;
+}
+#hobbylistL  {
+  float: left;
+  margin-left: 5%;
   box-sizing: border-box;
 }
 #searchBox {
