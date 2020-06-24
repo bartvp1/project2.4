@@ -1,7 +1,6 @@
 package MeetUpAPI.dbModels;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "hobby", schema = "project24")
@@ -15,8 +14,6 @@ public class Hobby {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    //@ManyToMany
-    //Set<User> userSet;
 
     public int getId() {
         return id;

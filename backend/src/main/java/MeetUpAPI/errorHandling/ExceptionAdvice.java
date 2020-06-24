@@ -43,6 +43,11 @@ public class ExceptionAdvice {
             return new ResponseEntity<>(new CustomException(ex.getMessage(), httpStatus).toString(), headers, httpStatus);
         }
 
+        if(ex instanceof HttpRequestMethodNotSupportedException) {
+            httpStatus = HttpStatus.METHOD_NOT_ALLOWED;
+            return new ResponseEntity<>(new CustomException(ex.getMessage(), httpStatus).toString(), headers, httpStatus);
+        }
+
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         ex.printStackTrace();
         return new ResponseEntity<>(new CustomException(ex.getMessage(), httpStatus).toString(), headers, httpStatus);

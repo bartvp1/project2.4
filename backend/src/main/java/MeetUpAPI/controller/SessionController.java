@@ -4,17 +4,15 @@ import MeetUpAPI.dto.UserLoginDTO;
 import MeetUpAPI.dto.UserRegistrationDTO;
 import MeetUpAPI.dbModels.User;
 import MeetUpAPI.errorHandling.CustomException;
-import MeetUpAPI.service.UserService;
+import MeetUpAPI.service.DBService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -22,7 +20,7 @@ import javax.validation.Valid;
 public class SessionController {
 
     @Autowired
-    private UserService userService;
+    private DBService dbService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -34,7 +32,7 @@ public class SessionController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginDTO credentials) {
         System.out.println("Login attempt: "+credentials);
-        return new ResponseEntity<>(userService.signin(credentials.getUsername(), credentials.getPassword()), headers, HttpStatus.OK);
+        return new ResponseEntity<>(dbService.signin(credentials.getUsername(), credentials.getPassword()), headers, HttpStatus.OK);
     }
 
 
@@ -42,14 +40,19 @@ public class SessionController {
     public ResponseEntity<String> signup(@Valid @RequestBody UserRegistrationDTO userDTO) {
         User newUser = modelMapper.map(userDTO, User.class);
         System.out.println("Sign up attempt: "+newUser);
-        return new ResponseEntity<>(userService.signup(newUser), headers, HttpStatus.OK);
+        return new ResponseEntity<>(dbService.signup(newUser), headers, HttpStatus.OK);
     }
 
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest req) {
-        userService.logout(req);
+        dbService.logout(req);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<String> refreshToken(HttpServletRequest req) {
+        return new ResponseEntity<>(dbService.refreshToken(req), HttpStatus.CREATED);
     }
 
     @GetMapping("/test")

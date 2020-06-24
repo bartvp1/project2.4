@@ -2,6 +2,9 @@ package MeetUpAPI.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import MeetUpAPI.dbModels.Hobby;
+import MeetUpAPI.dto.HobbyDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,8 +14,11 @@ import MeetUpAPI.errorHandling.CustomException;
 import MeetUpAPI.dbModels.User;
 import MeetUpAPI.dbModels.UserRepository;
 
+import java.util.Arrays;
+import java.util.Set;
+
 @Service
-public class UserService {
+public class DBService {
 
     @Autowired
     private UserRepository userRepository;
@@ -22,6 +28,9 @@ public class UserService {
 
     @Autowired
     private JwtTokenService jwtTokenService;
+
+    @Autowired
+    public ModelMapper modelMapper;
 
     public String signin(String username, String password) {
         try {
@@ -67,12 +76,19 @@ public class UserService {
         return user;
     }
 
+    public void addHobby(int hobbyId, HttpServletRequest req) {
+        User user = search(jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
+        user.getHobbySet().add(modelMapper.map(new HobbyDTO(hobbyId),Hobby.class));
+        userRepository.save(user);
+    }
+
     public User whoami(HttpServletRequest req) {
         return userRepository.findByUsername(jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
     }
 
-    public String refresh(String username) {
-        return jwtTokenService.createToken(username);
+    public String refreshToken(HttpServletRequest req) {
+        String username = jwtTokenService.getUsername(jwtTokenService.resolveToken(req));
+        return tokenToJson(jwtTokenService.createToken(username));
     }
 
     private String tokenToJson(String token) {
