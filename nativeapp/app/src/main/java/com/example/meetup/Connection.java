@@ -40,7 +40,7 @@ public class Connection {
                     urlConnection.setRequestProperty("Content-Type","application/json");
                     String token=prefsManager.getToken();
                     if(token!=null) {
-                        urlConnection.setRequestProperty("Authorization", prefsManager.getToken());
+                        urlConnection.setRequestProperty("Authorization", "Bearer "+prefsManager.getToken());
                     }
                     urlConnection.setReadTimeout(20000);
                     urlConnection.setConnectTimeout(2000);
