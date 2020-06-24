@@ -36,14 +36,15 @@
   </div>
 </span>
 
-<!--<span id="hobbylistL">-->
-<!--  <h1>My Hobbies</h1>-->
-<!--  <div>-->
-<!--  <ul class="hobbies">-->
-<!--    <li *ngFor="let hobby of matches">-->
-<!--      <span class="badge"> {{ hobby.name }}</span>-->
-<!--    </li>-->
-<!--  </ul>-->
-<!--</div>-->
-<!--</span>-->
+<span id="hobbylistL">
+  <h1>My Hobbies</h1>
+  <div>
+  <ul class="hobbies">
+    <li *ngFor="let hobby of myhobbies">
+      <span class="badge"> {{ hobby.name }}</span>
+    </li>
+  </ul>
+</div>
+  <p *ngIf="!myhobbies" style="font-size: 2vmin; padding-left: 2vmin">No hobbies, yet.</p>
+</span>
 

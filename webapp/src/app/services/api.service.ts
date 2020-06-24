@@ -10,7 +10,7 @@ const API_URL = 'http://127.0.0.1:5000/';
 const API_URL_LOGIN = API_URL + 'login';
 const API_URL_SIGNUP = API_URL + 'signup';
 const API_URL_LOGOUT = API_URL + 'logout';
-const API_URL_MATCHES = API_URL + 'matches';
+const API_URL_MATCHES = API_URL + 'user/me/matches';
 const API_URL_USERDATA = API_URL + 'user/me/';
 const API_URL_HOBBIES = API_URL + 'user/me/hobbies/';
 
