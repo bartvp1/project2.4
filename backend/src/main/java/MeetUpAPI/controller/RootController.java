@@ -1,5 +1,6 @@
 package MeetUpAPI.controller;
 
+import MeetUpAPI.dbModels.Hobby;
 import MeetUpAPI.dto.UserLoginDTO;
 import MeetUpAPI.dto.UserRegistrationDTO;
 import MeetUpAPI.dbModels.User;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
-public class SessionController {
+public class RootController {
 
     @Autowired
     private DBService dbService;
@@ -59,6 +61,11 @@ public class SessionController {
     @GetMapping("/test")
     public String test() {
         throw new CustomException("Custom error, bad request", HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/hobbies")
+    public ResponseEntity<List<Hobby>> getHobbies(){
+        return new ResponseEntity<>(dbService.getAllHobbies(), HttpStatus.OK);
     }
 
 }

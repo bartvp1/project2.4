@@ -3,6 +3,7 @@ package MeetUpAPI.service;
 import javax.servlet.http.HttpServletRequest;
 
 import MeetUpAPI.dbModels.Hobby;
+import MeetUpAPI.dbModels.HobbyRepository;
 import MeetUpAPI.dto.HobbyDTO;
 import MeetUpAPI.dto.UserRegistrationDTO;
 import org.modelmapper.ModelMapper;
@@ -15,12 +16,17 @@ import MeetUpAPI.errorHandling.CustomException;
 import MeetUpAPI.dbModels.User;
 import MeetUpAPI.dbModels.UserRepository;
 
+import java.util.List;
+
 
 @Service
 public class DBService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private HobbyRepository hobbyRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -124,4 +130,7 @@ public class DBService {
         return "{\"token\":\"" + token + "\"}";
     }
 
+    public List<Hobby> getAllHobbies(){
+        return hobbyRepository.findAll();
+    }
 }

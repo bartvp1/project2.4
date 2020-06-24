@@ -58,7 +58,6 @@ public class UserController {
 
     @GetMapping("/me/matches")
     public ResponseEntity<MatchDTO[]> myMatches(HttpServletRequest req) {
-        //System.out.println("Getting hobbyset for: "+jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
         return new ResponseEntity<>(
                 new MatchDTO[]{
                         new MatchDTO("Martien Meiland","31612345678","Groningen","Nederland"),
