@@ -49,10 +49,14 @@ public class JwtTokenService {
 
   public String resolveToken(HttpServletRequest req) {
     String bearerToken = req.getHeader("Authorization");
-    if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-      return bearerToken.substring(7);
-    } else {
-      throw new CustomException("No Authorization header present",HttpStatus.UNAUTHORIZED);
+    try{
+      if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+        return bearerToken.substring(7);
+      } else {
+        throw new CustomException("No Authorization header present",HttpStatus.UNAUTHORIZED);
+      }
+    } catch (JwtException e){
+      throw new CustomException("Invalid / Expired JWT token",HttpStatus.UNAUTHORIZED);
     }
   }
 
@@ -64,13 +68,12 @@ public class JwtTokenService {
       } else throw new CustomException("Blacklisted JWT token, log back in", HttpStatus.UNAUTHORIZED);
     } catch (JwtException e){
       throw new CustomException("Expired / Invalid JWT token", HttpStatus.UNAUTHORIZED);
-    } catch (IllegalArgumentException e) {
-      throw new CustomException("Illegal argument", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  public boolean authenticatedRequest(HttpServletRequest httpServletRequest) throws CustomException {
+  public boolean authenticatedRequest(HttpServletRequest httpServletRequest) {
     String token = resolveToken(httpServletRequest);
+
     return (token != null && validateToken(token));
   }
 

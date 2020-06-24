@@ -1,21 +1,33 @@
 package MeetUpAPI.dto;
 
+import MeetUpAPI.dbModels.Hobby;
+import java.util.Set;
+
 public class UserResponseDTO {
-  private int uid;
+  private int id;
   private String username;
   private String firstname;
   private String lastname;
   private String phone;
   private String country;
   private String city;
+  private Set<Hobby> hobbySet;
 
 
-  public int getUid() {
-    return uid;
+  public int getId() {
+    return id;
   }
 
-  public void setUid(int uid) {
-    this.uid = uid;
+  public void setId(int uid) {
+    this.id = uid;
+  }
+
+  public Set<Hobby> getHobbySet() {
+    return hobbySet;
+  }
+
+  public void setHobbySet(Set<Hobby> hobbySet) {
+    this.hobbySet = hobbySet;
   }
 
   public String getUsername() {
@@ -75,6 +87,7 @@ public class UserResponseDTO {
             ", phone:'" + phone + '\'' +
             ", country:'" + country + '\'' +
             ", city:'" + city + '\'' +
+            ", hobbySet:'" + hobbySet + '\'' +
             '}';
   }
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import MeetUpAPI.errorHandling.CustomException;
 import MeetUpAPI.dbModels.User;
-import MeetUpAPI.repository.UserRepository;
+import MeetUpAPI.dbModels.UserRepository;
 
 @Service
 public class UserService {

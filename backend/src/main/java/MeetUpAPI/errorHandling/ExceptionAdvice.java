@@ -28,35 +28,19 @@ public class ExceptionAdvice {
     public ResponseEntity<String> handleException(Exception ex) {
         HttpStatus httpStatus;
 
-
-
-        /*
-        if(ex instanceof CustomException){
-
+        if(ex instanceof CustomException)
             return new ResponseEntity<>(ex.toString(), headers, ((CustomException) ex).getHttpStatus());
+
+        if(ex instanceof MethodArgumentNotValidException) {
+            httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+            List<String> messages = new LinkedList<>();
+            List<FieldError> violations = ((MethodArgumentNotValidException) ex).getBindingResult().getFieldErrors();
+            violations.forEach(fieldError -> messages.add(fieldError.getDefaultMessage()));
+            return new ResponseEntity<>(new CustomException(messages.toString().replace("[", "").replace("]", ""), httpStatus).toString(), headers, httpStatus);
         }
-        if(ex instanceof HttpRequestMethodNotSupportedException){
+        if(ex instanceof HttpRequestMethodNotSupportedException) {
             httpStatus = HttpStatus.METHOD_NOT_ALLOWED;
             return new ResponseEntity<>(new CustomException(ex.getMessage(), httpStatus).toString(), headers, httpStatus);
-        }
-        */
-
-        switch (ex.getClass().getSimpleName()) {
-            case "CustomException":
-                return new ResponseEntity<>(ex.toString(), headers, ((CustomException) ex).getHttpStatus());
-
-                case "MethodArgumentNotValidException":
-                httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
-                List<String> messages = new LinkedList<>();
-                List<FieldError> violations = ((MethodArgumentNotValidException) ex).getBindingResult().getFieldErrors();
-                violations.forEach(fieldError -> messages.add(fieldError.getDefaultMessage()));
-                System.out.println(messages);
-                return new ResponseEntity<>(new CustomException(messages.toString().replace("[", "").replace("]", ""), httpStatus).toString(), headers, httpStatus);
-
-            case "HttpRequestMethodNotSupportedException":
-                httpStatus = HttpStatus.METHOD_NOT_ALLOWED;
-                return new ResponseEntity<>(new CustomException(ex.getMessage(), httpStatus).toString(), headers, httpStatus);
-
         }
 
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;

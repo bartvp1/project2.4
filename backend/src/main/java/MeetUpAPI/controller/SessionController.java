@@ -3,6 +3,7 @@ package MeetUpAPI.controller;
 import MeetUpAPI.dto.UserLoginDTO;
 import MeetUpAPI.dto.UserRegistrationDTO;
 import MeetUpAPI.dbModels.User;
+import MeetUpAPI.errorHandling.CustomException;
 import MeetUpAPI.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,12 @@ public class SessionController {
     @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest req) {
         userService.logout(req);
-        return new ResponseEntity<>("", headers, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        throw new CustomException("Custom error, bad request", HttpStatus.BAD_REQUEST);
     }
 
 }

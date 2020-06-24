@@ -1,10 +1,7 @@
-package MeetUpAPI.repository;
+package MeetUpAPI.dbModels;
 
 import javax.transaction.Transactional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import MeetUpAPI.dbModels.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
