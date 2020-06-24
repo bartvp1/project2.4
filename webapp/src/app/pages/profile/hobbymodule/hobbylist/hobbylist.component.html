@@ -19,32 +19,40 @@
 </div>
 
   <div *ngIf="searchedHobbies.length == 0">
-  <h2>Hobby not found, add it to the list!</h2>
+  <h4>Hobby not found, add it to the list!</h4>
     <div id="newHobbyTextBox">
       <input type="text" name="newHobbyName" [(ngModel)]="newHobbyName">
     </div>
-    <button class="btn" name="add" (click)="onClickAddConfirmHobby(newHobbyName)">Add</button>
+    <button class="btn" name="add" (click)="onClickAddHobby(newHobbyName)">Add</button>
     {{hobbyConfirmMessage}}
 </div>
 
   <div *ngIf="selectedHobby && !searchedHobbies.length == 0">
-    <h2> Confirm "{{selectedHobby.name }}"</h2>
+    <h4> Confirm "{{selectedHobby.name }}"</h4>
     <div>
       <button class="btn" name="confirm" (click)="onClickHobbyConfirm()">Confirm</button>
       <p>{{hobbyConfirmMessage}}</p>
     </div>
   </div>
 </span>
-
-<span id="hobbylistL">
+<!-- ------------------------------------------------------------------------------------------------ -->
+<span id="hobbylistL" style="width: 30vw " >
   <h1>My Hobbies</h1>
-  <div>
-  <ul class="hobbies">
-    <li *ngFor="let hobby of myhobbies">
-      <span class="badge"> {{ hobby.name }}</span>
+  <div class="hobbies">
+  <ul >
+    <li *ngFor="let hobby of myhobbies" [class.selected]="hobby === selectedDeleteHobby"
+        (click)="onSelect2(hobby)">
+      {{ hobby.name }}
     </li>
   </ul>
-</div>
-  <p *ngIf="!myhobbies" style="font-size: 2vmin; padding-left: 2vmin">No hobbies, yet.</p>
+    <div *ngIf="selectedDeleteHobby && ! myhobbies.length == 0">
+      <h4> Confirm Delete "{{selectedDeleteHobby.name }}"</h4>
+        <div>
+          <button class="btn" name="confirm" (click)="onClickHobbyDeleteConfirm()">Confirm</button>
+          <p>{{hobbyConfirmMessage}}</p>
+        </div>
+    </div>
+  </div>
+  <p *ngIf="myhobbies.length == 0" style="font-size: 2vmin; padding-left: 2vmin">No hobbies, yet.</p>
 </span>
 

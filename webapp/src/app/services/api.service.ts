@@ -12,7 +12,8 @@ const API_URL_SIGNUP = API_URL + 'signup';
 const API_URL_LOGOUT = API_URL + 'logout';
 const API_URL_MATCHES = API_URL + 'user/me/matches';
 const API_URL_USERDATA = API_URL + 'user/me/';
-const API_URL_HOBBIES = API_URL + 'user/me/hobbies/';
+const API_URL_USER_HOBBIES = API_URL + 'user/me/hobbies/';
+const API_URL_HOBBIES = API_URL + 'hobbies';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class ApiService {
   public error: string;
 
   public subject: Subject<any[]> = new Subject<any[]>()
-
+  public subject2: Subject<User> = new Subject<User>()
   static default_headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -39,6 +40,19 @@ export class ApiService {
           this.handleError(error);
         }
       )
+  }
+  public addHobby(hobbyName: string): void {
+    let name: string = hobbyName;
+    this.http.post(API_URL_HOBBIES,name,{headers: ApiService.default_headers})
+      .subscribe(
+        // empty response
+        () => {
+          console.log("Adding hobby success")
+        },
+        () => {
+          console.error("failed adding hobby");
+        },
+      );
   }
 
   public register(username: string, password: string, firstname: string, lastname: string, phone: string, country: string, city): void {
@@ -87,13 +101,25 @@ export class ApiService {
         },
       );
   }
+  public get_hobbies(): void {
+    this.http.get(API_URL_HOBBIES)
+      .subscribe(
+        (e: Hobby[]) => {
+          // TODO process data
+          this.subject.next(e)
+        },
+        (e: HttpError) => {
+          console.error("failed fetching hobbies");
+        },
+      );
+  }
 
   public get_myhobbies(): void {
     this.http.get(API_URL_USERDATA, {headers: ApiService.authorization_headers()})
       .subscribe(
         (e: User) => {
           // TODO process data
-          console.log(e.hobbies)
+          this.subject2.next(e);
         },
         (e: HttpError) => {
           console.error("failed fetching hobbies");
@@ -102,7 +128,7 @@ export class ApiService {
   }
 
   public assign_hobby(hobbyId: number): void {
-    this.http.post(API_URL_HOBBIES+hobbyId, "",{headers: ApiService.authorization_headers()})
+    this.http.post(API_URL_USER_HOBBIES+hobbyId, "",{headers: ApiService.authorization_headers()})
       .subscribe(
         // empty response
         () => {
@@ -114,8 +140,10 @@ export class ApiService {
       );
   }
 
+
+
   public unassign_hobby(hobbyId: number): void {
-    this.http.delete(API_URL_HOBBIES+hobbyId, {headers: ApiService.authorization_headers()})
+    this.http.delete(API_URL_USER_HOBBIES+hobbyId, {headers: ApiService.authorization_headers()})
       .subscribe(
         // empty response
         () => {
@@ -187,7 +215,7 @@ export class ApiService {
   }
 }
 
-interface User {
+export interface User {
   id?: number,
   username: string,
   password?: string,
@@ -196,7 +224,7 @@ interface User {
   phone?: string,
   country?: string,
   city?: string,
-  hobbies?: Hobby[]
+  hobbySet?: Hobby[]
 }
 
 interface Response {
@@ -226,5 +254,5 @@ export interface Match {
 
 export interface Hobby {
   id: number,
-  naam: string
+  name: string
 }

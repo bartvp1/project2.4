@@ -37,6 +37,11 @@ public class RootController {
         return new ResponseEntity<>(dbService.signin(credentials.getUsername(), credentials.getPassword()), headers, HttpStatus.OK);
     }
 
+    @PostMapping("/hobbies")
+    public ResponseEntity<String> addGlobalHobby(@RequestBody String name){
+        dbService.addtoAllHobbies(name);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@Valid @RequestBody UserRegistrationDTO userDTO) {
@@ -68,10 +73,6 @@ public class RootController {
         return new ResponseEntity<>(dbService.getAllHobbies(), HttpStatus.OK);
     }
 
-    @PostMapping("/hobbies")
-    public ResponseEntity<String> addGlobalHobby(@RequestBody String name){
-        dbService.addtoAllHobbies(name);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+
 
 }
