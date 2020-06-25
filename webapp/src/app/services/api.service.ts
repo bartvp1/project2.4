@@ -23,7 +23,6 @@ export class ApiService {
   public error: string;
 
   public subject: Subject<any[]> = new Subject<any[]>()
-  public subject2: Subject<User> = new Subject<User>()
   static default_headers = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -42,17 +41,9 @@ export class ApiService {
         }
       )
   }
-  public addHobby(hobbyName: string): void {
-    this.http.post(API_URL_HOBBIES, hobbyName,{headers: ApiService.default_headers})
-      .subscribe(
-        // empty response
-        () => {
-          console.log("Adding hobby success")
-        },
-        () => {
-          console.error("failed adding hobby");
-        },
-      );
+  public addHobby(hobbyName: string): Observable<any> {
+    return this.http.post(API_URL_HOBBIES, hobbyName,{headers: ApiService.default_headers})
+
   }
 
   public register(username: string, password: string, firstname: string, lastname: string, phone: string, country: string, city): void {
@@ -120,58 +111,16 @@ export class ApiService {
         },
       );
   }
-  public get_hobbies(): void {
-    this.http.get(API_URL_HOBBIES)
-      .subscribe(
-        (e: Hobby[]) => {
-          // TODO process data
-          this.subject.next(e)
-        },
-        (e: HttpError) => {
-          console.error("failed fetching hobbies");
-        },
-      );
+  public get_hobbies(): Observable<any> {
+    return this.http.get(API_URL_HOBBIES)
   }
 
-  public get_myhobbies(): void {
-    this.http.get(API_URL_USERDATA, {headers: ApiService.authorization_headers()})
-      .subscribe(
-        (e: User) => {
-          // TODO process data
-          this.subject2.next(e);
-        },
-        (e: HttpError) => {
-          console.error("failed fetching hobbies");
-        },
-      );
+  public assign_hobby(hobbyId: number): Observable<any> {
+    return this.http.post(API_URL_USER_HOBBIES+hobbyId, "",{headers: ApiService.authorization_headers()})
   }
 
-  public assign_hobby(hobbyId: number): void {
-    this.http.post(API_URL_USER_HOBBIES+hobbyId, "",{headers: ApiService.authorization_headers()})
-      .subscribe(
-        // empty response
-        () => {
-          console.log("assigning hobby success")
-        },
-        () => {
-          console.error("failed assigning hobby");
-        },
-      );
-  }
-
-
-
-  public unassign_hobby(hobbyId: number): void {
-    this.http.delete(API_URL_USER_HOBBIES+hobbyId, {headers: ApiService.authorization_headers()})
-      .subscribe(
-        // empty response
-        () => {
-          console.log("unassign hobby success")
-        },
-        () => {
-          console.error("failed unassigning hobby");
-        },
-      );
+  public unassign_hobby(hobbyId: number): Observable<any> {
+    return this.http.delete(API_URL_USER_HOBBIES+hobbyId, {headers: ApiService.authorization_headers()})
   }
 
 

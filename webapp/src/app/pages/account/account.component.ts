@@ -14,7 +14,17 @@ export class AccountComponent implements OnInit {
   accountForm;
   errormessage: string;
 
-  constructor(private apiservice:ApiService, public formBuilder: FormBuilder,private router:Router) {}
+  constructor(private apiservice:ApiService, public formBuilder: FormBuilder,private router:Router) {
+    this.accountForm = this.accountForm = this.formBuilder.group({
+      username: '',
+      password: '',
+      phone: '',
+      firstname: '',
+      lastname: '',
+      city: '',
+      country: ''
+    });
+  }
 
   ngOnInit(): void {
     this.apiservice.get_account_data().subscribe(

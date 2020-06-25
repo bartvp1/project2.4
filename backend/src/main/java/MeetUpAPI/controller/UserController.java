@@ -9,6 +9,7 @@ import MeetUpAPI.service.DBService;
 import io.swagger.annotations.ApiParam;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,9 @@ public class UserController {
 
     @Autowired
     private JwtTokenService jwtTokenService;
+
+    @Autowired
+    private HttpHeaders headers;
 
     @GetMapping("/{username}")
     public UserResponseDTO searchUser(@PathVariable String username) {
@@ -74,12 +78,12 @@ public class UserController {
     @PostMapping("/me/hobbies/{id}")
     public ResponseEntity<String> addHobby(@PathVariable String id, HttpServletRequest req) {
         dbService.addHobby(Integer.parseInt(id),req);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("{\"message\": \"Hobby added\"}", headers,HttpStatus.CREATED);
     }
 
     @DeleteMapping("/me/hobbies/{id}")
     public ResponseEntity<String> removeHobby(@PathVariable String id, HttpServletRequest req) {
         dbService.removeHobby(Integer.parseInt(id), req);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("{\"message\": \"Hobby removed\"}", headers,HttpStatus.OK);
     }
 }

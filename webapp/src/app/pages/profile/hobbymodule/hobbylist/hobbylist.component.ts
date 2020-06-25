@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ApiService} from "../../../../services/api.service";
-import {Hobby} from "../../../../models/interfaces";
+import {Hobby, HttpError, User} from "../../../../models/interfaces";
+import {tap} from "rxjs/operators";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-hobbylist',
@@ -9,36 +11,21 @@ import {Hobby} from "../../../../models/interfaces";
 })
 
 
-export class HobbylistComponent implements OnInit {
-  ngOnInit(): void {
-  }
+export class HobbylistComponent {
 
-  hobbies: Hobby[];
+  hobbylist:Subscription;
+  accountDetails:Subscription;
+  hobbies: Hobby[] = [];
   selectedHobby: Hobby;
   selectedDeleteHobby: Hobby;
   searchedHobbies: Hobby[] = [];
   searchString: string;
   myhobbies: Hobby[] = [];
   newHobbyName: string;
-  searchableHobbies: Hobby[];
-
-  hobbyConfirmMessage = '';
+  hobbyConfirmMessage = undefined;
 
   constructor(private service: ApiService) {
-
-    service.get_hobbies()
-    service.subject.subscribe((allHobbies) => {this.hobbyDataRetrieved(allHobbies)})
-    service.get_myhobbies()
-    service.subject2.subscribe((allMyHobbies) => {this.myHobbyDataRetrieved(allMyHobbies)})
-  }
-
-  hobbyDataRetrieved(allHobbies):void{
-    this.hobbies = allHobbies
-    this.searchableHobbies = allHobbies
-    this.onClickSearch('');
-  }
-  myHobbyDataRetrieved(allMyHobbies):void{
-    this.myhobbies = allMyHobbies.hobbySet;
+    this.update_hobbylists()
   }
 
   onSelect(hobby: Hobby): void {
@@ -54,29 +41,27 @@ export class HobbylistComponent implements OnInit {
   }
 
   onClickHobbyConfirm(): void {
-    this.hobbyConfirmMessage = 'Hobby added to your profile!';
-    this.service.assign_hobby(this.selectedHobby.id)
-    this.service.get_myhobbies()
-    this.service.get_myhobbies()
-    this.service.get_myhobbies()
-
+    this.service.assign_hobby(this.selectedHobby.id).subscribe(
+      () => {},
+      (error:HttpError) => this.hobbyConfirmMessage = error.error.message,
+      () => this.update_hobbylists()
+    );
   }
+
   onClickHobbyDeleteConfirm(): void {
-    this.hobbyConfirmMessage = 'Hobby deleted from your profile!';
-    this.service.unassign_hobby(this.selectedDeleteHobby.id)
-    this.service.get_myhobbies()
-    this.service.get_myhobbies()
-    this.service.get_myhobbies()
-
-
+    this.service.unassign_hobby(this.selectedDeleteHobby.id).subscribe(
+      () => {},
+      (e:HttpError) => this.hobbyConfirmMessage = e.error.message,
+      () => this.update_hobbylists()
+    );
   }
 
   onClickSearch(searchText: string) {
-    this.hobbyConfirmMessage = "";
+    this.hobbyConfirmMessage = undefined;
     this.searchedHobbies = [];
     this.selectedHobby = null;
     searchText = searchText.toLowerCase().trim();
-    for (let hobby of this.searchableHobbies) {
+    for (let hobby of this.hobbies) {
       if (hobby.name.toLowerCase().trim().includes(searchText)) {
         this.searchedHobbies.push(hobby);
       }
@@ -84,14 +69,25 @@ export class HobbylistComponent implements OnInit {
   }
 
   onClickAddHobby(newHobby: string): void {
-    this.service.addHobby(newHobby.trim().toLowerCase().charAt(0).toUpperCase() +
-    newHobby.slice(1))
-    this.hobbyConfirmMessage = 'Hobby added to list!'
-    this.service.get_hobbies()
-    this.service.get_hobbies()
-    this.service.get_hobbies()
+    this.service.addHobby(newHobby.trim().toLowerCase().charAt(0).toUpperCase() + newHobby.slice(1)).subscribe(
+      () => {},
+      () => this.hobbyConfirmMessage = "Not added!",
+      () => this.update_hobbylists()
+    );
+  }
 
-
+  private update_hobbylists(){
+    if(this.hobbylist != undefined) this.hobbylist.unsubscribe()
+    if(this.accountDetails != undefined) this.accountDetails.unsubscribe()
+    this.hobbylist = this.service.get_hobbies().subscribe(
+      (e: Hobby[]) => {
+        this.hobbies = e
+        this.searchedHobbies = this.hobbies
+      }
+    );
+    this.accountDetails = this.service.get_account_data().subscribe(
+      (e: User) => this.myhobbies = e.hobbySet
+    );
   }
 }
 
