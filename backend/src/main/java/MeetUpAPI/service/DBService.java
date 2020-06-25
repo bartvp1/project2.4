@@ -91,9 +91,8 @@ public class DBService {
         user.setCity(newDetails.getCity());
         user.setCountry(newDetails.getCountry());
         userRepository.save(user);
-
+        logout(req);
         return tokenToJson(jwtTokenService.createToken(newDetails.getUsername()));
-
     }
 
     public void addHobby(int hobbyId, HttpServletRequest req) {
