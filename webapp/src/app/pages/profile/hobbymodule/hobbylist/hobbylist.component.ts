@@ -67,12 +67,7 @@ export class HobbylistComponent implements OnInit {
     this.service.get_myhobbies()
     this.service.get_myhobbies()
     this.service.get_myhobbies()
-    this.service.get_myhobbies()
-    this.service.get_myhobbies()
 
-    this.service.get_myhobbies()
-    this.service.get_myhobbies()
-    this.selectedDeleteHobby = null;
 
   }
 
@@ -95,9 +90,8 @@ export class HobbylistComponent implements OnInit {
     this.service.get_hobbies()
     this.service.get_hobbies()
     this.service.get_hobbies()
-    this.service.get_myhobbies()
-    this.service.get_myhobbies()
-    this.service.get_myhobbies()
+
+
   }
 }
 
