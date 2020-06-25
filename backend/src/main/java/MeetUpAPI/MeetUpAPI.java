@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static org.springframework.http.HttpHeaders.CONTENT_ENCODING;
+
 
 @SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
 public class MeetUpAPI {
@@ -31,6 +33,7 @@ public class MeetUpAPI {
   public HttpHeaders headers(){
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
+    headers.set(CONTENT_ENCODING,"gzip, deflate, br, compress");
     return headers;
   }
 }

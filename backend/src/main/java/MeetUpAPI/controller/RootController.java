@@ -40,7 +40,7 @@ public class RootController {
     @PostMapping("/hobbies")
     public ResponseEntity<String> addGlobalHobby(@RequestBody String name){
         dbService.addtoAllHobbies(name);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(headers, HttpStatus.OK);
     }
 
     @PostMapping("/signup")
@@ -55,12 +55,12 @@ public class RootController {
     public ResponseEntity<String> logout(HttpServletRequest req) {
         dbService.logout(req);
         System.out.println("Logout");
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<String> refreshToken(HttpServletRequest req) {
-        return new ResponseEntity<>(dbService.refreshToken(req), HttpStatus.CREATED);
+        return new ResponseEntity<>(dbService.refreshToken(req), headers, HttpStatus.CREATED);
     }
 
     @GetMapping("/test")
@@ -70,7 +70,7 @@ public class RootController {
 
     @GetMapping("/hobbies")
     public ResponseEntity<List<Hobby>> getGlobalHobbies(){
-        return new ResponseEntity<>(dbService.getAllHobbies(), HttpStatus.OK);
+        return new ResponseEntity<>(dbService.getAllHobbies(), headers, HttpStatus.OK);
     }
 
 

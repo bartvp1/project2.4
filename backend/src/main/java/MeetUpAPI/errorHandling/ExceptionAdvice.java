@@ -38,10 +38,6 @@ public class ExceptionAdvice {
             violations.forEach(fieldError -> messages.add(fieldError.getDefaultMessage()));
             return new ResponseEntity<>(new CustomException(messages.toString().replace("[", "").replace("]", ""), httpStatus).toString(), headers, httpStatus);
         }
-        if(ex instanceof HttpRequestMethodNotSupportedException) {
-            httpStatus = HttpStatus.METHOD_NOT_ALLOWED;
-            return new ResponseEntity<>(new CustomException(ex.getMessage(), httpStatus).toString(), headers, httpStatus);
-        }
 
         if(ex instanceof HttpRequestMethodNotSupportedException) {
             httpStatus = HttpStatus.METHOD_NOT_ALLOWED;

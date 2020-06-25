@@ -7,6 +7,7 @@ import MeetUpAPI.errorHandling.CustomException;
 import MeetUpAPI.service.JwtTokenService;
 import MeetUpAPI.service.DBService;
 import io.swagger.annotations.ApiParam;
+import io.swagger.models.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -34,8 +35,9 @@ public class UserController {
     private HttpHeaders headers;
 
     @GetMapping("/{username}")
-    public UserResponseDTO searchUser(@PathVariable String username) {
-        return modelMapper.map(dbService.search(username), UserResponseDTO.class);
+    public ResponseEntity<UserResponseDTO> searchUser(@PathVariable String username) {
+        UserResponseDTO resp =  modelMapper.map(dbService.search(username), UserResponseDTO.class);
+        return new ResponseEntity<>(resp, headers, HttpStatus.OK);
     }
 
 
@@ -43,21 +45,23 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@ApiParam("Username") @PathVariable String username, HttpServletRequest req) {
         if(username.equals(jwtTokenService.getUsername(jwtTokenService.resolveToken(req))) && jwtTokenService.authenticatedRequest(req)) {
             dbService.delete(username);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(headers, HttpStatus.NO_CONTENT);
         }
         throw new CustomException("No/Wrong Authorization header",HttpStatus.UNAUTHORIZED);
     }
 
 
     @GetMapping("/me")
-    public UserResponseDTO whoami(HttpServletRequest req) {
-        return modelMapper.map(dbService.whoami(req), UserResponseDTO.class);
+    public ResponseEntity<UserResponseDTO> whoami(HttpServletRequest req) {
+        UserResponseDTO resp = modelMapper.map(dbService.whoami(req), UserResponseDTO.class);
+        return new ResponseEntity<>(resp, headers, HttpStatus.OK);
+
     }
 
     @PutMapping("/me")
     public ResponseEntity<String> updateAccountDetails(@Valid @RequestBody UserRegistrationDTO newDetails, HttpServletRequest req) {
         System.out.println(newDetails);
-        return new ResponseEntity<>(dbService.updateUser(newDetails, req),HttpStatus.OK);
+        return new ResponseEntity<>(dbService.updateUser(newDetails, req), headers, HttpStatus.OK);
     }
 
 
@@ -72,13 +76,13 @@ public class UserController {
                         new MatchDTO("Singh Meiland","31612345678","Groningen","Nederland"),
                         new MatchDTO("Je moeders Meiland","31612345678","Groningen","Nederland"),
                         new MatchDTO("Hayo de Hond","31612345679","Groningen","Nederland")
-                }, HttpStatus.OK);
+                }, headers, HttpStatus.OK);
     }
 
     @PostMapping("/me/hobbies/{id}")
     public ResponseEntity<String> addHobby(@PathVariable String id, HttpServletRequest req) {
         dbService.addHobby(Integer.parseInt(id),req);
-        return new ResponseEntity<>("{\"message\": \"Hobby added\"}", headers,HttpStatus.CREATED);
+        return new ResponseEntity<>("{\"message\": \"Hobby added\"}", headers, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/me/hobbies/{id}")
