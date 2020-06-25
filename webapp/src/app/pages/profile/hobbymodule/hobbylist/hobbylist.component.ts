@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Hobby} from "../../../../services/api.service";
 import {ApiService} from "../../../../services/api.service";
+import {Hobby} from "../../../../models/interfaces";
 
 @Component({
   selector: 'app-hobbylist',

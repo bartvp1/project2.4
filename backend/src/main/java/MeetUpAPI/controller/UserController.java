@@ -50,8 +50,9 @@ public class UserController {
         return modelMapper.map(dbService.whoami(req), UserResponseDTO.class);
     }
 
-    @PostMapping("/me")
+    @PutMapping("/me")
     public ResponseEntity<String> updateAccountDetails(@Valid @RequestBody UserRegistrationDTO newDetails, HttpServletRequest req) {
+        System.out.println(newDetails);
         return new ResponseEntity<>(dbService.updateUser(newDetails, req),HttpStatus.OK);
     }
 

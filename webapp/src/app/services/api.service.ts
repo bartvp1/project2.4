@@ -3,7 +3,8 @@ import * as moment from 'moment';
 import * as jwt_decode from 'jwt-decode';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {BehaviorSubject, Observable, Subject, Subscription} from "rxjs";
+import {Observable, Subject} from "rxjs";
+import {Hobby, HttpError, Match, TokenResponse, User} from "../models/interfaces";
 
 
 const API_URL = 'http://127.0.0.1:5000/';
@@ -31,7 +32,7 @@ export class ApiService {
 
     this.http.post(API_URL_LOGIN, cred, {headers: ApiService.default_headers})
       .subscribe(
-        (res: Response) => {
+        (res: TokenResponse) => {
           console.log("login ok");
           this.setSession(res)
         },
@@ -42,8 +43,7 @@ export class ApiService {
       )
   }
   public addHobby(hobbyName: string): void {
-    let name: string = hobbyName;
-    this.http.post(API_URL_HOBBIES,name,{headers: ApiService.default_headers})
+    this.http.post(API_URL_HOBBIES, hobbyName,{headers: ApiService.default_headers})
       .subscribe(
         // empty response
         () => {
@@ -60,7 +60,7 @@ export class ApiService {
 
     this.http.post(API_URL_SIGNUP, new_user, {headers: ApiService.default_headers})
       .subscribe(
-        (res: Response) => {
+        (res: TokenResponse) => {
           console.log("registration ok")
           this.setSession(res)
         },
@@ -88,6 +88,25 @@ export class ApiService {
         }
       )
   }
+
+  public update_account_data(userdata:User): void {
+    this.http.put(API_URL_USERDATA, userdata, {headers: ApiService.authorization_headers()})
+      .subscribe(
+        (e:TokenResponse) => {
+          this.setSession(e)
+          console.log("update ok")
+        },
+        (e:HttpError) => {
+          this.handleError(e)
+          console.error("update error");
+        }
+      )
+  }
+
+  public get_account_data(): Observable<any> {
+    return this.http.get(API_URL_USERDATA, {headers: ApiService.authorization_headers()})
+  }
+
 
   public get_matches(): void {
     this.http.get(API_URL_MATCHES, {headers: ApiService.authorization_headers()})
@@ -167,10 +186,9 @@ export class ApiService {
       this.error += "<p class='error_msg'>" + i + "</p>"
     }
     console.log("error: " + this.error)
-    //console.log(error.error.message.split(",").)
   }
 
-  private setSession(response: Response): void {
+  private setSession(response: TokenResponse): void {
     console.log("auth OK")
     this.error = undefined;
     let token = response.token;
@@ -213,46 +231,4 @@ export class ApiService {
     //no token found
     return false;
   }
-}
-
-export interface User {
-  id?: number,
-  username: string,
-  password?: string,
-  firstname?: string,
-  lastname?: string,
-  phone?: string,
-  country?: string,
-  city?: string,
-  hobbySet?: Hobby[]
-}
-
-interface Response {
-  token: string;
-}
-
-interface HttpError {
-  error: {
-    status: number,
-    message: string
-  },
-  headers: HttpHeaders,
-  message: string,
-  name: string,
-  ok: boolean,
-  status: number,
-  statusText: string,
-  url: string
-}
-
-export interface Match {
-  naam: string,
-  phone: string,
-  city: string,
-  country: string
-}
-
-export interface Hobby {
-  id: number,
-  name: string
 }
