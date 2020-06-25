@@ -91,33 +91,24 @@ public class DBService {
         user.setCity(newDetails.getCity());
         user.setCountry(newDetails.getCountry());
         userRepository.save(user);
-        logout(req);
+
         return tokenToJson(jwtTokenService.createToken(newDetails.getUsername()));
+
     }
 
     public void addHobby(int hobbyId, HttpServletRequest req) {
         User user = resolveUser(req);
-        for (Hobby elem : user.getHobbySet()) {
-            if (elem.getId() == hobbyId) {
-                throw new CustomException("Hobby already added", HttpStatus.CONFLICT);
-            }
-        }
         user.getHobbySet().add(modelMapper.map(new HobbyDTO(hobbyId),Hobby.class));
         userRepository.save(user);
     }
 
     public void removeHobby(int hobbyId, HttpServletRequest req) {
         User user = resolveUser(req);
-        boolean found = false;
         for (Hobby elem : user.getHobbySet()) {
             if (elem.getId() == hobbyId) {
                 user.getHobbySet().remove(elem);
-                found = true;
                 break;
             }
-        }
-        if(!found){
-            throw new CustomException("Hobby already removed!",HttpStatus.NOT_FOUND);
         }
         userRepository.save(user);
     }

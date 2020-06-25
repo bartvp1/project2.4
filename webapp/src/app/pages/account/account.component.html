@@ -1,42 +1,22 @@
 <div class=" content">
-  <h2>View and edit your details</h2>
+  AccountComponent works!
   <form [formGroup]="accountForm" (ngSubmit)="onSubmit(accountForm.value)">
     <div class="table-row">
       <label for="username">Username</label>
-      <input id="username" type="text" formControlName="username">
+      <input disabled id="username" type="text" formControlName="username">
     </div>
 
     <div class="table-row">
-      <label for="phone">Phone number</label>
-      <input id="phone" type="text" formControlName="phone">
+      <label for="email">E-mail</label>
+      <input disabled id="email" type="text" formControlName="email">
     </div>
 
     <div class="table-row">
-      <label for="firstname">First name</label>
-      <input id="firstname" type="text" formControlName="firstname">
+      <label for="password">Edit Password</label>
+      <input disabled id="password" type="password" formControlName="password">
     </div>
 
-    <div class="table-row">
-      <label for="lastname">Last name</label>
-      <input id="lastname" type="text" formControlName="lastname">
-    </div>
-
-    <div class="table-row">
-      <label for="password">New Password</label>
-      <input id="password" type="password" formControlName="password" autocomplete="off">
-    </div>
-
-    <div class="table-row">
-      <label for="city">City</label>
-      <input id="city" type="text" formControlName="city">
-    </div>
-
-    <div class="table-row">
-      <label for="country">Country</label>
-      <input id="country" type="text" formControlName="country">
-    </div>
-
-    <!--div style="color:red">{{errormessage}}</div-->
+    <div style="color:red">{{errormessage}}</div>
     <button class="btn" type="submit">Save</button>
 
   </form>

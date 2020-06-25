@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.meetup.ui.main.fragments.AccountFragment;
-import com.example.meetup.ui.main.fragments.HomeFragment;
 import com.example.meetup.ui.main.fragments.MatchesFragment;
 import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView nav = findViewById(R.id.navigation_view);
         nav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        loadFragment(new HomeFragment());
+
         hobbies.add("Tennis");
         hobbies.add("PingPong");
         hobbies.add("Horse Riding");
@@ -155,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.bottom_profile:
                 loadFragment(new ProfileFragment());
                 return true;
-
         }
         return false;
     };

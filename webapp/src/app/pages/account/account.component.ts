@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../services/api.service";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {Router} from "@angular/router";
-import {Hobby, User} from "../../models/interfaces";
 
 @Component({
   selector: 'app-account',
@@ -12,57 +11,42 @@ import {Hobby, User} from "../../models/interfaces";
 export class AccountComponent implements OnInit {
 
   accountForm;
+  errorsub;
   errormessage: string;
+  constructor(private formBuilder: FormBuilder,private router:Router) {
 
-  constructor(private apiservice:ApiService, public formBuilder: FormBuilder,private router:Router) {
-    this.accountForm = this.accountForm = this.formBuilder.group({
-      username: '',
-      password: '',
-      phone: '',
-      firstname: '',
-      lastname: '',
-      city: '',
-      country: ''
-    });
-  }
-
-  ngOnInit(): void {
-    this.apiservice.get_account_data().subscribe(
-      (e:User) => {
-        this.fill_form(e);
-        console.log("update ok")
-      },
-      () => {
-        console.error("Something went wrong getting userdata");
-      });
-
-
-  }
-
-  private fill_form(userdata:User){
     this.accountForm = this.formBuilder.group({
-      username: userdata.username,
-      password: '',
-      phone: userdata.phone,
-      firstname: userdata.firstname,
-      lastname: userdata.lastname,
-      city: userdata.city,
-      country: userdata.country
+      username: null,
+      email:'none',
+      password: ''
     });
+
+
+  }
+  ngOnInit(): void {
+    //if(this.loginservice.isLoggedIn()){
+      //this.router.navigate(["/matches"]);
+    //}
+   /*
+    this.errorsub=this.loginservice.error.subscribe(
+
+      (error:string)=>{
+        //no error
+        if(!error){
+          this.router.navigate(["/login"]);
+
+        }
+        //error
+        this.errormessage=error;
+      })
+*/
   }
 
   onSubmit(formdata: Object){
-    let f_username = formdata["username"]
-    let f_password = formdata["password"]
-    let f_firstname = formdata["firstname"]
-    let f_lastname = formdata["lastname"]
-    let f_phone = formdata["phone"]
-    let f_country = formdata["country"]
-    let f_city = formdata["city"]
-    let user:User = {username: f_username, password: f_password, firstname: f_firstname, lastname: f_lastname,phone: f_phone,country: f_country,city: f_city}
+    //let login= this.loginservice.login(formdata["username"].trim(),formdata["password"].trim()).subscribe();
+    //login.unsubscribe();
 
-    this.apiservice.update_account_data(user);
+
   }
-
 
 }
