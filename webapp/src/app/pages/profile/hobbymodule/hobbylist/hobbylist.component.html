@@ -7,7 +7,8 @@
       <input  class= "post" type="text" name="search" [ngModel]="searchString" (ngModelChange)="onClickSearch($event)" autocomplete="off" placeholder="Filter by Name" >
     </div>
   </form>
-
+  <br>
+  <p style="font-style: italic">Examples..</p>
 <div>
   <ul class="hobbies">
     <li *ngFor="let hobby of (searchedHobbies ? searchedHobbies.slice(0,10): [])"
