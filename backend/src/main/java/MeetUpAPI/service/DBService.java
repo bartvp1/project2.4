@@ -2,6 +2,11 @@ package MeetUpAPI.service;
 
 import javax.servlet.http.HttpServletRequest;
 
+import MeetUpAPI.dbModels.Hobby;
+import MeetUpAPI.dbModels.HobbyRepository;
+import MeetUpAPI.dto.HobbyDTO;
+import MeetUpAPI.dto.UserRegistrationDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,17 +16,26 @@ import MeetUpAPI.errorHandling.CustomException;
 import MeetUpAPI.dbModels.User;
 import MeetUpAPI.dbModels.UserRepository;
 
+import java.util.List;
+
+
 @Service
-public class UserService {
+public class DBService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private HobbyRepository hobbyRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JwtTokenService jwtTokenService;
+
+    @Autowired
+    public ModelMapper modelMapper;
 
     public String signin(String username, String password) {
         try {
@@ -67,16 +81,61 @@ public class UserService {
         return user;
     }
 
+    public String updateUser(UserRegistrationDTO newDetails, HttpServletRequest req){
+        User user = resolveUser(req);
+        user.setUsername(newDetails.getUsername());
+        user.setPassword(passwordEncoder.encode(newDetails.getPassword()));
+        user.setPhone(newDetails.getPhone());
+        user.setFirstname(newDetails.getFirstname());
+        user.setLastname(newDetails.getLastname());
+        user.setCity(newDetails.getCity());
+        user.setCountry(newDetails.getCountry());
+        userRepository.save(user);
+
+        return tokenToJson(jwtTokenService.createToken(newDetails.getUsername()));
+
+    }
+
+    public void addHobby(int hobbyId, HttpServletRequest req) {
+        User user = resolveUser(req);
+        user.getHobbySet().add(modelMapper.map(new HobbyDTO(hobbyId),Hobby.class));
+        userRepository.save(user);
+    }
+
+    public void removeHobby(int hobbyId, HttpServletRequest req) {
+        User user = resolveUser(req);
+        for (Hobby elem : user.getHobbySet()) {
+            if (elem.getId() == hobbyId) {
+                user.getHobbySet().remove(elem);
+                break;
+            }
+        }
+        userRepository.save(user);
+    }
+
     public User whoami(HttpServletRequest req) {
         return userRepository.findByUsername(jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
     }
 
-    public String refresh(String username) {
-        return jwtTokenService.createToken(username);
+    public String refreshToken(HttpServletRequest req) {
+        String username = jwtTokenService.getUsername(jwtTokenService.resolveToken(req));
+        return tokenToJson(jwtTokenService.createToken(username));
+    }
+
+    public User resolveUser(HttpServletRequest req){
+        return search(jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
     }
 
     private String tokenToJson(String token) {
         return "{\"token\":\"" + token + "\"}";
     }
 
+    public List<Hobby> getAllHobbies(){
+        return hobbyRepository.findAll();
+    }
+
+    public void addtoAllHobbies(String name){
+        HobbyDTO hobby = new HobbyDTO(name);
+        hobbyRepository.save(modelMapper.map(hobby, Hobby.class));
+    }
 }

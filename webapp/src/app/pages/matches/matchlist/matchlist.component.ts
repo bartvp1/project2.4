@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../../services/api.service";
-import {Router} from "@angular/router";
-import {MATCHES} from "../data";
+import {Match} from "../../../services/api.service"
 
 @Component({
   selector: 'app-matchlist',
@@ -9,8 +8,10 @@ import {MATCHES} from "../data";
   styleUrls: ['./matchlist.component.css']
 })
 export class MatchlistComponent implements OnInit {
-  matches = MATCHES
-  constructor() {
+  matches: Match[];
+  constructor(private service: ApiService) {
+    service.get_matches()
+    this.service.subject.subscribe((matches) => {this.matches = matches})
 
   }
 

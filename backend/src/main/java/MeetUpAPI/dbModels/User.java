@@ -36,7 +36,7 @@ public class User {
     @Column(name = "city", nullable = false)
     private String city;
 
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(
             name = "hobbyuser",
             joinColumns = @JoinColumn(name = "user_id"),

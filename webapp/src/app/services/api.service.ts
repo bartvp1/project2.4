@@ -3,14 +3,17 @@ import * as moment from 'moment';
 import * as jwt_decode from 'jwt-decode';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
-import {Observable, Subscription} from "rxjs";
+import {BehaviorSubject, Observable, Subject, Subscription} from "rxjs";
+
 
 const API_URL = 'http://127.0.0.1:5000/';
 const API_URL_LOGIN = API_URL + 'login';
 const API_URL_SIGNUP = API_URL + 'signup';
 const API_URL_LOGOUT = API_URL + 'logout';
-const API_URL_MATCHES = API_URL + 'matches';
-const API_URL_MYHOBBIES = API_URL + 'hobbies/myhobbies';
+const API_URL_MATCHES = API_URL + 'user/me/matches';
+const API_URL_USERDATA = API_URL + 'user/me/';
+const API_URL_USER_HOBBIES = API_URL + 'user/me/hobbies/';
+const API_URL_HOBBIES = API_URL + 'hobbies';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +21,13 @@ const API_URL_MYHOBBIES = API_URL + 'hobbies/myhobbies';
 export class ApiService {
   public error: string;
 
+  public subject: Subject<any[]> = new Subject<any[]>()
+  public subject2: Subject<User> = new Subject<User>()
   static default_headers = new HttpHeaders().set('Content-Type', 'application/json');
-
   constructor(private http: HttpClient, private router: Router) {}
 
   public login(username: string, password: string): void {
-    let cred: UserLogin = {username, password}
+    let cred: User = {username, password}
 
     this.http.post(API_URL_LOGIN, cred, {headers: ApiService.default_headers})
       .subscribe(
@@ -37,9 +41,22 @@ export class ApiService {
         }
       )
   }
+  public addHobby(hobbyName: string): void {
+    let name: string = hobbyName;
+    this.http.post(API_URL_HOBBIES,name,{headers: ApiService.default_headers})
+      .subscribe(
+        // empty response
+        () => {
+          console.log("Adding hobby success")
+        },
+        () => {
+          console.error("failed adding hobby");
+        },
+      );
+  }
 
   public register(username: string, password: string, firstname: string, lastname: string, phone: string, country: string, city): void {
-    let new_user: UserSignUp = {username, password, firstname, lastname, phone, country, city}
+    let new_user: User = {username, password, firstname, lastname, phone, country, city}
 
     this.http.post(API_URL_SIGNUP, new_user, {headers: ApiService.default_headers})
       .subscribe(
@@ -77,21 +94,63 @@ export class ApiService {
       .subscribe(
         (e: Match[]) => {
           // TODO process data
+          this.subject.next(e)
         },
         (e: HttpError) => {
           console.error("failed fetching matches");
         },
       );
   }
-
-  public get_myhobbies(): void {
-    this.http.get(API_URL_MYHOBBIES, {headers: ApiService.authorization_headers()})
+  public get_hobbies(): void {
+    this.http.get(API_URL_HOBBIES)
       .subscribe(
         (e: Hobby[]) => {
           // TODO process data
+          this.subject.next(e)
         },
         (e: HttpError) => {
           console.error("failed fetching hobbies");
+        },
+      );
+  }
+
+  public get_myhobbies(): void {
+    this.http.get(API_URL_USERDATA, {headers: ApiService.authorization_headers()})
+      .subscribe(
+        (e: User) => {
+          // TODO process data
+          this.subject2.next(e);
+        },
+        (e: HttpError) => {
+          console.error("failed fetching hobbies");
+        },
+      );
+  }
+
+  public assign_hobby(hobbyId: number): void {
+    this.http.post(API_URL_USER_HOBBIES+hobbyId, "",{headers: ApiService.authorization_headers()})
+      .subscribe(
+        // empty response
+        () => {
+          console.log("assigning hobby success")
+        },
+        () => {
+          console.error("failed assigning hobby");
+        },
+      );
+  }
+
+
+
+  public unassign_hobby(hobbyId: number): void {
+    this.http.delete(API_URL_USER_HOBBIES+hobbyId, {headers: ApiService.authorization_headers()})
+      .subscribe(
+        // empty response
+        () => {
+          console.log("unassign hobby success")
+        },
+        () => {
+          console.error("failed unassigning hobby");
         },
       );
   }
@@ -156,20 +215,16 @@ export class ApiService {
   }
 }
 
-
-interface UserLogin {
+export interface User {
+  id?: number,
   username: string,
-  password: string,
-}
-
-interface UserSignUp {
-  username: string,
-  password: string,
-  firstname: string,
-  lastname: string,
-  phone: string,
-  country: string,
-  city: string
+  password?: string,
+  firstname?: string,
+  lastname?: string,
+  phone?: string,
+  country?: string,
+  city?: string,
+  hobbySet?: Hobby[]
 }
 
 interface Response {
@@ -190,14 +245,14 @@ interface HttpError {
   url: string
 }
 
-interface Match {
+export interface Match {
   naam: string,
   phone: string,
   city: string,
   country: string
 }
 
-interface Hobby {
+export interface Hobby {
   id: number,
-  naam: string
+  name: string
 }

@@ -34,13 +34,12 @@ public class JwtTokenService {
     Claims claims = Jwts.claims().setSubject(username);
     Date now = new Date();
     Date validity = new Date(now.getTime() + validityInMilliseconds);
-    String token = Jwts.builder()
+    return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
             .setExpiration(validity)
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact();
-    return token;
   }
 
   public String getUsername(String token) {
@@ -51,13 +50,14 @@ public class JwtTokenService {
     String bearerToken = req.getHeader("Authorization");
     try{
       if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-        return bearerToken.substring(7);
+        if(validateToken(bearerToken.substring(7))) return bearerToken.substring(7);
       } else {
         throw new CustomException("No Authorization header present",HttpStatus.UNAUTHORIZED);
       }
     } catch (JwtException e){
       throw new CustomException("Invalid / Expired JWT token",HttpStatus.UNAUTHORIZED);
     }
+    throw new CustomException("Unprocessable request",HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
   private boolean validateToken(String token) throws CustomException {

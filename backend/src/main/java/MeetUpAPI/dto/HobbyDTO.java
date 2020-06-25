@@ -10,6 +10,10 @@ public class HobbyDTO {
 
     private String name;
 
+    public HobbyDTO(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

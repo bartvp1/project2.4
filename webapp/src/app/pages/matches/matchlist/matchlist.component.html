@@ -1,6 +1,29 @@
-<h2>My Matches</h2>
-<ul>
-  <li *ngFor="let match of matches">
-    <p style="font-size: 4vmin">{{match.name}}</p> <br>Phone Number: {{match.phoneNumber}}<br> Location: {{match.city}}
-  </li>
-</ul>
+
+<h1 style="text-align: center">My Matches</h1><br><br>
+<p *ngIf="!matches" style="font-size: 2vmin; padding-left: 7vmin">No matches, yet.</p>
+
+<div class="row">
+  <div *ngFor="let match of matches" class="col">
+    <div class="col1">
+      <ul>
+        <li>
+          <p style="white-space: nowrap">{{match.naam}}</p><br>
+        </li>
+        <li>
+          <span style="white-space: nowrap">Phone Number :</span> <br>{{match.phone}}<br>
+        </li>
+        <li>
+          <br>Location: <br> {{match.city}}, {{match.country}}
+        </li>
+      </ul>
+    </div>
+    <div class="col1">
+      <p>Hobbies:</p>
+      <!--        <ul>-->
+      <!--          <li *ngFor="let hobby of hobbies">-->
+      <!--            <p>{{hobby.naam}}</p>-->
+      <!--          </li>-->
+      <!--        </ul>-->
+    </div>
+  </div>
+</div>
