@@ -27,11 +27,11 @@
     {{hobbyConfirmMessage}}
 </div>
 
-  <div *ngIf="selectedHobby && !searchedHobbies.length == 0">
+  <div *ngIf="selectedHobby && !(searchedHobbies.length == 0)">
     <h4> Confirm "{{selectedHobby.name }}"</h4>
     <div>
       <button class="btn" name="confirm" (click)="onClickHobbyConfirm()">Confirm</button>
-      <p [ngStyle]="{'color': messagecolor}">{{hobbyConfirmMessage}}</p>
+      <p style="color: red}">{{hobbyConfirmMessage}}</p>
     </div>
   </div>
 </span>
@@ -45,7 +45,7 @@
       {{ hobby.name }}
     </li>
   </ul>
-    <div *ngIf="selectedDeleteHobby && ! myhobbies.length == 0">
+    <div *ngIf="selectedDeleteHobby && ! (myhobbies.length == 0)">
       <h4> Confirm Delete "{{selectedDeleteHobby.name }}"</h4>
         <div>
           <button class="btn" name="confirm" (click)="onClickHobbyDeleteConfirm()">Confirm</button>
