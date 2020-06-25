@@ -11,7 +11,7 @@
   <p style="font-style: italic">Examples..</p>
 <div>
   <ul class="hobbies">
-    <li *ngFor="let hobby of (searchedHobbies ? searchedHobbies.slice(0,10): [])"
+    <li *ngFor="let hobby of (searchedHobbies ? searchedHobbies.slice(0,10): hobbies)"
         [class.selected]="hobby === selectedHobby"
         (click)="onSelect(hobby)">
       <span class="badge"></span> {{ hobby.name }}
@@ -28,11 +28,11 @@
     {{hobbyConfirmMessage}}
 </div>
 
-  <div *ngIf="selectedHobby && !searchedHobbies.length == 0">
+  <div *ngIf="selectedHobby && !(searchedHobbies.length == 0)">
     <h4> Confirm "{{selectedHobby.name }}"</h4>
     <div>
       <button class="btn" name="confirm" (click)="onClickHobbyConfirm()">Confirm</button>
-      <p>{{hobbyConfirmMessage}}</p>
+      <p style="color: red}">{{hobbyConfirmMessage}}</p>
     </div>
   </div>
 </span>
@@ -46,7 +46,7 @@
       {{ hobby.name }}
     </li>
   </ul>
-    <div *ngIf="selectedDeleteHobby && ! myhobbies.length == 0">
+    <div *ngIf="selectedDeleteHobby && ! (myhobbies.length == 0)">
       <h4> Confirm Delete "{{selectedDeleteHobby.name }}"</h4>
         <div>
           <button class="btn" name="confirm" (click)="onClickHobbyDeleteConfirm()">Confirm</button>

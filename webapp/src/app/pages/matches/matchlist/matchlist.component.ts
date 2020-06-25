@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../../services/api.service";
-import {Match} from "../../../services/api.service"
+import {Match} from "../../../models/interfaces";
 
 @Component({
   selector: 'app-matchlist',
