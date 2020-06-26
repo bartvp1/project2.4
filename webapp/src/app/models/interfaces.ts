@@ -10,6 +10,7 @@ export interface User {
   country?: string,
   city?: string,
   hobbySet?: Hobby[]
+  active?: number;
 }
 
 export interface HttpError {

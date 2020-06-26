@@ -12,7 +12,11 @@ public class UserResponseDTO {
   private String country;
   private String city;
   private Set<Hobby> hobbySet;
+  private int active;
 
+  public int getActive() { return active; }
+
+  public void setActive(int active) { this.active = active; }
 
   public int getId() {
     return id;

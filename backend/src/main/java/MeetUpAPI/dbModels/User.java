@@ -36,12 +36,20 @@ public class User {
     @Column(name = "city", nullable = false)
     private String city;
 
+    @Column(name = "active", nullable = false)
+    private int active = 1;
+
     @ManyToMany
     @JoinTable(
             name = "hobbyuser",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "hobby_id"))
+
     private Set<Hobby> hobbySet;
+
+    public int getActive() { return active; }
+
+    public void setActive(int active) { this.active = active; }
 
     public Set<Hobby> getHobbySet() {
         return hobbySet;
