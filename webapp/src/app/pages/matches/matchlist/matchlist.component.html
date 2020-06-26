@@ -5,25 +5,24 @@
 <div class="row">
   <div *ngFor="let match of matches" class="col">
     <div class="col1">
-      <ul>
-        <li>
-          <p style="white-space: nowrap">{{match.naam}}</p><br>
+      <ul style="padding: 4vh">
+        <li class="li">
+          <p style="white-space: nowrap; font-size: calc(1vmin + 10px)">{{match.naam}}</p><br>
         </li>
-        <li>
+        <li class="li">
           <span style="white-space: nowrap">Phone Number :</span> <br>{{match.phone}}<br>
         </li>
-        <li>
+        <li class="li">
           <br>Location: <br> {{match.city}}, {{match.country}}
         </li>
       </ul>
     </div>
-    <div class="col1">
-      <p>Hobbies:</p>
-      <!--        <ul>-->
-      <!--          <li *ngFor="let hobby of hobbies">-->
-      <!--            <p>{{hobby.naam}}</p>-->
-      <!--          </li>-->
-      <!--        </ul>-->
+    <div class="col1" id="li2">
+        <ul style="  border: 1px solid  #00bbff; width: 100%; height: 100%;padding: 4vh">
+          <li *ngFor="let hobby of match.hobbySet">
+            <p>{{hobby.name}}</p>
+          </li>
+        </ul>
     </div>
   </div>
 </div>
