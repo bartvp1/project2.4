@@ -1,5 +1,6 @@
 package MeetUpAPI.controller;
 
+import MeetUpAPI.dbModels.Hobby;
 import MeetUpAPI.dbModels.User;
 import MeetUpAPI.dto.MatchDTO;
 import MeetUpAPI.dto.UserRegistrationDTO;
@@ -8,6 +9,8 @@ import MeetUpAPI.errorHandling.CustomException;
 import MeetUpAPI.service.JwtTokenService;
 import MeetUpAPI.service.DBService;
 import io.swagger.annotations.ApiParam;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.json.JSONObject;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @RestController
@@ -36,7 +41,6 @@ public class UserController {
     public UserResponseDTO searchUser(@PathVariable String username) {
         return modelMapper.map(dbService.search(username), UserResponseDTO.class);
     }
-
 
     @DeleteMapping("/{username}")
     public ResponseEntity<String> deleteUser(@ApiParam("Username") @PathVariable String username, HttpServletRequest req) {
@@ -62,22 +66,24 @@ public class UserController {
     @GetMapping("/me/matches")
     public ResponseEntity<ArrayList<MatchDTO>> myMatches(HttpServletRequest req) {
         ArrayList<MatchDTO> arr = new ArrayList<>();
-        for (User user : dbService.getAllUsers()) {
-            System.out.println(req);
-            //if(jwtTokenService.resolveToken(req).matches(user.getUsername))
-            arr.add(new MatchDTO(user.getFirstname(),user.getPhone(),user.getCity(),user.getCountry(),user.getHobbySet()));
+
+        //unpack jwt
+        String[] split_string = jwtTokenService.resolveToken(req).split("\\.");
+        Base64 base64Url = new Base64(true);
+        JSONObject jsonObj = new JSONObject(new String(base64Url.decode(split_string[1])));
+        String user = jsonObj.getString("sub");
+        Set<Hobby> userHobbies = dbService.search(user).getHobbySet();
+
+        for (User users : dbService.getAllUsers()) {
+            if (!users.getHobbySet().isEmpty() && !(user.equals(users.getUsername()))) {
+                Set<Hobby> h = new HashSet<>(userHobbies);
+                h.retainAll(users.getHobbySet());
+                if (h.size() > 0) {
+                    arr.add(new MatchDTO(users.getFirstname(), users.getPhone(), users.getCity(), users.getCountry(), users.getHobbySet(),h));
+                }
+            }
         }
         return new ResponseEntity<>( arr, HttpStatus.OK);
-//        return new ResponseEntity<>(
-//                new MatchDTO[]{
-//                        new MatchDTO("Martien Meiland","31612345678","Groningen","Nederland"),
-//                        new MatchDTO("Bart Meiland","31612345678","Groningen","Nederland"),
-//                        new MatchDTO("Hayo Meiland","31612345678","Groningen","Nederland"),
-//                        new MatchDTO("Maurice Meiland","31612345678","Groningen","Nederland"),
-//                        new MatchDTO("Singh Meiland","31612345678","Groningen","Nederland"),
-//                        new MatchDTO("Je moeders Meiland","31612345678","Groningen","Nederland"),
-//                        new MatchDTO("Hayo de Hond","31612345679","Groningen","Nederland")
-//                }, HttpStatus.OK);
     }
 
     @PostMapping("/me/hobbies/{id}")

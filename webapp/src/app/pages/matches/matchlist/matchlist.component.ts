@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../../services/api.service";
-import {HttpError, Match} from "../../../models/interfaces"
+import {Hobby, HttpError, Match} from "../../../models/interfaces"
 
 @Component({
   selector: 'app-matchlist',
@@ -9,9 +9,7 @@ import {HttpError, Match} from "../../../models/interfaces"
 })
 export class MatchlistComponent implements OnInit {
   matches: Match[];
-  constructor(private service: ApiService) {}
-
-  ngOnInit(): void {
+  constructor(private service: ApiService) {
     this.service.get_matches().subscribe(
       (e: Match[]) => {
         this.matches = e;
@@ -21,5 +19,17 @@ export class MatchlistComponent implements OnInit {
       },
     );
   }
+
+  sameHobby(h: Hobby,m:Match): boolean{
+    for (let index = 0; index < m.sameHobbies.length; ++index) {
+      let value = m.sameHobbies[index];
+      if(value.name == h.name){
+        return true
+      }
+    }
+    return false;
+  }
+
+  ngOnInit(): void {}
 
 }

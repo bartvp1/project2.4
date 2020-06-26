@@ -1,6 +1,6 @@
 
 <h1 style="text-align: center">My Matches</h1><br><br>
-<p *ngIf="!matches" style="font-size: 2vmin; padding-left: 7vmin">No matches, yet.</p>
+<p *ngIf="matches.length == 0 || !matches" style="font-size: 2vmin;text-align: center;">No matches, yet.</p>
 
 <div class="row">
   <div *ngFor="let match of matches" class="col">
@@ -10,17 +10,17 @@
           <p style="white-space: nowrap; font-size: calc(1vmin + 10px)">{{match.naam}}</p><br>
         </li>
         <li class="li">
-          <span style="white-space: nowrap">Phone Number :</span> <br>{{match.phone}}<br>
+          <p style="white-space: nowrap">Phone Number : <br>{{match.phone}}<br></p>
         </li>
         <li class="li">
-          <br>Location: <br> {{match.city}}, {{match.country}}
+          <p><br>Location: <br> {{match.city}}, {{match.country}}</p>
         </li>
       </ul>
     </div>
     <div class="col1" id="li2">
         <ul style="  border: 1px solid  #00bbff; width: 100%; height: 100%;padding: 4vh">
           <li *ngFor="let hobby of match.hobbySet">
-            <p>{{hobby.name}}</p>
+            <p [ngClass]="{'positive' : sameHobby(hobby,match)}">{{hobby.name}}</p>
           </li>
         </ul>
     </div>

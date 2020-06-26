@@ -36,6 +36,9 @@ export interface Match {
   phone: string,
   city: string,
   country: string
+  hobbySet: Hobby[]
+  sameHobbies: Hobby[]
+
 }
 
 export interface TokenResponse {

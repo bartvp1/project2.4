@@ -27,3 +27,7 @@ p::first-letter{
   text-transform: capitalize;
 }
 
+.positive {
+  color: green;
+}
+

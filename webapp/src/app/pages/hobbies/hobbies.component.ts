@@ -45,6 +45,8 @@ export class HobbylistComponent {
       (error:HttpError) => this.hobbyConfirmMessage = error.error.message,
       () => this.update_hobbylists()
     );
+    this.selectedHobby = null;
+
   }
 
   onClickHobbyDeleteConfirm(): void {
@@ -53,6 +55,7 @@ export class HobbylistComponent {
       (e:HttpError) => this.hobbyConfirmMessage = e.error.message,
       () => this.update_hobbylists()
     );
+    this.selectedDeleteHobby = null;
   }
 
   onClickSearch(searchText: string) {

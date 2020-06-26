@@ -11,14 +11,21 @@ public class MatchDTO {
     private String city;
     private String country;
     private Set<Hobby> hobbySet;
+    private Set<Hobby> sameHobbies;
 
-    public MatchDTO(String naam, String phone, String city, String country,Set<Hobby> hobbies) {
+
+    public MatchDTO(String naam, String phone, String city, String country,Set<Hobby> hobbies,Set<Hobby> sameHobbies) {
         this.naam = naam;
         this.phone = phone;
         this.city = city;
         this.country = country;
         this.hobbySet = hobbies;
+        this.sameHobbies = sameHobbies;
     }
+
+    public void setSameHobbies(Set<Hobby> sameHobbies) { this.sameHobbies = sameHobbies; }
+
+    public Set<Hobby> getSameHobbies() { return sameHobbies; }
 
     public Set<Hobby> getHobbySet() { return hobbySet; }
 
