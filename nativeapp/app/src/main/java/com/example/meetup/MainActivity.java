@@ -1,5 +1,9 @@
 package com.example.meetup;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -22,6 +28,8 @@ import com.example.meetup.ui.main.fragments.MatchesFragment;
 import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,7 +45,7 @@ import static com.example.meetup.Login.prefsManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList hobbies = new ArrayList<String>();
+    ArrayList<Hobby> hobbies = new ArrayList<Hobby>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.bottom_profile:
                 loadFragment(new ProfileFragment());
-                refreshHobbies();
+
+
                 return true;
         }
         return false;
@@ -167,39 +176,60 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void refreshHobbies(){
 
+
+    private void refreshHobbies(String searchHobby){
+        hobbies.clear();
         Runnable get = () ->{
 
             try {
                 Connection connection=new Connection();
                 HttpURLConnection urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/hobbies","GET");
 
-
                 int responseCode = urlConnection.getResponseCode();
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-
                     BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     JsonReader jsonReader = new JsonReader(in);
 
-                    jsonReader.beginObject();
+                    jsonReader.beginArray();
+
                     while (jsonReader.hasNext()) {
-                        String name = jsonReader.nextName();
-                        if (name.equals("name")) {
-                            hobbies.add(jsonReader.nextString());
-                        } else if (name.equals("id")){
-//                            id = jsonReader.nextInt();
+
+                        jsonReader.beginObject();
+                        boolean addhobby=true;
+
+                        Hobby hobby = new Hobby();
+
+                        while (jsonReader.hasNext()) {
+                            String name = jsonReader.nextName();
+                            if (name.equals("name") ) {
+                                String hobbyname=jsonReader.nextString();
+                                if(!hobbyname.contains(searchHobby)){
+                                    addhobby=false;
+                                }
+
+                                hobby.setName(hobbyname);
+                            } else if (name.equals("id") ) {
+                                hobby.setId(jsonReader.nextInt());
+                            } else {
+                                jsonReader.skipValue();
+                            }
                         }
-                        else {
-                            jsonReader.skipValue();
+                        if(addhobby) {
+                            hobby.setName(hobby.getName().toLowerCase());
+
+                            Hobby hobbytoadd=hobby;
+                            Log.d("hobby",hobby.getName());
+                            this.runOnUiThread(()->{
+                                hobbies.add(hobbytoadd);
+                            });
                         }
+                        jsonReader.endObject();
                     }
-
-                    jsonReader.endObject();
+                    jsonReader.endArray();
                     in.close();
-
                 }
                 urlConnection.disconnect();
             } catch (SocketTimeoutException s){
@@ -207,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
             }
             catch (Exception e) {
                 Log.d("error",e.getMessage());
-
             }
         };
         new Thread(get).start();
@@ -220,15 +249,89 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    ;
-
     public void searchHobby(View view){
-        ArrayAdapter adapter = new ArrayAdapter<String>(this.getApplicationContext(), android.R.layout.simple_list_item_1, hobbies);
-        ListView hobbylistview = (ListView)findViewById(R.id.hobbylistview);
+        CharSequence sequence =  ((TextView) findViewById(R.id.hobbysearchfield) ).getText();
+        String searchstring=sequence.toString();
+        refreshHobbies(searchstring);
+
+
+        ListView hobbylistview = findViewById(R.id.hobbylistview);
+        ArrayAdapter adapter = new ArrayAdapter<Hobby>(this.getApplicationContext(), android.R.layout.simple_list_item_1, hobbies);
         hobbylistview.setAdapter(adapter);
+
+        hobbylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                Hobby hobby=(Hobby)parent.getItemAtPosition(position);
+
+                    displayALert(hobby);
+            }
+        });
+        adapter.notifyDataSetChanged();
+
+    }
+    public void displayALert(Hobby hobby){
+        Context context=this;
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Add " + hobby.getName().toLowerCase() + " to your profile?");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        addHobbyToProfile(hobby);
+                        dialog.cancel();
+                        Toast.makeText(context,"Hobby added",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
-    public void hobbySelected(View view){
+    public void addHobbyToProfile(Hobby hobby){
+        hobbies.clear();
+        Runnable get = () ->{
 
+            try {
+                Connection connection=new Connection();
+                HttpURLConnection urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/user/me/hobbies/" + hobby.getId(),"POST");
+
+
+                int responseCode = urlConnection.getResponseCode();
+
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+
+                writer.write("{}");
+
+                writer.flush();
+                writer.close();
+                os.close();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                }
+                urlConnection.disconnect();
+            } catch (SocketTimeoutException s){
+                setHobbiesNotFound("No connection");
+            }
+            catch (Exception e) {
+                Log.d("error",e.getMessage());
+
+            }
+        };
+        new Thread(get).start();
     }
 }
