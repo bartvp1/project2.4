@@ -18,6 +18,8 @@ export class HobbylistComponent {
   selectedHobby: Hobby;
   selectedDeleteHobby: Hobby;
   searchedHobbies: Hobby[] = [];
+  searchedHobbiesList: Hobby[] = [];
+
   searchString: string;
   myhobbies: Hobby[] = [];
   newHobbyName: string;
@@ -40,13 +42,17 @@ export class HobbylistComponent {
   }
 
   onClickHobbyConfirm(): void {
+    if(this.myhobbies.length < 15) {
+      console.log(this.myhobbies)
     this.service.assign_hobby(this.selectedHobby.id).subscribe(
       () => {},
       (error:HttpError) => this.hobbyConfirmMessage = error.error.message,
       () => this.update_hobbylists()
     );
     this.selectedHobby = null;
-
+    }else{
+      this.hobbyConfirmMessage = "Maxmimum of 15 hobbies allowed!"
+    }
   }
 
   onClickHobbyDeleteConfirm(): void {
@@ -71,11 +77,13 @@ export class HobbylistComponent {
   }
 
   onClickAddHobby(newHobby: string): void {
-    this.service.addHobby(newHobby.trim().toLowerCase().charAt(0).toUpperCase() + newHobby.slice(1)).subscribe(
-      () => {},
-      () => this.hobbyConfirmMessage = "Not added!",
-      () => this.update_hobbylists()
-    );
+
+      this.service.addHobby(newHobby.trim().toLowerCase().charAt(0).toUpperCase() + newHobby.slice(1)).subscribe(
+        () => {
+        },
+        () => this.hobbyConfirmMessage = "Not added!",
+        () => this.update_hobbylists()
+      );
   }
 
   private update_hobbylists(){
@@ -88,7 +96,12 @@ export class HobbylistComponent {
       }
     );
     this.accountDetails = this.service.get_account_data().subscribe(
-      (e: User) => this.myhobbies = e.hobbySet
+      (e: User) =>
+      {
+        this.myhobbies = e.hobbySet
+        let temp = this.myhobbies.map(function (item) {return item["name"]})
+        this.searchedHobbiesList = this.searchedHobbies.filter(item2 => !temp.includes(item2["name"]))
+      }
     );
   }
 }

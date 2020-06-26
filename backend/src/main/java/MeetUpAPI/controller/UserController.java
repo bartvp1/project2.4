@@ -91,8 +91,19 @@ public class UserController {
 
     @PostMapping("/me/hobbies/{id}")
     public ResponseEntity<String> addHobby(@PathVariable String id, HttpServletRequest req) {
-        dbService.addHobby(Integer.parseInt(id),req);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        
+        String[] split_string = jwtTokenService.resolveToken(req).split("\\.");
+        Base64 base64Url = new Base64(true);
+        JSONObject jsonObj = new JSONObject(new String(base64Url.decode(split_string[1])));
+        String user = jsonObj.getString("sub");
+        User userObject = dbService.search(user);
+
+        if(userObject.getHobbySet().size() < 15) {
+            dbService.addHobby(Integer.parseInt(id), req);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @DeleteMapping("/me/hobbies/{id}")
