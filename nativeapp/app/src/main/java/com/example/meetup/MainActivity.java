@@ -1,6 +1,5 @@
 package com.example.meetup;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,7 +24,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.meetup.ui.main.fragments.AccountFragment;
 import com.example.meetup.ui.main.fragments.MatchesFragment;
-import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -153,9 +151,6 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
         switch (item.getItemId()) {
-            case R.id.botton_notifications:
-                loadFragment(new NotificationsFragment());
-                return true;
             case R.id.bottom_matches:
                 loadFragment(new MatchesFragment());
                 return true;

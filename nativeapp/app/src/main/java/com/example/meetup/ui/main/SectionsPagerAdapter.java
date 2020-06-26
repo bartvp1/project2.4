@@ -14,7 +14,6 @@ import com.example.meetup.R;
 import com.example.meetup.ui.main.fragments.AccountFragment;
 import com.example.meetup.ui.main.fragments.HomeFragment;
 import com.example.meetup.ui.main.fragments.MatchesFragment;
-import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
 
 
@@ -38,13 +37,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page
         switch (position) {
+
             case 1:
-                return new NotificationsFragment();
-            case 2:
                 return new ProfileFragment();
-            case 3:
+            case 2:
                 return new MatchesFragment();
-            case 4:
+            case 3:
                 return new AccountFragment();
             default:
                 return new HomeFragment();
@@ -62,7 +60,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 6 total pages.
-        return 5;
+        return 4;
     }
 
 }
