@@ -6,12 +6,16 @@
     tools:ignore="AlwaysShowAction,HardcodedText">
 
     <item
+        android:id="@+id/bottom_profile"
+        android:title="Profile"
+        app:showAsAction="always" />
+    <item
         android:title="Matches"
         android:id="@+id/bottom_matches"
         app:showAsAction="always" />
     <item
-        android:title="Profile"
-        android:id="@+id/bottom_profile"
+        android:id="@+id/bottom_search"
+        android:title="Search"
         app:showAsAction="always" />
 
 </menu>

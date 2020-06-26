@@ -1,6 +1,6 @@
 package com.example.meetup;
 
-class Hobby {
+public class Hobby {
     private int id;
     private String name;
 

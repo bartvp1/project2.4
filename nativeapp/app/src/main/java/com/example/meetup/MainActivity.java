@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.meetup.ui.main.fragments.AccountFragment;
 import com.example.meetup.ui.main.fragments.MatchesFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
+import com.example.meetup.ui.main.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
@@ -151,11 +152,14 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
         switch (item.getItemId()) {
+            case R.id.bottom_profile:
+                loadFragment(new ProfileFragment());
+                return true;
             case R.id.bottom_matches:
                 loadFragment(new MatchesFragment());
                 return true;
-            case R.id.bottom_profile:
-                loadFragment(new ProfileFragment());
+            case R.id.bottom_search:
+                loadFragment(new SearchFragment());
 
 
                 return true;
@@ -332,6 +336,8 @@ public class MainActivity extends AppCompatActivity {
         alert11.show();
     }
 
+
+
     public void addHobbyToProfile(Hobby hobby){
         Runnable get = () ->{
 
@@ -434,7 +440,7 @@ public class MainActivity extends AppCompatActivity {
                 noConnection();
             }
             catch (Exception e) {
-                Log.d("error",e.getMessage());
+                Log.d("error","eror");
 
 
             }
@@ -443,6 +449,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     }
+
 }
