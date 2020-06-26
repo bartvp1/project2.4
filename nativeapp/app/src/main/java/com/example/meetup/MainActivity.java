@@ -29,7 +29,7 @@ import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.w3c.dom.Text;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -44,7 +44,7 @@ import static com.example.meetup.Login.prefsManager;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    ArrayAdapter adapter;
     ArrayList<Hobby> hobbies = new ArrayList<Hobby>();
 
     @Override
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void refreshHobbies(String searchHobby){
+    private void refreshHobbies(String searchstring) {
         hobbies.clear();
         Runnable get = () ->{
 
@@ -186,7 +186,13 @@ public class MainActivity extends AppCompatActivity {
                 Connection connection=new Connection();
                 HttpURLConnection urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/hobbies","GET");
 
-                int responseCode = urlConnection.getResponseCode();
+                    urlConnection.setConnectTimeout(2000);
+                int  responseCode = urlConnection.getResponseCode();
+
+
+
+
+
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
@@ -196,20 +202,19 @@ public class MainActivity extends AppCompatActivity {
                     jsonReader.beginArray();
 
                     while (jsonReader.hasNext()) {
-
-                        jsonReader.beginObject();
-                        boolean addhobby=true;
-
                         Hobby hobby = new Hobby();
+                        boolean displayhobby=true;
+                        jsonReader.beginObject();
+
+
 
                         while (jsonReader.hasNext()) {
                             String name = jsonReader.nextName();
                             if (name.equals("name") ) {
                                 String hobbyname=jsonReader.nextString();
-                                if(!hobbyname.contains(searchHobby)){
-                                    addhobby=false;
+                                if(!hobbyname.toLowerCase().contains(searchstring.toLowerCase())){
+                                    displayhobby=false;
                                 }
-
                                 hobby.setName(hobbyname);
                             } else if (name.equals("id") ) {
                                 hobby.setId(jsonReader.nextInt());
@@ -217,47 +222,50 @@ public class MainActivity extends AppCompatActivity {
                                 jsonReader.skipValue();
                             }
                         }
-                        if(addhobby) {
-                            hobby.setName(hobby.getName().toLowerCase());
 
-                            Hobby hobbytoadd=hobby;
-                            Log.d("hobby",hobby.getName());
-                            this.runOnUiThread(()->{
-                                hobbies.add(hobbytoadd);
+
+                        jsonReader.endObject();
+                        if(displayhobby) {
+                            this.runOnUiThread(() -> {
+                                hobbies.add(hobby);
+                                adapter.notifyDataSetChanged();
                             });
                         }
-                        jsonReader.endObject();
+
                     }
                     jsonReader.endArray();
                     in.close();
+                } else {
+
                 }
                 urlConnection.disconnect();
             } catch (SocketTimeoutException s){
-                setHobbiesNotFound("No connection");
+                noConnection();
             }
             catch (Exception e) {
                 Log.d("error",e.getMessage());
+
+
             }
         };
         new Thread(get).start();
     }
-
-    private void setHobbiesNotFound(String mess) {
-        this.runOnUiThread(()->{
-            TextView err=(TextView)findViewById(R.id.error);
-            err.setText(mess);
+    public void noConnection(){
+        this.runOnUiThread(()-> {
+            Toast.makeText(this.getApplicationContext(),"No connection",Toast.LENGTH_SHORT).show();
         });
     }
+
 
     public void searchHobby(View view){
         CharSequence sequence =  ((TextView) findViewById(R.id.hobbysearchfield) ).getText();
         String searchstring=sequence.toString();
-        refreshHobbies(searchstring);
 
 
         ListView hobbylistview = findViewById(R.id.hobbylistview);
-        ArrayAdapter adapter = new ArrayAdapter<Hobby>(this.getApplicationContext(), android.R.layout.simple_list_item_1, hobbies);
+        adapter = new ArrayAdapter<Hobby>(this.getApplicationContext(), android.R.layout.simple_list_item_1, hobbies);
         hobbylistview.setAdapter(adapter);
+        refreshHobbies(searchstring);
 
         hobbylistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -267,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                     displayALert(hobby);
             }
         });
-        adapter.notifyDataSetChanged();
+
 
     }
     public void displayALert(Hobby hobby){
@@ -283,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         addHobbyToProfile(hobby);
                         dialog.cancel();
-                        Toast.makeText(context,"Hobby added",Toast.LENGTH_SHORT).show();
+
 
                     }
                 });
@@ -301,7 +309,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addHobbyToProfile(Hobby hobby){
-        hobbies.clear();
         Runnable get = () ->{
 
             try {
@@ -309,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
                 HttpURLConnection urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/user/me/hobbies/" + hobby.getId(),"POST");
 
 
-                int responseCode = urlConnection.getResponseCode();
+
 
                 OutputStream os = urlConnection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
@@ -319,13 +326,22 @@ public class MainActivity extends AppCompatActivity {
                 writer.flush();
                 writer.close();
                 os.close();
+                int responseCode = urlConnection.getResponseCode();
 
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-
+                if (responseCode == HttpURLConnection.HTTP_CREATED) {
+                    this.runOnUiThread(()-> {
+                        hobbies.remove(hobby);
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(this.getApplicationContext(),"Hobby added",Toast.LENGTH_SHORT).show();
+                    });
+                } else{
+                    this.runOnUiThread(()-> {
+                    Toast.makeText(this.getApplicationContext(),"Something went wrong, try again later",Toast.LENGTH_SHORT).show();
+                    });
                 }
                 urlConnection.disconnect();
             } catch (SocketTimeoutException s){
-                setHobbiesNotFound("No connection");
+              noConnection();
             }
             catch (Exception e) {
                 Log.d("error",e.getMessage());
