@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                if (responseCode == HttpURLConnection.HTTP_OK) {
+                if (responseCode == HttpURLConnection.HTTP_OK && !searchstring.trim().equals("")) {
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     JsonReader jsonReader = new JsonReader(in);
@@ -238,10 +238,18 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     }
+                    if(hobbies.size()==0 ){
+                        noResults();
+                    }
+
+
+
                     jsonReader.endArray();
                     in.close();
                 } else {
-
+                   if( searchstring.trim().equals("")){
+                       noResults();
+                   }
                 }
                 urlConnection.disconnect();
             } catch (SocketTimeoutException s){
@@ -255,6 +263,17 @@ public class MainActivity extends AppCompatActivity {
         };
         new Thread(get).start();
     }
+
+    public  void noResults(){
+        this.runOnUiThread(()-> {
+            hobbies.clear();
+            adapter.notifyDataSetChanged();
+            Toast.makeText(this.getApplicationContext(),"No results",Toast.LENGTH_SHORT).show();
+        });
+    }
+
+
+
     public void noConnection(){
         this.runOnUiThread(()-> {
             Toast.makeText(this.getApplicationContext(),"No connection",Toast.LENGTH_SHORT).show();
