@@ -8,7 +8,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {HomeComponent} from './pages/home/home.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ComponentsModule} from './components/components.module';
-import {HobbiesComponent} from './pages/hobbies/hobbies.component';
+import {HobbylistComponent} from './pages/hobbies/hobbies.component';
 import {AccountComponent} from './pages/account/account.component';
 import {MatchesComponent} from './pages/matches/matches.component';
 import {LoginComponent} from './pages/login/login.component';
@@ -40,7 +40,7 @@ import {MessagingService} from "./services/messaging.service";
   declarations: [
     AppComponent,
     HomeComponent,
-    HobbiesComponent,
+    HobbylistComponent,
     AccountComponent,
     MatchesComponent,
     LoginComponent,

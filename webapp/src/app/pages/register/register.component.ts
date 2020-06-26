@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from "../../services/api.service";
-import { FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from "@angular/router";
+import {HttpError, TokenResponse} from "../../models/interfaces";
 
 @Component({
   selector: 'app-register',
@@ -9,11 +10,11 @@ import {Router} from "@angular/router";
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit{
-  registerForm;
-  request;
+  registerForm: FormGroup;
+  error: string;
 
-  constructor(public loginservice: ApiService, private formBuilder: FormBuilder, private router:Router) {
-    if(this.loginservice.isLoggedIn()){
+  constructor(public apiService: ApiService, private formBuilder: FormBuilder, private router:Router) {
+    if(this.apiService.isLoggedIn()){
       this.router.navigate(["/matches"]);
     }
     this.registerForm = this.formBuilder.group({
@@ -28,7 +29,7 @@ export class RegisterComponent implements OnInit{
   }
 
   onSubmit(formdata: Object){
-    this.request = this.loginservice.register(
+    this.apiService.register(
       formdata["username"],
       formdata["password"],
       formdata["firstname"],
@@ -36,14 +37,20 @@ export class RegisterComponent implements OnInit{
       formdata["phonenumber"],
       formdata["country"],
       formdata["city"],
+    ).subscribe(
+      (res: TokenResponse) => {
+        console.log("registration ok")
+        this.apiService.setSession(res)
+        this.router.navigate(["/profile"]);
+      },
+      (error: HttpError) => {
+        console.log("registration error");
+        this.apiService.handleError(error);
+      }
     )
   }
 
   ngOnInit(): void {
-    if (this.loginservice.isLoggedIn()) {
-      this.router.navigate(["/profile"]);
-    }
-    this.loginservice.error = undefined;
+    this.error = undefined;
   }
-
 }

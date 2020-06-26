@@ -5,21 +5,22 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { HomeComponent } from "./pages/home/home.component";
 import {AccountComponent} from "./pages/account/account.component";
-import {HobbiesComponent} from "./pages/hobbies/hobbies.component";
+import {HobbylistComponent} from "./pages/hobbies/hobbies.component";
 import {MatchesComponent} from "./pages/matches/matches.component";
-import {Guard} from "./services/guard.guard";
+import {AuthGuard} from "./services/auth.guard";
+import {NonAuthGuard} from "./services/nonauth.guard";
 import {LoginComponent} from './pages/login/login.component';
 import {RegisterComponent} from './pages/register/register.component';
 import {LogoutComponent} from "./pages/logout/logout.component";
 
 export const routes: Routes = [
   { path: "welcome", component: HomeComponent },
-  { path: "login", component: LoginComponent},
-  { path: "register", component: RegisterComponent},
-  { path: "account", component: AccountComponent, canActivate:[Guard]},
-  { path: "profile", component: HobbiesComponent, canActivate:[Guard]},
-  { path: "matches", component: MatchesComponent, canActivate:[Guard]},
-  { path: "logout", component: LogoutComponent,canActivate:[Guard]},
+  { path: "login", component: LoginComponent, canActivate: [NonAuthGuard]},
+  { path: "register", component: RegisterComponent, canActivate:[NonAuthGuard]},
+  { path: "account", component: AccountComponent, canActivate:[AuthGuard]},
+  { path: "profile", component: HobbylistComponent, canActivate:[AuthGuard]},
+  { path: "matches", component: MatchesComponent, canActivate:[AuthGuard]},
+  { path: "logout", component: LogoutComponent,canActivate:[AuthGuard]},
   { path: "**", redirectTo: "welcome"}
 ];
 
