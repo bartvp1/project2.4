@@ -8,7 +8,7 @@ import {Hobby, HttpError, Match} from "../../../models/interfaces"
   styleUrls: ['./matchlist.component.css']
 })
 export class MatchlistComponent implements OnInit {
-  matches: Match[];
+  matches: Match[] = null;
   constructor(private service: ApiService) {
     this.service.get_matches().subscribe(
       (e: Match[]) => {
@@ -18,6 +18,7 @@ export class MatchlistComponent implements OnInit {
         console.error("failed fetching matches "+e);
       },
     );
+    console.log(this.matches)
   }
 
   sameHobby(h: Hobby,m:Match): boolean{

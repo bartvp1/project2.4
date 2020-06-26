@@ -6,25 +6,34 @@
 
 .row {
   display: flex; /* equal height of the children */
-  margin-left: 10vmin;
-  margin-right: 10vmin;
+  justify-content: center;
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 
 .col {
   flex: 1; /* additionally, equal width */
   border: 1px solid  #00bbff;
   display: flex;
-  margin: 2vmin;
+  margin: 1vw;
   min-height: 35vh;
 }
 .col1 {
   display: flex;
   flex: 1; /* additionally, equal width */
-  padding: 1em;
-  padding-right: 5vmin;
+  border-right: 1px solid  #00bbff;
+}
+.col2 {
+  display: flex;
+  flex: 1; /* additionally, equal width */
+
+
 }
 p::first-letter{
   text-transform: capitalize;
+}
+ul{
+  padding: 4vw;
 }
 
 .positive {

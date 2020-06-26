@@ -25,6 +25,12 @@ public class UserRegistrationDTO {
     @NotBlank(message = "Please specify the city you're living in")
     private String city;
 
+    private int active;
+
+    public int getActive() { return active; }
+
+    public void setActive(int active) { this.active = active; }
+
     public String getUsername() {
         return username;
     }

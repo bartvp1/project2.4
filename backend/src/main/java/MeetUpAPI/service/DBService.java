@@ -92,6 +92,7 @@ public class DBService {
         user.setLastname(newDetails.getLastname());
         user.setCity(newDetails.getCity());
         user.setCountry(newDetails.getCountry());
+        user.setActive(newDetails.getActive());
         userRepository.save(user);
 
         return tokenToJson(jwtTokenService.createToken(newDetails.getUsername()));

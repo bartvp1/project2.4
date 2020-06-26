@@ -72,10 +72,13 @@ public class UserController {
         Base64 base64Url = new Base64(true);
         JSONObject jsonObj = new JSONObject(new String(base64Url.decode(split_string[1])));
         String user = jsonObj.getString("sub");
-        Set<Hobby> userHobbies = dbService.search(user).getHobbySet();
-
+        User userObject = dbService.search(user);
+        Set<Hobby> userHobbies = userObject.getHobbySet();
+        if (userObject.getActive() == 0){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         for (User users : dbService.getAllUsers()) {
-            if (!users.getHobbySet().isEmpty() && !(user.equals(users.getUsername()))) {
+            if (!users.getHobbySet().isEmpty() && !(user.equals(users.getUsername())) && users.getActive() == 1) {
                 Set<Hobby> h = new HashSet<>(userHobbies);
                 h.retainAll(users.getHobbySet());
                 if (h.size() > 0) {
