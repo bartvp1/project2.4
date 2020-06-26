@@ -250,6 +250,7 @@ export interface Match {
   phone: string,
   city: string,
   country: string
+  hobbySet: Hobby[]
 }
 
 export interface Hobby {

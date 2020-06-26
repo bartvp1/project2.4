@@ -136,6 +136,11 @@ public class DBService {
         return hobbyRepository.findAll();
     }
 
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
+
+
     public void addtoAllHobbies(String name){
         HobbyDTO hobby = new HobbyDTO(name);
         hobbyRepository.save(modelMapper.map(hobby, Hobby.class));
