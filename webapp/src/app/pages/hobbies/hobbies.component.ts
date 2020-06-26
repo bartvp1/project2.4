@@ -1,17 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {Hobby} from "../../../../services/api.service";
-import {ApiService} from "../../../../services/api.service";
+import {Hobby} from "../../services/api.service";
+import {ApiService} from "../../services/api.service";
 
 @Component({
   selector: 'app-hobbylist',
-  templateUrl: './hobbylist.component.html',
-  styleUrls: ['./hobbylist.component.css'],
+  templateUrl: './hobbies.component.html',
+  styleUrls: ['./hobbies.component.css'],
 })
 
 
-export class HobbylistComponent implements OnInit {
-  ngOnInit(): void {
-  }
+export class HobbiesComponent implements OnInit {
+
 
   hobbies: Hobby[];
   selectedHobby: Hobby;
@@ -24,12 +23,13 @@ export class HobbylistComponent implements OnInit {
 
   hobbyConfirmMessage = '';
 
-  constructor(private service: ApiService) {
+  constructor(private service: ApiService) {}
 
-    service.get_hobbies()
-    service.subject.subscribe((allHobbies) => {this.hobbyDataRetrieved(allHobbies)})
-    service.get_myhobbies()
-    service.subject2.subscribe((allMyHobbies) => {this.myHobbyDataRetrieved(allMyHobbies)})
+  ngOnInit(): void {
+    this.service.get_hobbies()
+    this.service.subject.subscribe((allHobbies) => {this.hobbyDataRetrieved(allHobbies)})
+    this.service.get_myhobbies()
+    this.service.subject2.subscribe((allMyHobbies) => {this.myHobbyDataRetrieved(allMyHobbies)})
   }
 
   hobbyDataRetrieved(allHobbies):void{
@@ -54,7 +54,7 @@ export class HobbylistComponent implements OnInit {
   }
 
   onClickHobbyConfirm(): void {
-    this.hobbyConfirmMessage = 'Hobby added to your profile!';
+    this.hobbyConfirmMessage = 'Hobby added to your hobbies!';
     this.service.assign_hobby(this.selectedHobby.id)
     this.service.get_myhobbies()
     this.service.get_myhobbies()
@@ -62,7 +62,7 @@ export class HobbylistComponent implements OnInit {
 
   }
   onClickHobbyDeleteConfirm(): void {
-    this.hobbyConfirmMessage = 'Hobby deleted from your profile!';
+    this.hobbyConfirmMessage = 'Hobby deleted from your hobbies!';
     this.service.unassign_hobby(this.selectedDeleteHobby.id)
     this.service.get_myhobbies()
     this.service.get_myhobbies()

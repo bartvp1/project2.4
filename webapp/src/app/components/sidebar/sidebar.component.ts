@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import {LoginComponent} from '../../pages/login/login.component';
 import {ApiService} from '../../services/api.service';
 
 declare interface RouteInfo {
@@ -10,15 +9,15 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
   {
-    path: "",
+    path: "welcome",
     title: "Home",
-    icon: "icon-chart-pie-36",
+    icon: "icon-bank",
     class: ""
   },
   {
     path: "profile",
     title: "My Hobbies",
-    icon: "icon-single-02",
+    icon: "icon-badge",
     class: ""
   },
   {
@@ -30,7 +29,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "account",
     title: "Account Settings",
-    icon: "icon-single-02",
+    icon: "icon-settings",
     class: ""
   },
   {
@@ -42,7 +41,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "login",
     title: "Log in",
-    icon: "icon-bell-55",
+    icon: "icon-single-02",
     class: ""
   }
 ];
@@ -53,24 +52,21 @@ export const ROUTES: RouteInfo[] = [
   styleUrls: ["./sidebar.component.css"]
 })
 export class SidebarComponent implements OnInit {
-  menuItems: any[];
 
-  constructor(public loginService:ApiService) {}
+  constructor(public apiService: ApiService) {
+  }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
+
   isMobileMenu() {
-    if (window.innerWidth > 991) {
-      return false;
-    }
-    return true;
+    return window.innerWidth <= 991;
+
   }
-  get_menuItems():any[]{
-    if(this.loginService.isLoggedIn()){
-      return ROUTES.slice(0,ROUTES.length-1)
-    }
-    return ROUTES.slice(0,1).concat(ROUTES.slice(ROUTES.length-1))
+
+  get_menuItems(): RouteInfo[] {
+    if (this.apiService.isLoggedIn()) return ROUTES.slice(0, ROUTES.length - 1)
+    return ROUTES.slice(0, 1).concat(ROUTES.slice(ROUTES.length - 1))
 
   }
 }

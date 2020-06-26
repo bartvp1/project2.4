@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Implementation-Title: Spring Data JPA
+Automatic-Module-Name: spring.data.jpa
+Implementation-Version: 2.2.3.RELEASE
+Built-By: jschauder
+Created-By: Apache Maven 3.6.0
+Build-Jdk: 1.8.0_152
+Main-Class: MeetUpAPI.MeetUpAPI

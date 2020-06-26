@@ -33,7 +33,6 @@ public class RootController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginDTO credentials) {
-        System.out.println("Login attempt: "+credentials);
         return new ResponseEntity<>(dbService.signin(credentials.getUsername(), credentials.getPassword()), headers, HttpStatus.OK);
     }
 
@@ -46,7 +45,6 @@ public class RootController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@Valid @RequestBody UserRegistrationDTO userDTO) {
         User newUser = modelMapper.map(userDTO, User.class);
-        System.out.println("Sign up attempt: "+newUser);
         return new ResponseEntity<>(dbService.signup(newUser), headers, HttpStatus.OK);
     }
 

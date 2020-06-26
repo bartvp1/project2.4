@@ -1,39 +1,25 @@
 package MeetUpAPI;
 
-import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import static org.springframework.http.HttpHeaders.CONTENT_ENCODING;
 
 
 @SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
-public class MeetUpAPI {
+public class MeetUpAPI implements CommandLineRunner {
+
+  private static final Logger LOG = LoggerFactory.getLogger(MeetUpAPI.class);
 
   public static void main(String[] args) {
+    LOG.info("Starting API");
     SpringApplication.run(MeetUpAPI.class, args);
   }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder(12);
+  @Override
+  public void run(String... args) {
+    LOG.info("Running...");
   }
 
-  @Bean
-  public ModelMapper modelMapper() {
-    return new ModelMapper();
-  }
-
-  @Bean
-  public HttpHeaders headers(){
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    headers.set(CONTENT_ENCODING,"gzip, deflate, br, compress");
-    return headers;
-  }
 }

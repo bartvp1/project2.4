@@ -1,0 +1,59 @@
+<div class="content">
+  <div id="hobbylistR" style="width: 30vw">
+    <h1>Add Hobbies</h1>
+    <form class="form-inline md-form mr-auto mb-4">
+
+      <div id="searchBox">
+        <input class="post" type="text" name="search" [ngModel]="searchString" (ngModelChange)="onClickSearch($event)"
+               autocomplete="off" placeholder="Filter by Name">
+      </div>
+    </form>
+
+    <div>
+      <ul class="hobbies">
+        <li *ngFor="let hobby of (searchedHobbies ? searchedHobbies.slice(0,10): [])"
+            [class.selected]="hobby === selectedHobby"
+            (click)="onSelect(hobby)">
+          <span class="badge"></span> {{ hobby.name }}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="searchedHobbies.length == 0">
+      <h4>Hobby not found, add it to the list!</h4>
+      <div id="newHobbyTextBox">
+        <input type="text" name="newHobbyName" [(ngModel)]="newHobbyName">
+      </div>
+      <button class="btn" name="add" (click)="onClickAddHobby(newHobbyName)">Add</button>
+      {{hobbyConfirmMessage}}
+    </div>
+
+    <div *ngIf="selectedHobby && (searchedHobbies.length > 0)">
+      <h4> Confirm "{{selectedHobby.name }}"</h4>
+      <div>
+        <button class="btn" name="confirm" (click)="onClickHobbyConfirm()">Confirm</button>
+        <p>{{hobbyConfirmMessage}}</p>
+      </div>
+    </div>
+  </div>
+  <!-- ------------------------------------------------------------------------------------------------ -->
+  <div id="hobbylistL" style="width: 30vw ">
+    <h1>My Hobbies</h1>
+    <div class="hobbies">
+      <ul>
+        <li *ngFor="let hobby of myhobbies" [class.selected]="hobby === selectedDeleteHobby"
+            (click)="onSelect2(hobby)">
+          {{ hobby.name }}
+        </li>
+      </ul>
+      <div *ngIf="selectedDeleteHobby && (myhobbies.length > 0)">
+        <h4> Confirm Delete "{{selectedDeleteHobby.name }}"</h4>
+        <div>
+          <button class="btn" name="confirm" (click)="onClickHobbyDeleteConfirm()">Confirm</button>
+          <p>{{hobbyConfirmMessage}}</p>
+        </div>
+      </div>
+    </div>
+    <p *ngIf="myhobbies.length == 0" style="font-size: 2vmin; padding-left: 2vmin">No hobbies, yet.</p>
+  </div>
+</div>
