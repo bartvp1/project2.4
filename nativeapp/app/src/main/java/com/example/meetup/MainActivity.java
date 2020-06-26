@@ -3,6 +3,7 @@ package com.example.meetup;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -21,7 +23,9 @@ import com.example.meetup.ui.main.fragments.NotificationsFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -46,11 +50,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView nav = findViewById(R.id.navigation_view);
         nav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        hobbies.add("Tennis");
-        hobbies.add("PingPong");
-        hobbies.add("Horse Riding");
-        hobbies.add("Squash");
-        hobbies.add("Swimming");
+
 
     }
 
@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.bottom_profile:
                 loadFragment(new ProfileFragment());
+                refreshHobbies();
                 return true;
         }
         return false;
@@ -165,6 +166,67 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    private void refreshHobbies(){
+
+        Runnable get = () ->{
+
+            try {
+                Connection connection=new Connection();
+                HttpURLConnection urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/hobbies","GET");
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+
+                writer.write("");
+                writer.flush();
+                writer.close();
+                os.close();
+
+                int responseCode = urlConnection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    JsonReader jsonReader = new JsonReader(in);
+
+                    jsonReader.beginObject();
+                    while (jsonReader.hasNext()) {
+                        String name = jsonReader.nextName();
+                        if (name.equals("name")) {
+                            hobbies.add(jsonReader.nextString());
+                        } else if (name.equals("id")){
+//                            id = jsonReader.nextInt();
+                        }
+                        else {
+                            jsonReader.skipValue();
+                        }
+                    }
+
+                    jsonReader.endObject();
+                    in.close();
+
+                }
+                urlConnection.disconnect();
+            } catch (SocketTimeoutException s){
+                setHobbiesNotFound("No connection");
+            }
+            catch (Exception e) {
+                Log.d("error",e.getMessage());
+
+            }
+        };
+        new Thread(get).start();
+    }
+
+    private void setHobbiesNotFound(String mess) {
+        this.runOnUiThread(()->{
+            TextView err=(TextView)findViewById(R.id.error);
+            err.setText(mess);
+        });
+    }
+
+    ;
 
     public void searchHobby(View view){
         ArrayAdapter adapter = new ArrayAdapter<String>(this.getApplicationContext(), android.R.layout.simple_list_item_1, hobbies);

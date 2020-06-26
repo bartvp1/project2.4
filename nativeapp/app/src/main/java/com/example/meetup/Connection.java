@@ -30,13 +30,11 @@ public class Connection {
 
     public URLConnection connect(String url_string, String method)  throws SocketTimeoutException {
 
-
-
-
                 try {
 
                     URL url = new URL(url_string);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod(method);
                     urlConnection.setRequestProperty("Content-Type","application/json");
                     String token=prefsManager.getToken();
                     if(token!=null) {
@@ -44,13 +42,10 @@ public class Connection {
                     }
                     urlConnection.setReadTimeout(20000);
                     urlConnection.setConnectTimeout(2000);
-                    urlConnection.setRequestMethod(method);
                     urlConnection.setDoInput(true);
                     urlConnection.setDoOutput(true);
 
                     return urlConnection;
-
-
 
                 }
 
@@ -58,11 +53,6 @@ public class Connection {
 
                 }
 
-
-
-
             return null;
-
-
     }
 }
