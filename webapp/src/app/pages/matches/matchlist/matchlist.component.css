@@ -1,11 +1,7 @@
-li{
+.li{
   list-style: none;
   margin-bottom: 10px;
   list-style-position:inside;
-  font-size: calc(1vmin + 10px);
-}
-ul{
-  padding: 0;
 }
 
 .row {
@@ -21,16 +17,13 @@ ul{
   margin: 2vmin;
   min-height: 35vh;
 }
-.col:hover{
-  border: 1px solid  white;
-}
 .col1 {
   display: flex;
   flex: 1; /* additionally, equal width */
   padding: 1em;
   padding-right: 5vmin;
 }
-
-p{
-  font-size: calc(1.5vmin + 10px);
+p::first-letter{
+  text-transform: capitalize;
 }
+

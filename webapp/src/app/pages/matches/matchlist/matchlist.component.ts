@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../../services/api.service";
-import {Match} from "../../../services/api.service"
+import {HttpError, Match} from "../../../models/interfaces"
 
 @Component({
   selector: 'app-matchlist',
@@ -9,13 +9,17 @@ import {Match} from "../../../services/api.service"
 })
 export class MatchlistComponent implements OnInit {
   matches: Match[];
-  constructor(private service: ApiService) {
-    service.get_matches()
-    this.service.subject.subscribe((matches) => {this.matches = matches})
-
-  }
+  constructor(private service: ApiService) {}
 
   ngOnInit(): void {
+    this.service.get_matches().subscribe(
+      (e: Match[]) => {
+        this.matches = e;
+      },
+      (e: HttpError) => {
+        console.error("failed fetching matches "+e);
+      },
+    );
   }
 
 }

@@ -1,18 +1,28 @@
 package MeetUpAPI.dto;
 
+import MeetUpAPI.dbModels.Hobby;
+
+import java.util.Set;
+
 public class MatchDTO {
 
     private String naam;
     private String phone;
     private String city;
     private String country;
+    private Set<Hobby> hobbySet;
 
-    public MatchDTO(String naam, String phone, String city, String country) {
+    public MatchDTO(String naam, String phone, String city, String country,Set<Hobby> hobbies) {
         this.naam = naam;
         this.phone = phone;
         this.city = city;
         this.country = country;
+        this.hobbySet = hobbies;
     }
+
+    public Set<Hobby> getHobbySet() { return hobbySet; }
+
+    public void setHobbySet(Set<Hobby> hobbySet) { this.hobbySet = hobbySet; }
 
     public String getNaam() {
         return naam;

@@ -9,19 +9,5 @@
         </button>
       </div>
     </div>
-
-    <button *ngIf="loginService.isLoggedIn()"
-      aria-label="Toggle navigation"
-      class=" navbar-toggler"
-      (click)="collapse()"
-      [attr.aria-expanded]="!isCollapsed"
-      aria-controls="collapseExample"
-
-      type="button"
-    >
-      <span class=" navbar-toggler-bar navbar-kebab"> </span>
-      <span class=" navbar-toggler-bar navbar-kebab"> </span>
-      <span class=" navbar-toggler-bar navbar-kebab"> </span>
-    </button>
   </div>
 </nav>

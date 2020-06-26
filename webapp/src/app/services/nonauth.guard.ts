@@ -5,13 +5,10 @@ import {ApiService} from "./api.service";
 @Injectable({
   providedIn: 'root'
 })
-export class Guard implements CanActivate {
-  constructor(private loginservice:ApiService, private router: Router){
+export class NonAuthGuard implements CanActivate {
+  constructor(private loginservice:ApiService, private router: Router){}
 
-  }
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    return this.loginservice.isLoggedIn();
-    //return this.checkLogin();
-
+    return !this.loginservice.isLoggedIn();
   }
 }

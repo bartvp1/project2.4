@@ -26,6 +26,7 @@ speed-measure-plugin.json
 .settings/
 *.sublime-workspace
 *.iml
+*.jar
 
 # IDE - VSCode
 .vscode/*
@@ -48,5 +49,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-*.cmd
-*.bat

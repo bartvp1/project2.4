@@ -12,10 +12,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.*;
 
 
 @RestControllerAdvice
@@ -38,6 +37,12 @@ public class ExceptionAdvice {
             violations.forEach(fieldError -> messages.add(fieldError.getDefaultMessage()));
             return new ResponseEntity<>(new CustomException(messages.toString().replace("[", "").replace("]", ""), httpStatus).toString(), headers, httpStatus);
         }
+
+        if(ex instanceof ConstraintViolationException) {
+            httpStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+            return new ResponseEntity<>(new CustomException("ConstraintViolation: Invalid input", httpStatus).toString(), headers, httpStatus);
+        }
+
 
         if(ex instanceof HttpRequestMethodNotSupportedException) {
             httpStatus = HttpStatus.METHOD_NOT_ALLOWED;

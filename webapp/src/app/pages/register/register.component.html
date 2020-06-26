@@ -23,9 +23,9 @@
       <input id="city" type="text" formControlName="city" placeholder="City">
     </div>
 
-    <p *ngIf="loginservice.error != undefined" style="white-space:normal;" [innerHTML]="loginservice.error"></p>
     <button style="margin-right: 20px;" class="btn" type="submit">Submit</button>
-    <button class="btn" type="button" routerLink="/login">To login</button>
+    <button class="btn" type="button" routerLink="/login">I already have an account</button>
+    <p *ngIf="error != undefined" style="white-space:normal;" [innerHTML]="error"></p>
 
   </form>
 </div>

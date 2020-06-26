@@ -8,13 +8,12 @@ import {AppRoutingModule} from './app-routing.module';
 import {HomeComponent} from './pages/home/home.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ComponentsModule} from './components/components.module';
-import {ProfileComponent} from './pages/profile/profile.component';
+import {HobbylistComponent} from './pages/hobbies/hobbies.component';
 import {AccountComponent} from './pages/account/account.component';
 import {MatchesComponent} from './pages/matches/matches.component';
 import {LoginComponent} from './pages/login/login.component';
 import {RegisterComponent} from './pages/register/register.component';
 import {MatchesModule} from './pages/matches/matches.module';
-import {HobbymoduleModule} from './pages/profile/hobbymodule/hobbymodule.module';
 import {environment} from '../environments/environment';
 import { LogoutComponent } from './pages/logout/logout.component';
 
@@ -34,7 +33,6 @@ import {MessagingService} from "./services/messaging.service";
     ComponentsModule,
     ReactiveFormsModule,
     MatchesModule,
-    HobbymoduleModule,
     AngularFireMessagingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     environment.production ? ServiceWorkerModule.register('./ngsw-worker.js', ): []
@@ -42,7 +40,7 @@ import {MessagingService} from "./services/messaging.service";
   declarations: [
     AppComponent,
     HomeComponent,
-    ProfileComponent,
+    HobbylistComponent,
     AccountComponent,
     MatchesComponent,
     LoginComponent,

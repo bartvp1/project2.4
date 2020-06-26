@@ -39,9 +39,10 @@ public class DBService {
 
     public String signin(String username, String password) {
         try {
-            if (passwordEncoder.matches(password, userRepository.findByUsername(username).getPassword()))
+            if (passwordEncoder.matches(password, userRepository.findByUsername(username).getPassword())){
+                System.out.println("Login success: "+username);
                 return tokenToJson(jwtTokenService.createToken(username));
-            else{
+            } else{
                 throw new CustomException("Password incorrect", HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception ex){
@@ -61,6 +62,7 @@ public class DBService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        System.out.println("Signup success: "+user.getUsername());
         return tokenToJson(jwtTokenService.createToken(user.getUsername()));
     }
 
@@ -133,6 +135,11 @@ public class DBService {
     public List<Hobby> getAllHobbies(){
         return hobbyRepository.findAll();
     }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
+
 
     public void addtoAllHobbies(String name){
         HobbyDTO hobby = new HobbyDTO(name);
