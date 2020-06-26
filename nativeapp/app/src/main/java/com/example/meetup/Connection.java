@@ -34,17 +34,19 @@ public class Connection {
 
                     URL url = new URL(url_string);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    urlConnection.setRequestMethod(method);
-                    urlConnection.setRequestProperty("Content-Type","application/json");
                     String token=prefsManager.getToken();
                     if(token!=null) {
                         urlConnection.setRequestProperty("Authorization", "Bearer "+prefsManager.getToken());
                     }
-                    urlConnection.setReadTimeout(20000);
-                    urlConnection.setConnectTimeout(2000);
-                    urlConnection.setDoInput(true);
-                    urlConnection.setDoOutput(true);
 
+                    if(method.equals("POST")) {
+                        urlConnection.setRequestMethod(method);
+                        urlConnection.setRequestProperty("Content-type","application/json");
+                        urlConnection.setReadTimeout(20000);
+                        urlConnection.setConnectTimeout(2000);
+                        urlConnection.setDoInput(true);
+                        urlConnection.setDoOutput(true);
+                    }
                     return urlConnection;
 
                 }

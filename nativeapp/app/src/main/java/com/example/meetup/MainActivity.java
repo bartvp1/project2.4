@@ -174,13 +174,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 Connection connection=new Connection();
                 HttpURLConnection urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/hobbies","GET");
-                OutputStream os = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
 
-                writer.write("");
-                writer.flush();
-                writer.close();
-                os.close();
 
                 int responseCode = urlConnection.getResponseCode();
 
