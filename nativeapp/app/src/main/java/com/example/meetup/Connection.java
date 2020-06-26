@@ -38,9 +38,9 @@ public class Connection {
                     if(token!=null) {
                         urlConnection.setRequestProperty("Authorization", "Bearer "+prefsManager.getToken());
                     }
-
+                    urlConnection.setRequestMethod(method);
                     if(method.equals("POST")) {
-                        urlConnection.setRequestMethod(method);
+
                         urlConnection.setRequestProperty("Content-type","application/json");
                         urlConnection.setReadTimeout(20000);
                         urlConnection.setConnectTimeout(2000);
