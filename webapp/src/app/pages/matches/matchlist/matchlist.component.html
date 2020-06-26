@@ -1,6 +1,7 @@
 
 <h1 style="text-align: center">My Matches</h1><br><br>
 <p *ngIf="!matches" style="font-size: 2vmin;text-align: center;">No matches, yet. Make sure your account is not set to inactive!</p>
+<p *ngIf="matches.length == 0" style="font-size: 2vmin;text-align: center;">No matches, yet. Make sure your account is not set to inactive!</p>
 <div class="row">
   <div *ngFor="let match of matches" class="col">
     <div class="col1">
