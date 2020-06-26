@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.meetup.ui.main.fragments.AccountFragment;
+import com.example.meetup.ui.main.fragments.HomeFragment;
 import com.example.meetup.ui.main.fragments.MatchesFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
 import com.example.meetup.ui.main.fragments.SearchFragment;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView nav = findViewById(R.id.navigation_view);
         nav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        loadFragment(new HomeFragment());
 
 
     }
