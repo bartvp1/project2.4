@@ -24,7 +24,7 @@ import com.example.meetup.ui.main.fragments.ProfileFragment;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[] {R.string.home, R.string.notifications,
+    private static final int[] TAB_TITLES = new int[] {R.string.home,
             R.string.profile,R.string.matches,R.string.account};
     private final Context mContext;
 

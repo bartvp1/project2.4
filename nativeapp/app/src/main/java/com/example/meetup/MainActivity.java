@@ -44,7 +44,7 @@ import static com.example.meetup.Login.prefsManager;
 public class MainActivity extends AppCompatActivity {
     ArrayAdapter adapter;
     ArrayList<Hobby> hobbies = new ArrayList<Hobby>();
-
+    ArrayList<Hobby> myhobbies = new ArrayList<Hobby>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -174,9 +174,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void refreshHobbies(String searchstring) {
-        hobbies.clear();
-        Runnable get = () ->{
 
+        Runnable get = () ->{
+            loadMyHobbies();
+            hobbies.clear();
             try {
                 Connection connection=new Connection();
                 HttpURLConnection urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/hobbies","GET");
@@ -220,9 +221,18 @@ public class MainActivity extends AppCompatActivity {
 
 
                         jsonReader.endObject();
+                        for(Hobby myhobbie:myhobbies){
+                            if(hobby.getName().toLowerCase().equals(myhobbie.getName().toLowerCase())){
+                                displayhobby=false;
+                            }
+                        }
+
+
+
                         if(displayhobby) {
+                            hobbies.add(hobby);
                             this.runOnUiThread(() -> {
-                                hobbies.add(hobby);
+
                                 adapter.notifyDataSetChanged();
                             });
                         }
@@ -344,5 +354,76 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         new Thread(get).start();
+    }
+    public void loadMyHobbies(){
+
+
+            myhobbies.clear();
+            try {
+                Connection connection=new Connection();
+                HttpURLConnection urlConnection=  (HttpURLConnection) connection.connect("http://10.0.2.2:5000/user/me/","GET");
+
+                urlConnection.setConnectTimeout(2000);
+                int  responseCode = urlConnection.getResponseCode();
+
+
+
+
+
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    JsonReader jsonReader = new JsonReader(in);
+
+                    jsonReader.beginObject();
+
+                    while (jsonReader.hasNext()) {
+                        if(jsonReader.nextName().equals("hobbySet")){
+                            jsonReader.beginArray();
+                            while (jsonReader.hasNext()) {
+                                Hobby myhobby=new Hobby();
+                                jsonReader.beginObject();
+                                while (jsonReader.hasNext()) {
+                                    String name=jsonReader.nextName();
+                                    if (name.equals("name") ) {
+                                        myhobby.setName(jsonReader.nextString());
+                                    } else if (name.equals("id") ) {
+                                        myhobby.setId(jsonReader.nextInt());
+                                    } else {
+                                        jsonReader.skipValue();
+                                    }
+
+                                }
+                                jsonReader.endObject();
+                                myhobbies.add(myhobby);
+                            }
+                            jsonReader.endArray();
+                        } else {
+                            jsonReader.skipValue();
+                        }
+
+
+                    }
+                    jsonReader.endObject();
+                    in.close();
+                } else {
+
+                }
+                urlConnection.disconnect();
+            } catch (SocketTimeoutException s){
+                noConnection();
+            }
+            catch (Exception e) {
+                Log.d("error",e.getMessage());
+
+
+            }
+
+
+
+
+
+
     }
 }
