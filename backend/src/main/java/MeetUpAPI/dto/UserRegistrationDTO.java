@@ -25,7 +25,7 @@ public class UserRegistrationDTO {
     @NotBlank(message = "Please specify the city you're living in")
     private String city;
 
-    private int active;
+    private int active = 1;
 
     public int getActive() { return active; }
 

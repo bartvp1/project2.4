@@ -49,7 +49,7 @@ public class Register extends AppCompatActivity {
             String password = ((EditText) findViewById(R.id.password_reg)).getText().toString().trim();
             String firstname = ((EditText) findViewById(R.id.firstname)).getText().toString().trim();
             String lastname = ((EditText) findViewById(R.id.lastname)).getText().toString().trim();
-            String phone = ((EditText) findViewById(R.id.phonenumber)).getText().toString().trim();
+            String phone = ((EditText) findViewById(R.id.constphonenumber)).getText().toString().trim();
             String country = ((EditText) findViewById(R.id.Country)).getText().toString().trim();
             String city = ((EditText) findViewById(R.id.City)).getText().toString().trim();
 

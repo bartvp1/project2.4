@@ -1,6 +1,7 @@
 package MeetUpAPI.service;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Null;
 
 import MeetUpAPI.dbModels.Hobby;
 import MeetUpAPI.dbModels.HobbyRepository;
@@ -38,19 +39,19 @@ public class DBService {
     public ModelMapper modelMapper;
 
     public String signin(String username, String password) {
+        boolean password_match;
         try {
-            if (passwordEncoder.matches(password, userRepository.findByUsername(username).getPassword())){
-                System.out.println("Login success: "+username);
-                return tokenToJson(jwtTokenService.createToken(username));
-            } else{
-                throw new CustomException("Password incorrect", HttpStatus.UNAUTHORIZED);
-            }
-        } catch (Exception ex){
-            if(ex instanceof CustomException){
-                throw ex;
-            }
+            password_match = passwordEncoder.matches(password, userRepository.findByUsername(username).getPassword());
+        } catch (NullPointerException ign){
             throw new CustomException("Invalid username", HttpStatus.UNAUTHORIZED);
         }
+        if (password_match) {
+            System.out.println("Login success: " + username);
+            return tokenToJson(jwtTokenService.createToken(username));
+        } else {
+            throw new CustomException("Password incorrect", HttpStatus.UNAUTHORIZED);
+        }
+
     }
 
     public String signup(User user) {
@@ -62,7 +63,7 @@ public class DBService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        System.out.println("Signup success: "+user.getUsername());
+        System.out.println("Signup success: " + user.getUsername());
         return tokenToJson(jwtTokenService.createToken(user.getUsername()));
     }
 
@@ -83,7 +84,7 @@ public class DBService {
         return user;
     }
 
-    public String updateUser(UserRegistrationDTO newDetails, HttpServletRequest req){
+    public String updateUser(UserRegistrationDTO newDetails, HttpServletRequest req) {
         User user = resolveUser(req);
         user.setUsername(newDetails.getUsername());
         user.setPassword(passwordEncoder.encode(newDetails.getPassword()));
@@ -101,7 +102,7 @@ public class DBService {
 
     public void addHobby(int hobbyId, HttpServletRequest req) {
         User user = resolveUser(req);
-        user.getHobbySet().add(modelMapper.map(new HobbyDTO(hobbyId),Hobby.class));
+        user.getHobbySet().add(modelMapper.map(new HobbyDTO(hobbyId), Hobby.class));
         userRepository.save(user);
     }
 
@@ -125,7 +126,7 @@ public class DBService {
         return tokenToJson(jwtTokenService.createToken(username));
     }
 
-    public User resolveUser(HttpServletRequest req){
+    public User resolveUser(HttpServletRequest req) {
         return search(jwtTokenService.getUsername(jwtTokenService.resolveToken(req)));
     }
 
@@ -133,17 +134,17 @@ public class DBService {
         return "{\"token\":\"" + token + "\"}";
     }
 
-    public List<Hobby> getAllHobbies(){
+    public List<Hobby> getAllHobbies() {
         return hobbyRepository.findAll();
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
 
-    public void addtoAllHobbies(String name){
+    public int addtoAllHobbies(String name) {
         HobbyDTO hobby = new HobbyDTO(name);
-        hobbyRepository.save(modelMapper.map(hobby, Hobby.class));
+        return hobbyRepository.save(modelMapper.map(hobby, Hobby.class)).getId();
     }
 }
