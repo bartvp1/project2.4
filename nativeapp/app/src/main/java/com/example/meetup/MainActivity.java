@@ -21,7 +21,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.meetup.ui.main.RecyclerViewAdapter;
 import com.example.meetup.ui.main.fragments.AccountFragment;
 import com.example.meetup.ui.main.fragments.HomeFragment;
 import com.example.meetup.ui.main.fragments.MatchesFragment;
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter adapter;
     ArrayList<Hobby> hobbies = new ArrayList<Hobby>();
     ArrayList<Hobby> myhobbies = new ArrayList<Hobby>();
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -168,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
         return false;
     };
 
+
+
     private void loadFragment(Fragment fragment) {
         // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -189,11 +197,6 @@ public class MainActivity extends AppCompatActivity {
 
                     urlConnection.setConnectTimeout(2000);
                 int  responseCode = urlConnection.getResponseCode();
-
-
-
-
-
 
                 if (responseCode == HttpURLConnection.HTTP_OK && !searchstring.trim().equals("")) {
 
