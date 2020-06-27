@@ -11,18 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meetup.R;
+import com.example.meetup.ui.main.fragments.MatchesFragment;
+
+import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
-    private final String names[], phonenumbers[], hobbies[];
+    private final ArrayList<MatchesFragment.Match> matches;
     private final Context context;
 
 
-    public RecyclerViewAdapter(Context ct, String names[], String phonenumbers[], String hobbies[]){
+    public RecyclerViewAdapter(Context ct, ArrayList<MatchesFragment.Match> arr){
         this.context = ct;
-        this.names = names;
-        this.phonenumbers = phonenumbers;
-        this.hobbies = hobbies;
+        this.matches = arr;
     }
 
     @NonNull
@@ -35,20 +36,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.name.setText(names[position]);
-        holder.phonenumber.setText(phonenumbers[position]);
-        holder.hobbies.setText(hobbies[position]);
+        holder.name.setText(matches.get(position).getName());
+        holder.phonenumber.setText(matches.get(position).getPhonenumber());
+        holder.hobbies.setText(matches.get(position).getHobbies().toString());
     }
 
     @Override
     public int getItemCount() {
-        return names.length;
+        return matches.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, phonenumber, hobbies;
-        ImageView avatar;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
