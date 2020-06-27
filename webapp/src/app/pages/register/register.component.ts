@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit{
       },
       (error: HttpError) => {
         console.log("registration error");
-        this.apiService.handleError(error);
+        this.error = this.apiService.handleError(error);
       }
     )
   }
