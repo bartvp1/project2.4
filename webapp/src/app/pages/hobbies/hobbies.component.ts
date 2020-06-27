@@ -66,12 +66,12 @@ export class HobbylistComponent {
 
   onClickSearch(searchText: string) {
     this.hobbyConfirmMessage = undefined;
-    this.searchedHobbies = [];
+    this.searchedHobbiesList = [];
     this.selectedHobby = null;
     searchText = searchText.toLowerCase().trim();
-    for (let hobby of this.hobbies) {
-      if (hobby.name.toLowerCase().trim().includes(searchText)) {
-        this.searchedHobbies.push(hobby);
+    for (let hobby of this.searchedHobbies) {
+      if ((hobby.name.toLowerCase().trim().includes(searchText))) {
+        this.searchedHobbiesList.push(hobby);
       }
     }
   }
@@ -92,7 +92,6 @@ export class HobbylistComponent {
     this.hobbylist = this.service.get_hobbies().subscribe(
       (e: Hobby[]) => {
         this.hobbies = e
-        this.searchedHobbies = this.hobbies
       }
     );
     this.accountDetails = this.service.get_account_data().subscribe(
@@ -100,8 +99,9 @@ export class HobbylistComponent {
       {
         this.myhobbies = e.hobbySet
         let temp = this.myhobbies.map(function (item) {return item["name"]})
-        this.searchedHobbiesList = this.searchedHobbies.filter(item2 => !temp.includes(item2["name"]))
+        this.searchedHobbies = this.hobbies.filter(item2 => !temp.includes(item2["name"]))
+        this.onClickSearch("")
       }
-    );
+    )
   }
 }
