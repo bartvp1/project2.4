@@ -44,15 +44,12 @@ public class MatchesFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-            //initmatches recyclerview
+            loadMatches();
             recyclerview = this.getActivity().findViewById(R.id.matchesrecyclerview);
 
             RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this.getContext(), matches);
             recyclerview.setAdapter(recyclerViewAdapter);
             recyclerview.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-            loadMatches();
-
         }
 
 
@@ -64,8 +61,7 @@ public class MatchesFragment extends Fragment {
         return root;
     }
 
-    public void loadMatches(){
-
+    synchronized public void loadMatches(){
         Runnable load=()-> {
             try {
                 Connection connection = new Connection();

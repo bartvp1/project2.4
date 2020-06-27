@@ -37,8 +37,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.name.setText(matches.get(position).getName());
+        holder.city.setText(matches.get(position).getCity());
         holder.phonenumber.setText(matches.get(position).getPhonenumber());
         holder.hobbies.setText(matches.get(position).getHobbies().toString());
+        holder.samehobbies.setText(matches.get(position).getSameHobbies().toString());
     }
 
     @Override
@@ -48,13 +50,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, phonenumber, hobbies;
+        TextView name, city, phonenumber, hobbies, samehobbies;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.matchname);
+            city = itemView.findViewById(R.id.matchcity);
             phonenumber = itemView.findViewById(R.id.matchphonenumber);
             hobbies = itemView.findViewById(R.id.matchhobbies);
+            samehobbies = itemView.findViewById(R.id.matchsamehobbies);
         }
     }
 }

@@ -12,7 +12,17 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="400px">
+            android:layout_height="230dp">
+
+            <TextView
+                android:id="@+id/constcity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="48dp"
+                android:text="@string/constcity"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/constname"
@@ -30,23 +40,23 @@
                 android:id="@+id/matchphonenumber"
                 android:layout_width="259dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="120dp"
+                android:layout_marginStart="148dp"
                 android:text="@string/matchphonenumber"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.33" />
+                app:layout_constraintVertical_bias="0.364" />
 
             <TextView
                 android:id="@+id/matchhobbies"
                 android:layout_width="261dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="120dp"
+                android:layout_marginStart="148dp"
                 android:text="@string/matchhobbies"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.593" />
+                app:layout_constraintVertical_bias="0.502" />
 
             <TextView
                 android:id="@+id/consthobby"
@@ -57,7 +67,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.593" />
+                app:layout_constraintVertical_bias="0.502" />
 
             <TextView
                 android:id="@+id/constphonenumber"
@@ -66,21 +76,51 @@
                 android:text="@string/constPhonenumberString"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.053"
+                app:layout_constraintHorizontal_bias="0.05"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.33" />
+                app:layout_constraintVertical_bias="0.364" />
 
             <TextView
                 android:id="@+id/matchname"
                 android:layout_width="261dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="120dp"
+                android:layout_marginStart="148dp"
                 android:text="@string/matchname"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.09" />
+
+            <TextView
+                android:id="@+id/constsamehobbies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="48dp"
+                android:text="@string/constsamehobbies"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/matchcity"
+                android:layout_width="262dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="148dp"
+                android:layout_marginTop="48dp"
+                android:text="@string/matchcity"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/matchsamehobbies"
+                android:layout_width="261dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="148dp"
+                android:layout_marginBottom="48dp"
+                android:text="@string/matchsamehobbies"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

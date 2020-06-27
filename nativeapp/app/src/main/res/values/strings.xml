@@ -36,43 +36,9 @@
     <string name="matchname">"-"</string>
     <string name="matchphonenumber">"-"</string>
     <string name="matchhobbies">"-"</string>
+    <string name="constcity">"City"</string>
+    <string name="constsamehobbies">"Hobby match"</string>
+    <string name="matchcity">"-"</string>
+    <string name="matchsamehobbies">"-"</string>
 
-    <string-array name="matches_names">
-        <item>match1</item>
-        <item>match2</item>
-        <item>match3</item>
-        <item>match4</item>
-        <item>match5</item>
-        <item>match6</item>
-        <item>match7</item>
-        <item>match8</item>
-        <item>match9</item>
-        <item>match10</item>
-    </string-array>
-
-    <string-array name="matches_phonenumbers">
-    <item>Random phonenumber</item>
-    <item>Random phonenumber</item>
-    <item>Random phonenumber</item>
-    <item>Random phonenumber</item>
-    <item>Random phonenumber</item>
-    <item>Random phonenumber</item>
-    <item>Random phonenumber</item>
-    <item>Random phonenumber</item>
-    <item>Random phonenumber</item>
-    <item>Random phonenumber</item>
-    </string-array>
-
-    <string-array name="matches_hobbies">
-        <item>Random hobby</item>
-        <item>Random hobby</item>
-        <item>Random hobby</item>
-        <item>Random hobby</item>
-        <item>Random hobby</item>
-        <item>Random hobby</item>
-        <item>Random hobby</item>
-        <item>Random hobby</item>
-        <item>Random hobby</item>
-        <item>Random hobby</item>
-    </string-array>
 </resources>
