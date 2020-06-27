@@ -77,12 +77,16 @@ export class HobbylistComponent {
   }
 
   onClickAddHobby(newHobby: string): void {
-
       this.service.addHobby(newHobby.trim().toLowerCase().charAt(0).toUpperCase() + newHobby.slice(1)).subscribe(
-        () => {
+        (e) => {
+
+          this.service.assign_hobby(e.id).subscribe(
+            () => {},
+            (error:HttpError) => this.hobbyConfirmMessage = error.error.message,
+            () => this.update_hobbylists()
+          );
         },
-        () => this.hobbyConfirmMessage = "Not added!",
-        () => this.update_hobbylists()
+        () => this.hobbyConfirmMessage = "Error"
       );
   }
 

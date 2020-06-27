@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.meetup.Login;
 import com.example.meetup.R;
 import com.example.meetup.ui.main.fragments.AccountFragment;
 import com.example.meetup.ui.main.fragments.HomeFragment;
 import com.example.meetup.ui.main.fragments.MatchesFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
+import com.example.meetup.ui.main.fragments.SearchFragment;
 
 
 /**
@@ -37,12 +37,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page
         switch (position) {
-
             case 1:
                 return new ProfileFragment();
             case 2:
-                return new MatchesFragment();
+                return new SearchFragment();
             case 3:
+                return new MatchesFragment();
+            case 4:
                 return new AccountFragment();
             default:
                 return new HomeFragment();
@@ -60,7 +61,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 6 total pages.
-        return 4;
+        return 5;
     }
 
 }
