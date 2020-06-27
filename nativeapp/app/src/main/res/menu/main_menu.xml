@@ -6,16 +6,6 @@
     tools:ignore="HardcodedText">
 
     <item
-        android:id="@+id/accountSettingsButton"
-        android:title="Account"
-        app:showAsAction="never"
-        />
-    <item
-        android:id="@+id/appSettingsButton"
-        android:title="Settings"
-        app:showAsAction="never"
-        />
-    <item
         android:id="@+id/logoutButton"
         android:title="Log out"
         app:showAsAction="never"
