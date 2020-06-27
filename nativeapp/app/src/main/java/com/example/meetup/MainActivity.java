@@ -21,11 +21,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.meetup.ui.main.RecyclerViewAdapter;
-import com.example.meetup.ui.main.fragments.AccountFragment;
+
 import com.example.meetup.ui.main.fragments.HomeFragment;
 import com.example.meetup.ui.main.fragments.MatchesFragment;
 import com.example.meetup.ui.main.fragments.ProfileFragment;
@@ -83,12 +80,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.accountSettingsButton:
-                loadFragment(new AccountFragment());
-                return true;
-            case R.id.appSettingsButton:
-                //loadFragment(new AppSettingsFragment());
-                return true;
             case R.id.logoutButton:
                 logOut();
                 return true;
