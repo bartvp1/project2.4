@@ -38,8 +38,8 @@ public class RootController {
 
     @PostMapping("/hobbies")
     public ResponseEntity<String> addGlobalHobby(@RequestBody String name){
-        dbService.addtoAllHobbies(name);
-        return new ResponseEntity<>(headers, HttpStatus.OK);
+        int id = dbService.addtoAllHobbies(name);
+        return new ResponseEntity<>("{\"id\":\"" + id + "\"}", headers, HttpStatus.OK);
     }
 
     @PostMapping("/signup")

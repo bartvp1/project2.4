@@ -143,8 +143,8 @@ public class DBService {
     }
 
 
-    public void addtoAllHobbies(String name) {
+    public int addtoAllHobbies(String name) {
         HobbyDTO hobby = new HobbyDTO(name);
-        hobbyRepository.save(modelMapper.map(hobby, Hobby.class));
+        return hobbyRepository.save(modelMapper.map(hobby, Hobby.class)).getId();
     }
 }
