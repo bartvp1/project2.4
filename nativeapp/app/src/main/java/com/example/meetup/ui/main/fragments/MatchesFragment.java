@@ -27,14 +27,12 @@ import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MatchesFragment extends Fragment {
 
     //matchesview
     ArrayList<Match> matches = new ArrayList<>();
     RecyclerView recyclerview;
+    RecyclerViewAdapter recyclerViewAdapter;
 
 
     @Override
@@ -44,12 +42,14 @@ public class MatchesFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-            loadMatches();
+
             recyclerview = this.getActivity().findViewById(R.id.matchesrecyclerview);
 
-            RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this.getContext(), matches);
+           recyclerViewAdapter = new RecyclerViewAdapter(this.getContext(), matches);
             recyclerview.setAdapter(recyclerViewAdapter);
             recyclerview.setLayoutManager(new LinearLayoutManager(this.getContext()));
+            loadMatches();
+
         }
 
 
@@ -134,6 +134,11 @@ public class MatchesFragment extends Fragment {
 
                         jsonReader.endObject();
                         matches.add(match);
+                        this.getActivity().runOnUiThread(()-> {
+                            recyclerViewAdapter.notifyDataSetChanged();
+                        });
+                        
+
                     }
                     jsonReader.endArray();
                     in.close();
