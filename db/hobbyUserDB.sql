@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS project24.hobbyuser (
   hobby_id INT NOT NULL,
   CONSTRAINT uid 
 		FOREIGN KEY (user_id) 
-        REFERENCES project24.users(uid)
+        REFERENCES project24.user(uid)
         ON DELETE CASCADE,
   CONSTRAINT hid 
 		FOREIGN KEY (hobby_id) 

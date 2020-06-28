@@ -6,16 +6,12 @@ import {Router} from "@angular/router";
   selector: 'app-logout',
   template: ""
 })
-export class LogoutComponent {
+export class LogoutComponent implements OnInit{
 
-  constructor(private loginservice: ApiService, private router: Router) {
-    this.logout()
-  }
+  constructor(private loginservice: ApiService, private router: Router) {}
 
-
-  logout = () => {
+  ngOnInit() {
     this.loginservice.logout();
-    localStorage.clear()
     this.router.navigate(["/login"]);
   }
 }

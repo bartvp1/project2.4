@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AngularFireMessaging} from '@angular/fire/messaging';
-import {BehaviorSubject, Observable} from 'rxjs'
+import {BehaviorSubject} from 'rxjs'
 
 @Injectable()
 export class MessagingService {
@@ -14,12 +14,8 @@ export class MessagingService {
   }
   requestPermission() {
     this.angularFireMessaging.requestToken.subscribe(
-      (token) => {
-        console.log(token);
-      },
-      (err) => {
-        console.error('Unable to get permission to notify.', err);
-      }
+      (token) => console.log(token),
+      (err) => console.error('Unable to get permission to notify.', err)
     );
   }
 

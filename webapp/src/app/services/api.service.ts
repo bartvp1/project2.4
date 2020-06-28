@@ -2,9 +2,8 @@ import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 import * as jwt_decode from 'jwt-decode';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Router} from "@angular/router";
 import {Observable, Subject} from "rxjs";
-import {Hobby, HttpError, Match, TokenResponse, User} from "../models/interfaces";
+import {HttpError, TokenResponse, User} from "../models/interfaces";
 
 
 const API_URL = 'http://127.0.0.1:5000/';
@@ -23,8 +22,7 @@ export class ApiService {
   public subject: Subject<any[]> = new Subject<any[]>()
   static default_headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private http: HttpClient, private router: Router) {
-  }
+  constructor(private http: HttpClient) {}
 
   public login(username: string, password: string): Observable<any> {
     let cred: User = {username, password}
@@ -33,7 +31,6 @@ export class ApiService {
 
   public addHobby(hobbyName: string): Observable<any> {
     return this.http.post(API_URL_HOBBIES, hobbyName, {headers: ApiService.default_headers})
-
   }
 
   public register(username: string, password: string, firstname: string, lastname: string, phone: string, country: string, city): Observable<any> {
@@ -42,20 +39,11 @@ export class ApiService {
   }
 
   public logout(): void {
-    this.http.post(API_URL_LOGOUT, {headers: ApiService.authorization_headers()})
+    this.http.post(API_URL_LOGOUT,"", {headers: ApiService.authorization_headers()})
       .subscribe(
-        () => {
-          console.log("logout ok")
-          localStorage.removeItem('token');
-          localStorage.removeItem("username");
-        },
-        () => {
-          console.error("logout error");
-        },
-        () => {
-          localStorage.removeItem('token');
-          localStorage.removeItem("username");
-        }
+        () => console.log("logout ok"),
+        () => console.error("logout error"),
+        () => localStorage.clear()
       )
   }
 
@@ -94,15 +82,14 @@ export class ApiService {
     console.log("error: " + errorMsg)
 
     if (error.error.message != undefined) {
-      if (error.error.message.includes(",")){
-        for (let i of error.error.message.split(", ")){
+      if (error.error.message.includes(",")) {
+        for (let i of error.error.message.split(", "))
           errorMsg += "<p class='error_msg'>" + i + "</p>"
-        }
         return errorMsg
       }
       return "<p class='error_msg'>" + error.error.message + "</p>"
     }
-    return "Undefined error"
+    return "<p class='error_msg'>Undefined error</p>"
 
   }
 
@@ -124,25 +111,18 @@ export class ApiService {
   private static authorization_headers(): HttpHeaders {
     let authorized_header: HttpHeaders = new HttpHeaders();
     let token = localStorage.getItem("token");
-    if (token) {
+    if (token)
       authorized_header = authorized_header
         .set('Content-Type', 'application/json')
         .set('Authorization', `Bearer ${token}`)
-    }
-
     return authorized_header;
   }
 
 
   public isLoggedIn(): boolean {
-    if (localStorage.getItem("token")) { // token in localStorage
-      if (moment().unix() ! < this.getJwtExpiration()) { // token not yet expired
-        return true;
-      } else {
-        localStorage.clear() //remove redundant token
-      }
-    }
-    //no token found
-    return false;
+    if (localStorage.getItem("token"))  // token in localStorage
+      if (moment().unix() ! < this.getJwtExpiration()) return true  // token not yet expired
+      else localStorage.clear()  //  remove redundant token
+    return false  //  no token found
   }
 }

@@ -12,6 +12,7 @@ import {HttpError, TokenResponse} from "../../models/interfaces";
 export class LoginComponent implements OnInit {
   loginForm;
   error: string;
+
   constructor(public apiService: ApiService, private formBuilder: FormBuilder, private router: Router) {
     this.loginForm = this.formBuilder.group({
       username: '',

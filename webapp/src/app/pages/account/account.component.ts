@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../services/api.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {Router} from "@angular/router";
-import {Hobby, HttpError, TokenResponse, User} from "../../models/interfaces";
-import {$} from "protractor";
+import {HttpError, TokenResponse, User} from "../../models/interfaces";
 
 @Component({
   selector: 'app-account',
@@ -15,7 +13,8 @@ export class AccountComponent implements OnInit {
   accountForm: FormGroup;
   error: string;
   isEnabled: boolean = false;
-  constructor(private apiservice:ApiService, public formBuilder: FormBuilder,private router:Router) {}
+
+  constructor(private apiservice:ApiService, public formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.error = undefined
@@ -36,9 +35,8 @@ export class AccountComponent implements OnInit {
         this.fill_form(e);
         this.isEnabled = e.active == 1;
       },
-      () => {
-        console.error("Something went wrong getting userdata");
-      });
+      () => console.error("Something went wrong getting userdata")
+      );
   }
 
   private fill_form(userdata:User){
@@ -52,7 +50,6 @@ export class AccountComponent implements OnInit {
       country: userdata.country,
       active: userdata.active
     });
-
     document.getElementsByClassName("btn")[0].removeAttribute("disabled")
   }
 
@@ -70,13 +67,9 @@ export class AccountComponent implements OnInit {
     this.apiservice.update_account_data(user).subscribe(
       (e: TokenResponse) => {
         this.apiservice.setSession(e)
-        console.log("put user ok")
         location.reload()
       },
-      (e: HttpError) => {
-        this.error = this.apiservice.handleError(e)
-        console.error("put user error");
-      }
+      (e: HttpError) => this.error = this.apiservice.handleError(e)
     );
   }
 

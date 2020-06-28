@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import {ApiService} from '../../services/api.service';
 
 declare interface RouteInfo {
@@ -51,22 +51,17 @@ export const ROUTES: RouteInfo[] = [
   templateUrl: "./sidebar.component.html",
   styleUrls: ["./sidebar.component.css"]
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent {
 
-  constructor(public apiService: ApiService) {
-  }
-
-  ngOnInit() {
-  }
+  constructor(public apiService: ApiService) {}
 
   isMobileMenu() {
     return window.innerWidth <= 991;
-
   }
 
   get_menuItems(): RouteInfo[] {
     if (this.apiService.isLoggedIn()) return ROUTES.slice(0, ROUTES.length - 1)
     return ROUTES.slice(0, 1).concat(ROUTES.slice(ROUTES.length - 1))
-
   }
+
 }

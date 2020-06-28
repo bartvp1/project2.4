@@ -14,9 +14,6 @@ export class RegisterComponent implements OnInit{
   error: string;
 
   constructor(public apiService: ApiService, private formBuilder: FormBuilder, private router:Router) {
-    if(this.apiService.isLoggedIn()){
-      this.router.navigate(["/matches"]);
-    }
     this.registerForm = this.formBuilder.group({
       username: '',
       password: '',
@@ -53,4 +50,5 @@ export class RegisterComponent implements OnInit{
   ngOnInit(): void {
     this.error = undefined;
   }
+
 }

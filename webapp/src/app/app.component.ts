@@ -6,8 +6,7 @@ import {MessagingService} from "./services/messaging.service";
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
 
@@ -18,30 +17,24 @@ export class AppComponent implements OnInit {
     private firebaseService: MessagingService
   ){}
 
-  isLoggedin(){
-    return this.loginservice.isLoggedIn();
-  }
-
   changeSidebarColor(color){
     const sidebar = document.getElementsByClassName('sidebar')[0];
     const mainPanel = document.getElementsByClassName('main-panel')[0];
 
-
-    if(sidebar !== undefined){
+    if(sidebar !== undefined)
       sidebar.setAttribute('data',color);
-    }
-    if(mainPanel !== undefined){
+
+    if(mainPanel !== undefined)
       mainPanel.setAttribute('data',color);
-    }
   }
+
   changeDashboardColor(color){
     const body = document.getElementsByTagName('body')[0];
-    if (body && color === 'white-content') {
+    if (body && color === 'white-content')
       body.classList.add(color);
-    }
-    else if(body.classList.contains('white-content')) {
+    else if(body.classList.contains('white-content'))
       body.classList.remove('white-content');
-    }
+
   }
 
   ngOnInit() {
