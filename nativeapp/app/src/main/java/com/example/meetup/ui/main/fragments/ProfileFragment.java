@@ -175,8 +175,10 @@ public class ProfileFragment extends Fragment {
 
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     this.getActivity().runOnUiThread(()-> {
-                        myhobbies.remove(hobby);
-                        myhobbyadapter.notifyDataSetChanged();
+                        this.getActivity().findViewById(R.id.bottom_profile).performClick();
+                        this.getActivity().runOnUiThread(()-> {
+                            Toast.makeText(this.getActivity().getApplicationContext(),hobby.getName() + " deleted!", Toast.LENGTH_SHORT).show();
+                        });
                     });
 
                 } else {
