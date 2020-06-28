@@ -4,14 +4,13 @@
     <form class="form-inline md-form mr-auto mb-4">
 
       <div id="searchBox">
-        <input class="post" type="text" name="search" [ngModel]="searchString" (ngModelChange)="onClickSearch($event)"
-               autocomplete="off" placeholder="Filter by Name">
+        <input class="post" type="text" name="search" [ngModel]="searchString" (ngModelChange)="search($event)" autocomplete="off" placeholder="Filter by Name">
       </div>
     </form>
     <p style="font-style: italic; color: #00bbff; margin-top: 1vh">Examples...</p>
     <div>
       <ul class="hobbies">
-        <li *ngFor="let hobby of searchedHobbiesList"
+        <li *ngFor="let hobby of searchedHobbies"
             [class.selected]="hobby === selectedHobby"
             (click)="onSelect(hobby)">
           <span class="badge"></span> {{ hobby.name }}
@@ -19,7 +18,7 @@
       </ul>
     </div>
 
-    <div *ngIf="searchedHobbiesList.length == 0">
+    <div *ngIf="searchedHobbies.length == 0">
       <h4>No hobbies found, add one manually!</h4>
       <div id="newHobbyTextBox">
         <input type="text" name="newHobbyName" [(ngModel)]="newHobbyName">
@@ -28,7 +27,7 @@
       {{hobbyConfirmMessage}}
     </div>
 
-    <div *ngIf="selectedHobby && (searchedHobbiesList.length > 0)">
+    <div *ngIf="selectedHobby && (searchedHobbies.length > 0)">
       <h4> Confirm "{{selectedHobby.name }}"</h4>
       <div>
         <button class="btn" name="confirm" (click)="onClickHobbyConfirm()">Confirm</button>
