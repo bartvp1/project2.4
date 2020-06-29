@@ -21,7 +21,7 @@ export const routes: Routes = [
   { path: "profile", component: HobbylistComponent, canActivate:[AuthGuard]},
   { path: "matches", component: MatchesComponent, canActivate:[AuthGuard]},
   { path: "logout", component: LogoutComponent,canActivate:[AuthGuard]},
-  { path: "**", redirectTo: "welcome"}
+  { path: "**", pathMatch: "full", redirectTo: "welcome"},
 ];
 
 @NgModule({
