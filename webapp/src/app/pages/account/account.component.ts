@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../services/api.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpError, TokenResponse, User} from "../../models/interfaces";
-import {shareReplay} from "rxjs/operators";
 
 @Component({
   selector: 'app-account',
@@ -11,9 +10,9 @@ import {shareReplay} from "rxjs/operators";
 })
 export class AccountComponent implements OnInit {
 
-  accountForm: FormGroup;
-  error: string;
-  isEnabled: boolean = false;
+  accountForm: FormGroup
+  error: string
+  isEnabled: boolean = false
 
   constructor(private apiservice:ApiService, public formBuilder: FormBuilder) {}
 
@@ -30,17 +29,23 @@ export class AccountComponent implements OnInit {
       active: null
     });
     document.getElementsByClassName("btn")[0].setAttribute("disabled","disabled")
+    this.accountForm.disable()
 
     this.apiservice.get_account_data().subscribe(
       (e:User) => {
         this.apiservice.cache.set("userdata",e)
         this.fill_form(e);
+        setTimeout(() => this.accountForm.enable())
+        console.log(this.accountForm.disabled)
+        document.getElementsByClassName("btn")[0].removeAttribute("disabled")
         this.isEnabled = e.active == 1;
       },
       () => {
         console.error("Something went wrong getting userdata")
         if(this.apiservice.cache.get("userdata"))
           this.fill_form(<User>this.apiservice.cache.get("userdata"))
+        document.getElementsByClassName("btn")[0].setAttribute("disabled","disabled")
+        this.accountForm.disable()
       }
       );
   }
