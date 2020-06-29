@@ -5,7 +5,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, Subject} from "rxjs";
 import {HttpError, TokenResponse, User} from "../models/interfaces";
 
-
 const API_URL = 'http://127.0.0.1:5000/';
 const API_URL_LOGIN = API_URL + 'login';
 const API_URL_SIGNUP = API_URL + 'signup';
@@ -19,23 +18,28 @@ const API_URL_HOBBIES = API_URL + 'hobbies';
   providedIn: 'root'
 })
 export class ApiService {
-  public subject: Subject<any[]> = new Subject<any[]>()
-  static default_headers = new HttpHeaders().set('Content-Type', 'application/json');
+  public subject: Subject<any[]>
+  private readonly default_headers;
+  public cache: Map<string, object>;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.subject = new Subject<any[]>()
+    this.default_headers = new HttpHeaders().set('Content-Type', 'application/json')
+    this.cache = new Map();
+  }
 
   public login(username: string, password: string): Observable<any> {
     let cred: User = {username, password}
-    return this.http.post(API_URL_LOGIN, cred, {headers: ApiService.default_headers})
+    return this.http.post(API_URL_LOGIN, cred, {headers: this.default_headers})
   }
 
   public addHobby(hobbyName: string): Observable<any> {
-    return this.http.post(API_URL_HOBBIES, hobbyName, {headers: ApiService.default_headers})
+    return this.http.post(API_URL_HOBBIES, hobbyName, {headers: this.default_headers})
   }
 
   public register(username: string, password: string, firstname: string, lastname: string, phone: string, country: string, city): Observable<any> {
     let new_user: User = {username, password, firstname, lastname, phone, country, city}
-    return this.http.post(API_URL_SIGNUP, new_user, {headers: ApiService.default_headers})
+    return this.http.post(API_URL_SIGNUP, new_user, {headers: this.default_headers})
   }
 
   public logout(): void {
@@ -57,7 +61,7 @@ export class ApiService {
 
 
   public get_matches(): Observable<any> {
-    return this.http.get(API_URL_MATCHES, {headers: ApiService.authorization_headers()});
+    return this.http.get(API_URL_MATCHES, {headers: ApiService.authorization_headers()})
   }
 
   public get_hobbies(): Observable<any> {
@@ -117,7 +121,6 @@ export class ApiService {
         .set('Authorization', `Bearer ${token}`)
     return authorized_header;
   }
-
 
   public isLoggedIn(): boolean {
     if (localStorage.getItem("token"))  // token in localStorage

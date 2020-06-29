@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApiService} from "../../services/api.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {HttpError, TokenResponse, User} from "../../models/interfaces";
+import {shareReplay} from "rxjs/operators";
 
 @Component({
   selector: 'app-account',
@@ -32,10 +33,15 @@ export class AccountComponent implements OnInit {
 
     this.apiservice.get_account_data().subscribe(
       (e:User) => {
+        this.apiservice.cache.set("userdata",e)
         this.fill_form(e);
         this.isEnabled = e.active == 1;
       },
-      () => console.error("Something went wrong getting userdata")
+      () => {
+        console.error("Something went wrong getting userdata")
+        if(this.apiservice.cache.get("userdata"))
+          this.fill_form(<User>this.apiservice.cache.get("userdata"))
+      }
       );
   }
 
@@ -70,7 +76,7 @@ export class AccountComponent implements OnInit {
         location.reload()
       },
       (e: HttpError) => this.error = this.apiservice.handleError(e)
-    );
+    )
   }
 
 

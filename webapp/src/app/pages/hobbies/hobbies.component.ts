@@ -101,11 +101,22 @@ export class HobbylistComponent implements OnInit {
     if (this.accountDetailsSub != undefined) this.accountDetailsSub.unsubscribe()
 
     this.hobbylistSub = this.service.get_hobbies().subscribe(
-      (e: Hobby[]) => this.hobbies = e);
+      (e: Hobby[]) => {
+        this.service.cache.set("hobbies",e)
+        this.hobbies = e
+      });
 
     this.accountDetailsSub = this.service.get_account_data().subscribe(
-      (e: User) => {this.myhobbies = e.hobbySet;this.search()}
-    );
+      (e: User) => {
+        this.service.cache.set("userdata",e)
+        this.myhobbies = e.hobbySet;
+        this.search()
+      },
+      () => {
+        if(this.service.cache.get("userdata"))
+          this.myhobbies = <Hobby[]>(<User>this.service.cache.get("userdata")).hobbySet
+      }
+      );
   }
 
 }
