@@ -20,12 +20,13 @@ export class HobbylistComponent implements OnInit {
   selectedHobby: Hobby;
   selectedDeleteHobby: Hobby;
   searchedHobbies: Hobby[] = [];
+
   searchString: string;
   newHobbyName: string;
   hobbyConfirmMessage = undefined;
 
-  constructor(private service: ApiService) {
-  }
+
+  constructor(public service: ApiService) {}
 
   ngOnInit() {
     this.update_hobbylists()
@@ -102,9 +103,12 @@ export class HobbylistComponent implements OnInit {
 
     this.hobbylistSub = this.service.get_hobbies().subscribe(
       (e: Hobby[]) => {
+        this.service.online = true;
         this.service.cache.set("hobbies",e)
         this.hobbies = e
-      });
+      },
+      () => this.service.online = false
+      );
 
     this.accountDetailsSub = this.service.get_account_data().subscribe(
       (e: User) => {

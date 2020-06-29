@@ -1,5 +1,5 @@
 <div class="content">
-  <div id="hobbylistR" style="width: 30vw">
+  <div *ngIf="service.online" id="hobbylistR" style="width: 30vw">
     <h1>Add Hobbies</h1>
     <form class="form-inline md-form mr-auto mb-4">
 
@@ -45,7 +45,7 @@
           {{ hobby.name }}
         </li>
       </ul>
-      <div *ngIf="selectedDeleteHobby && (myhobbies.length > 0)">
+      <div *ngIf="service.online && selectedDeleteHobby && (myhobbies.length > 0)">
         <h4> Confirm Delete "{{selectedDeleteHobby.name }}"</h4>
         <div>
           <button class="btn" name="confirm" (click)="onClickHobbyDeleteConfirm()">Confirm</button>

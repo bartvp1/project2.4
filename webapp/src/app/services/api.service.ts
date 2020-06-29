@@ -21,11 +21,13 @@ export class ApiService {
   public subject: Subject<any[]>
   private readonly default_headers;
   public cache: Map<string, object>;
+  public online:boolean;
 
   constructor(private http: HttpClient) {
     this.subject = new Subject<any[]>()
     this.default_headers = new HttpHeaders().set('Content-Type', 'application/json')
     this.cache = new Map();
+    this.online = true
   }
 
   public login(username: string, password: string): Observable<any> {
